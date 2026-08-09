@@ -56,6 +56,36 @@
     window.addEventListener('load', function () { measure(); paint(); });
   }
 
+  /* ---------- 1b. Stagger-Choreografie ----------
+     [data-stagger="70"] auf einem Grid/Flex-Container versetzt seine
+     .rv-Kinder zeitlich: Grid-Kinder diagonal nach Spalte/Zeile, Flex-Kinder
+     (Zeilenumbruch) nach tatsächlicher Zeile. Reine CSS-Variable — die
+     bestehende IntersectionObserver-Logik unten muss davon nichts wissen. */
+  function applyStagger(group) {
+    var step = parseFloat(group.dataset.stagger) || 70;
+    var kids = [].slice.call(group.children).filter(function (k) { return k.classList.contains('rv'); });
+    if (!kids.length) return;
+    var cs = getComputedStyle(group);
+    if (cs.display.indexOf('grid') > -1) {
+      var cols = cs.gridTemplateColumns.split(' ').filter(Boolean).length || 1;
+      kids.forEach(function (k, i) {
+        var col = i % cols, row = Math.floor(i / cols);
+        k.style.setProperty('--rv-delay', (row * 60 + col * step) + 'ms');
+      });
+    } else {
+      requestAnimationFrame(function () {
+        var lastTop = null, rowIdx = -1, colIdx = 0;
+        kids.forEach(function (k) {
+          var top = k.offsetTop;
+          if (top !== lastTop) { rowIdx++; colIdx = 0; lastTop = top; }
+          k.style.setProperty('--rv-delay', Math.min(rowIdx * 60 + colIdx * step, 560) + 'ms');
+          colIdx++;
+        });
+      });
+    }
+  }
+  if (!reduced) document.querySelectorAll('[data-stagger]').forEach(applyStagger);
+
   /* ---------- 2. Scroll-Reveal ---------- */
   var rvs = document.querySelectorAll('.rv');
   if (rvs.length) {
@@ -303,4 +333,37 @@
   }
   if (!reduced) scenes(); else document.querySelectorAll('.scene-step').forEach(function (s) { s.classList.add('on'); });
   window.__lissScenes = scenes;
+})();
+
+/* ============================================================
+   SEITENÜBERGANG — Vorhang statt Cut
+   Funktioniert seitenweise (kein Router): das Markup <div class="page-veil">
+   muss auf der Seite stehen, sonst wird ganz normal navigiert. Der Vorhang
+   selbst deckt beim Laden kurz zu (siehe @keyframes veilReveal in site.css)
+   und läuft beim Klick auf einen internen Link rückwärts, bevor der
+   eigentliche, native Seitenwechsel ausgelöst wird.
+   ============================================================ */
+(function () {
+  var veil = document.querySelector('.page-veil');
+  if (!veil || window.__lissReduced) return;
+  var EXIT_MS = 480;
+
+  document.addEventListener('click', function (e) {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    var a = e.target.closest && e.target.closest('a[href]');
+    if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
+    var url;
+    try { url = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
+    if (url.origin !== location.origin) return;
+    if (/\.(pdf|zip|jpe?g|png|svg|docx?|mp4)$/i.test(url.pathname)) return;
+    if (url.pathname === location.pathname && url.search === location.search) return; // Anker/Platzhalter auf derselben Seite
+    e.preventDefault();
+    veil.classList.add('veil-exit');
+    setTimeout(function () { location.href = a.href; }, EXIT_MS);
+  });
+
+  /* Aus dem Bfcache zurückkommend könnte der Vorhang noch zu sein */
+  window.addEventListener('pageshow', function (e) {
+    if (e.persisted) veil.classList.remove('veil-exit');
+  });
 })();
