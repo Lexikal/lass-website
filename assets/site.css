@@ -553,8 +553,12 @@ footer .fsub{
 
 /* Angeheftete Szene */
 .scene-track{position:relative;height:280vh}
+/* position:relative statt sticky: ScrollTrigger.pin (index.html) übernimmt das
+   Fixieren selbst und braucht dafür ein normal fließendes Element — sticky
+   verfälscht sonst dessen Rect-Messung. Andere Seiten nutzen .scene-track
+   derzeit nicht, das Risiko für Kollateralschäden ist damit null. */
 .scene-stick{
-  position:sticky;top:0;height:100vh;display:grid;place-items:center;
+  position:relative;height:100vh;display:grid;place-items:center;
   overflow:hidden;background:var(--tiefsee);color:#fff;
 }
 .scene-bg{position:absolute;inset:-10%;z-index:0;will-change:transform}
@@ -567,15 +571,19 @@ footer .fsub{
 .scene-step{
   position:absolute;inset:0;display:grid;place-content:center;gap:var(--s4);
   opacity:0;transform:translateY(38px) scale(.965);
-  transition:opacity var(--dur-4) var(--ease-out),transform var(--dur-4) var(--ease-out);
   pointer-events:none;
 }
+/* Keine CSS-transition mehr auf opacity/transform: ScrollTrigger (index.html)
+   schreibt diese Werte jetzt pro Scroll-Tick direkt (scrub) — eine zusätzliche
+   CSS-Transition würde dem hinterherlaufen und ruckeln. .on bleibt als
+   Darstellung ohne JS/GSAP erhalten (die erste Stufe trägt die Klasse
+   bereits statisch im Markup). */
 .scene-step.on{opacity:1;transform:none;pointer-events:auto}
 .scene-step .k{font-family:var(--mono);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--aqua)}
 .scene-step h2{font-size:clamp(32px,7.4vw,68px);color:#fff}
 .scene-step p{font-size:clamp(16px,3.2vw,20px);color:#C9D5EC;max-width:52ch;margin:0 auto}
 .scene-rail{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);display:flex;gap:var(--s2);z-index:4}
-.scene-rail i{width:34px;height:3px;border-radius:2px;background:rgba(255,255,255,.22);transition:background .35s}
+.scene-rail i{width:34px;height:3px;border-radius:2px;background:rgba(255,255,255,.22)}
 .scene-rail i.on{background:var(--aqua)}
 .scene-ph{display:none}
 
