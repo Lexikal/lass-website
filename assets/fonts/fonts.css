@@ -1,0 +1,26 @@
+/* Selbst gehostete Schriftarten — ersetzt die bisherige Einbindung über
+   fonts.googleapis.com / fonts.gstatic.com. Keine Verbindung mehr zu
+   Servern Dritter beim Laden der Seite (siehe datenschutz.html, Abschnitt 8).
+
+   Beide Dateien sind Variable Fonts mit wght-Achse und decken die im
+   Projekt genutzten Schnitte vollständig ab:
+     Archivo         400 / 500 / 600 / 800  (Achse 100–900)
+     JetBrains Mono  400 / 500 / 700        (Achse 400–800)
+
+   Herkunft, Lizenz (SIL OFL 1.1) und Ladedatum: siehe LIZENZ.txt in diesem
+   Ordner. */
+
+@font-face{
+  font-family:'Archivo';
+  font-style:normal;
+  font-weight:100 900;
+  font-display:swap;
+  src:url('archivo-variable.woff2') format('woff2');
+}
+@font-face{
+  font-family:'JetBrains Mono';
+  font-style:normal;
+  font-weight:400 800;
+  font-display:swap;
+  src:url('jetbrains-mono-variable.woff2') format('woff2');
+}
