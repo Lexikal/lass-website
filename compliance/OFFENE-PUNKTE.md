@@ -30,10 +30,16 @@ Platzhalter (`[...]`) und der Prototyp ist nicht launch-fähig.
 
 ## 5. Kontaktformular ohne Backend
 
-**Fakt geprüft im Code (`kontakt.html`):** Es gibt kein `<form>`-Element, keine
-`action`, keinen Submit-Endpunkt. Der „Weiter"-Button ist
-`<button class="btn btn--signal btn--full" type="button">` — technisch ein
-reiner UI-Zustandswechsel zwischen den Formular-Schritten, keine Datenübertragung.
+**Fakt geprüft im Code (`kontakt.html` + `assets/site.js`, Stand 2026-08-16):**
+Es gibt kein `<form>`-Element, keine `action`, keinen Submit-Endpunkt. Der
+„Weiter"-Button ist `<button class="btn btn--signal btn--full" type="button">`
+— und `assets/site.js` enthält **keinerlei** Click-Handler dafür (geprüft:
+kein Treffer für `form-steps`, `f-typ`, `f-qm`, `f-plz` im gesamten Skript).
+Der Button ist damit nicht nur „ohne Backend", sondern aktuell komplett
+funktionslos: ein Klick tut buchstäblich nichts, „Schritt 2 von 3" existiert
+nicht einmal als UI. Wer bis hierhin kommt, kann die Anfrage über dieses
+Formular gar nicht abschicken — nur per Telefon/E-Mail (linke Spalte auf der
+Seite).
 
 - [ ] Wohin sollen Anfragen tatsächlich gehen? Optionen, die geklärt werden müssen:
   - E-Mail-Versand serverseitig (z. B. über den Hoster, sobald der feststeht)
@@ -63,14 +69,28 @@ Für die Google-Fonts-Dateien liegt jetzt ein Nachweis vor
 Screenshot/Export der Seedance-Nutzungsbedingungen zum Erstellungszeitpunkt,
 oder Beleg des Generierungsauftrags. Siehe `LIZENZEN.md`.
 
-### 8. GSAP/ScrollTrigger/Lenis-CDN in `index.html` nicht in der Datenschutzerklärung erwähnt
+### 8. GSAP/ScrollTrigger/Lenis-CDN in `index.html` — Offenlegung erledigt, Self-Hosting noch offen
 
-`index.html` lädt seit einem früheren Auftrag drei Skript-Bibliotheken von
-`cdn.jsdelivr.net`. Das ist unabhängig vom hier bearbeiteten Google-Fonts-
-Thema, aber derselbe Grundgedanke ("keine Verbindung zu Servern Dritter")
-gilt strenggenommen auch hier — `datenschutz.html` erwähnt jsDelivr aktuell
-nirgends. Nicht Teil dieses Auftrags, hier nur vermerkt, damit es nicht
-untergeht.
+`index.html` lädt drei Skript-Bibliotheken von `cdn.jsdelivr.net`. Update
+2026-08-16: **die fehlende Offenlegung ist behoben** — `datenschutz.html`
+Abschnitt 10 „Eingebundene Skript-Bibliotheken" beschreibt jetzt genau diese
+Verbindung.
+
+Offen bleibt eine bewusste Entscheidung: Der Compliance-Skill verlangt unter
+„Level A" eigentlich self-hosted statt externem CDN für genau solche
+Bibliotheken — dieselbe Logik wie bei den Google Fonts. **Das wurde hier
+nicht automatisch umgesetzt**, weil die CDN-Einbindung in einem früheren
+Auftrag explizit so gewünscht wurde ("Подключи GSAP + ScrollTrigger + Lenis
+через CDN … просто добавь script теги в head"). Ein automatisches
+Rückgängigmachen einer expliziten früheren Anweisung wäre eigenmächtig —
+daher hier nur vorbereitet, nicht ausgeführt:
+
+- [ ] Entscheidung: GSAP/ScrollTrigger/Lenis zusätzlich self-hosten
+  (wie bei den Fonts: Dateien unter `assets/` ablegen, `<script src="cdn...">`
+  durch lokale Pfade ersetzen)? Technisch identisches Muster wie bei den
+  Fonts, in wenigen Minuten machbar, sobald gewünscht.
+- [ ] Falls CDN bewusst bleiben soll: aktueller Stand (Offenlegung in
+  Datenschutz) ist ausreichend, kein weiterer Schritt nötig.
 
 ---
 
