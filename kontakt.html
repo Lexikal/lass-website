@@ -64,7 +64,7 @@
         <div class="field"><label for="f-typ">Objektart</label>
           <select id="f-typ"><option>Büro</option><option>Arzt- oder Zahnarztpraxis</option><option>Treppenhaus / Wohnanlage</option><option>Ladenfläche</option><option>Neubau / nach Umbau</option><option>Sonstiges</option></select></div>
         <div class="field"><label for="f-qm">Fläche in m²</label><input type="text" id="f-qm" inputmode="numeric" placeholder="z. B. 180" required></div>
-        <div class="field"><label for="f-plz">Postleitzahl</label><input type="text" id="f-plz" inputmode="numeric" placeholder="301.." required pattern="[0-9]{4,5}"></div>
+        <div class="field"><label for="f-plz">Postleitzahl</label><input type="text" id="f-plz" inputmode="numeric" placeholder="30159" required pattern="[0-9]{5}" maxlength="5"></div>
         <button class="btn btn--signal btn--full" type="button" data-next>Weiter zu Turnus &amp; Kontakt</button>
       </div>
 
@@ -147,8 +147,8 @@
         <h4>Kontakt</h4>
         <a href="tel:+4951112345670">0511 · 1234 567-0</a>
         <a href="mailto:info@liss-reinigungsservice.de">info@liss-reinigungsservice.de</a>
-        <a href="#">Mo–Fr 07:00–18:00 Uhr</a>
-        <a href="#">Musterstraße 1, 30159 Hannover</a>
+        <span>Mo–Fr 07:00–18:00 Uhr</span>
+        <span>Musterstraße 1, 30159 Hannover</span>
       </div>
     </div>
     <div class="fbottom">

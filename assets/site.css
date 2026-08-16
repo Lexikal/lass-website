@@ -397,6 +397,11 @@ footer .fgrid{display:grid;gap:var(--s6)}
 @media(min-width:760px){footer .fgrid{grid-template-columns:repeat(4,1fr)}}
 .fcol h4{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8FA3CC;margin-bottom:var(--s3);font-weight:500}
 .fcol a{display:block;text-decoration:none;font-size:14px;padding:var(--s1) 0;color:#D6DFF2;transition:color var(--dur-2) var(--ease-soft),transform var(--dur-2) var(--ease-out)}
+/* Öffnungszeiten/Adresse sind reiner Text, keine Ziele zum Anklicken —
+   bewusst kein <a href="#">, das nirgendwo hinführt und einen Sprung an
+   den Seitenanfang auslösen würde. Gleiche Optik wie .fcol a, ohne
+   Hover-Zustand, der Klickbarkeit vortäuschen würde. */
+.fcol span{display:block;font-size:14px;padding:var(--s1) 0;color:#D6DFF2}
 .fcol a:hover{color:var(--aqua);transform:translateX(4px)}
 .fbottom{border-top:1px solid #1B2F63;margin-top:var(--s6);padding-top:var(--s4);font-family:var(--mono);font-size:11px;color:#8FA3CC;display:flex;flex-wrap:wrap;gap:var(--s4);justify-content:space-between}
 
@@ -446,22 +451,6 @@ footer .fgrid{display:grid;gap:var(--s6)}
 @keyframes veilCover{from{transform:translateY(100%)}to{transform:translateY(0)}}
 .page-veil.veil-exit{animation:veilCover .5s var(--ease-in-out) forwards;pointer-events:auto}
 @media(prefers-reduced-motion:reduce){.page-veil{display:none}}
-
-/* ============ Wortmarke in Schreibschrift ============ */
-.logo{gap:var(--s2)}
-.logo img{height:34px;width:auto;display:block;flex:0 0 auto}
-.logo .sub{
-  display:block;font-family:var(--mono);font-size:8.5px;font-weight:500;
-  color:var(--stahl);letter-spacing:.13em;line-height:1.5;margin:0;
-  border-left:1px solid var(--linie);padding-left:var(--s2);white-space:nowrap;
-}
-@media(min-width:400px){.logo .sub{font-size:9.5px;letter-spacing:.16em}}
-@media(min-width:520px){.logo img{height:40px}}
-footer .flogo{height:54px;width:auto;margin-bottom:var(--s2);opacity:.95}
-footer .fsub{
-  font-family:var(--mono);font-size:10px;letter-spacing:.17em;color:#8FA3CC;
-  margin-bottom:var(--s5);display:block;
-}
 
 /* ============ Reiter / Tabs ============ */
 .navlinks a{
@@ -639,19 +628,6 @@ footer .fsub{
       rgba(239,242,249,.50) 62%,rgba(239,242,249,.94) 100%);
   }
 }
-.vid-slot{
-  position:absolute;inset:auto var(--s4) var(--s4) auto;z-index:5;font-family:var(--mono);
-  font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--nebel);
-  background:rgba(255,255,255,.75);border:1px dashed var(--linie);
-  padding:var(--s1) var(--s2);border-radius:var(--r);
-}
-
-/* Logo als Tiefenebene */
-.watermark{
-  position:absolute;z-index:0;width:min(70vw,620px);opacity:.085;pointer-events:none;
-  filter:none;
-}
-
 /* ============ Mehrseiten-Build: Kopf-Logo als Bild ============ */
 .logo{gap:var(--s2)}
 .logo img{height:34px;width:auto;display:block;flex:0 0 auto}
