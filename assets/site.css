@@ -352,7 +352,14 @@ details p{padding:0 0 var(--s5);font-size:15px;max-width:72ch}
 .form-steps{display:flex;gap:var(--s2);margin-bottom:var(--s5)}
 .form-steps div{flex:1;height:4px;background:var(--eis);border-radius:2px}
 .form-steps div.on{background:var(--leisblau)}
-.form label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--nebel);margin-bottom:var(--s2);font-weight:500}
+.form-nav{display:flex;gap:var(--s3);margin-top:var(--s2)}
+.form-nav .btn{flex:1}
+/* display bewusst nicht gesetzt: .field>label (weiter oben) macht daraus
+   flex+space-between, damit ein optionaler .fval-Zusatz (z. B. "optional")
+   wie beim Rechner rechtsbündig neben dem Label-Text steht, statt darunter
+   zu brechen. Gleiche Spezifität, spätere Regel — vorher gewann hier
+   versehentlich display:block. */
+.form label{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--nebel);margin-bottom:var(--s2);font-weight:500}
 .form input,.form select,.form textarea{
   width:100%;min-height:48px;padding:var(--s3);border:1.5px solid var(--linie);
   border-radius:var(--r);font-family:var(--display);font-size:16px;background:var(--weiss);color:var(--tiefsee);

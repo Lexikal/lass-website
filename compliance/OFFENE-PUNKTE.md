@@ -28,25 +28,34 @@ Platzhalter (`[...]`) und der Prototyp ist nicht launch-fähig.
 - [ ] `impressum.html`: `[Versicherer]`, `[Anschrift]` — Name und Anschrift des Berufshaftpflichtversicherers eintragen (Pflichtangabe für Handwerksbetriebe, siehe Eintrag „Eingetragen in der Handwerksrolle der Handwerkskammer Hannover" auf derselben Seite).
 - [ ] Falls die Handwerksrollen-Eintragung selbst noch nicht final ist: auch das gegenprüfen, bevor die Seite live geht.
 
-## 5. Kontaktformular ohne Backend
+## 5. Kontaktformular — Button-Funktion behoben (2026-08-16), Backend-Frage bleibt
 
-**Fakt geprüft im Code (`kontakt.html` + `assets/site.js`, Stand 2026-08-16):**
-Es gibt kein `<form>`-Element, keine `action`, keinen Submit-Endpunkt. Der
-„Weiter"-Button ist `<button class="btn btn--signal btn--full" type="button">`
-— und `assets/site.js` enthält **keinerlei** Click-Handler dafür (geprüft:
-kein Treffer für `form-steps`, `f-typ`, `f-qm`, `f-plz` im gesamten Skript).
-Der Button ist damit nicht nur „ohne Backend", sondern aktuell komplett
-funktionslos: ein Klick tut buchstäblich nichts, „Schritt 2 von 3" existiert
-nicht einmal als UI. Wer bis hierhin kommt, kann die Anfrage über dieses
-Formular gar nicht abschicken — nur per Telefon/E-Mail (linke Spalte auf der
-Seite).
+**Update 2026-08-16 — behoben:** `kontakt.html` ist jetzt ein echtes
+`<form id="kontaktForm">` mit drei Schritten (`.form-step[data-step="1|2|3"]`).
+„Weiter"/„Zurück" funktionieren, Pflichtfelder werden pro Schritt geprüft
+(`assets/site.js`, `initContactForm`), Turnus lässt sich wie im Preisrechner
+per Chip auswählen. „Anfrage senden" ist jetzt `type="submit"` und öffnet
+das E-Mail-Programm der Nutzer:in mit vorausgefüllter Betreffzeile und
+Nachricht (`mailto:info@liss-reinigungsservice.de?subject=...&body=...`) —
+das war bereits als „einfachste Lösung" hier dokumentiert und wurde jetzt
+umgesetzt. Nichts wird ohne aktives Zutun der Nutzer:in verschickt.
 
-- [ ] Wohin sollen Anfragen tatsächlich gehen? Optionen, die geklärt werden müssen:
-  - E-Mail-Versand serverseitig (z. B. über den Hoster, sobald der feststeht)
-  - Formular-Service eines Drittanbieters (z. B. Formspree, Basin, eigenes Skript) — **falls Drittanbieter: eigener Datenschutz-Abschnitt + ggf. AVV nötig**, aktuell in `datenschutz.html` nicht vorgesehen
-  - Direktes `mailto:`-Fallback (einfachste Lösung, aber ohne serverseitige Validierung/Spam-Schutz)
-- [ ] Sobald ein echtes Backend dranhängt: `datenschutz.html` Abschnitt 4 „Anfrageformular und Preisrechner" gegenprüfen — der Text beschreibt bereits eine Verarbeitung, Löschfrist „sechs Monate" — muss zur tatsächlichen Implementierung passen.
-- [ ] Spam-/Bot-Schutz für das Formular einplanen (Honeypot/Rate-Limit statt US-Captcha, siehe Compliance-Skill Abschnitt 12).
+**Weiterhin offen — bewusste Entscheidung, keine Bugfix-Frage mehr:**
+
+- [ ] Reicht der `mailto:`-Fallback dauerhaft, oder soll ein echtes
+  serverseitiges Backend dahinter (z. B. E-Mail-Versand über den Hoster,
+  sobald der feststeht, oder ein Formular-Service wie Formspree/Basin)?
+  Vorteile eines echten Backends: funktioniert auch ohne lokal
+  eingerichtetes E-Mail-Programm, serverseitige Validierung, Spam-Schutz.
+  — **Falls Drittanbieter-Service:** eigener Datenschutz-Abschnitt + ggf.
+  AVV nötig, aktuell in `datenschutz.html` nicht vorgesehen.
+- [ ] `datenschutz.html` Abschnitt 4 „Anfrageformular und Preisrechner"
+  gegenprüfen, sobald klar ist, welcher Übertragungsweg dauerhaft gilt —
+  der Text beschreibt bereits eine serverseitige Verarbeitung mit
+  Löschfrist „sechs Monate", die beim reinen `mailto:`-Fallback so gar
+  nicht stattfindet (die Anfrage geht direkt aus dem E-Mail-Programm der
+  Nutzer:in an `info@liss-reinigungsservice.de`, LISS selbst verarbeitet
+  sie dann wie jede normale E-Mail).
 
 ## Zusätzlich aufgefallen (nicht Teil der ursprünglichen 4 Punkte, aber direkt angrenzend)
 
@@ -69,28 +78,19 @@ Für die Google-Fonts-Dateien liegt jetzt ein Nachweis vor
 Screenshot/Export der Seedance-Nutzungsbedingungen zum Erstellungszeitpunkt,
 oder Beleg des Generierungsauftrags. Siehe `LIZENZEN.md`.
 
-### 8. GSAP/ScrollTrigger/Lenis-CDN in `index.html` — Offenlegung erledigt, Self-Hosting noch offen
+### 8. GSAP/ScrollTrigger/Lenis — self-hosted (erledigt 2026-08-16)
 
-`index.html` lädt drei Skript-Bibliotheken von `cdn.jsdelivr.net`. Update
-2026-08-16: **die fehlende Offenlegung ist behoben** — `datenschutz.html`
-Abschnitt 10 „Eingebundene Skript-Bibliotheken" beschreibt jetzt genau diese
-Verbindung.
+War: CDN-Einbindung über `cdn.jsdelivr.net`, bewusst nicht automatisch
+geändert, weil in einem früheren Auftrag explizit CDN gewünscht war.
 
-Offen bleibt eine bewusste Entscheidung: Der Compliance-Skill verlangt unter
-„Level A" eigentlich self-hosted statt externem CDN für genau solche
-Bibliotheken — dieselbe Logik wie bei den Google Fonts. **Das wurde hier
-nicht automatisch umgesetzt**, weil die CDN-Einbindung in einem früheren
-Auftrag explizit so gewünscht wurde ("Подключи GSAP + ScrollTrigger + Lenis
-через CDN … просто добавь script теги в head"). Ein automatisches
-Rückgängigmachen einer expliziten früheren Anweisung wäre eigenmächtig —
-daher hier nur vorbereitet, nicht ausgeführt:
-
-- [ ] Entscheidung: GSAP/ScrollTrigger/Lenis zusätzlich self-hosten
-  (wie bei den Fonts: Dateien unter `assets/` ablegen, `<script src="cdn...">`
-  durch lokale Pfade ersetzen)? Technisch identisches Muster wie bei den
-  Fonts, in wenigen Minuten machbar, sobald gewünscht.
-- [ ] Falls CDN bewusst bleiben soll: aktueller Stand (Offenlegung in
-  Datenschutz) ist ausreichend, kein weiterer Schritt nötig.
+**Jetzt behoben, auf ausdrücklichen Wunsch:** Alle drei Dateien liegen unter
+`assets/vendor/` (`gsap.min.js`, `ScrollTrigger.min.js`, `lenis.min.js`),
+`index.html` lädt sie lokal. `datenschutz.html` Abschnitt 10 wurde
+entsprechend korrigiert (keine Drittserver-Verbindung mehr, statt vorheriger
+jsDelivr-Offenlegung). Lizenznachweis: `assets/vendor/LIZENZ.txt`.
+Verifiziert: `grep -rEo 'https?://[a-zA-Z0-9.-]+' *.html` über alle 12
+HTML-Dateien liefert keinen Treffer mehr — keine externe Domain im gesamten
+Projekt.
 
 ---
 

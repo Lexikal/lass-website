@@ -7,13 +7,13 @@
 <meta name="description" content="Büro-, Praxis- und Treppenhausreinigung in Hannover zum veröffentlichten Festpreis. Angebot in 24 Stunden, feste Reinigungskraft, Foto-Protokoll nach jedem Einsatz.">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/site.css">
-<!-- Experimentell, nur auf dieser Seite: GSAP + ScrollTrigger + Lenis über CDN,
-     kein Build-Schritt nötig. Treibt unten im body ausschließlich die
-     Reveal-Choreografie und die angeheftete Szene — site.js bleibt unverändert
-     und bedient weiterhin alle anderen Seiten. -->
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<!-- Nur auf dieser Seite: GSAP + ScrollTrigger + Lenis, self-hosted unter
+     assets/vendor/ (Lizenzen: assets/vendor/LIZENZ.txt). Treibt unten im
+     body ausschließlich die Reveal-Choreografie und die angeheftete Szene —
+     site.js bleibt unverändert und bedient weiterhin alle anderen Seiten. -->
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/vendor/lenis.min.js"></script>
 </head>
 <body>
 <div class="page-veil" aria-hidden="true"></div>

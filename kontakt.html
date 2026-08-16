@@ -56,16 +56,46 @@
       </div>
     </div>
 
-    <div class="form rv">
+    <form class="form rv" id="kontaktForm" novalidate>
       <div class="form-steps" aria-hidden="true"><div class="on"></div><div></div><div></div></div>
       <h3>Schritt 1 von 3 · Ihr Objekt</h3>
-      <div class="field"><label for="f-typ">Objektart</label>
-        <select id="f-typ"><option>Büro</option><option>Arzt- oder Zahnarztpraxis</option><option>Treppenhaus / Wohnanlage</option><option>Ladenfläche</option><option>Neubau / nach Umbau</option><option>Sonstiges</option></select></div>
-      <div class="field"><label for="f-qm">Fläche in m²</label><input type="text" id="f-qm" inputmode="numeric" placeholder="z. B. 180"></div>
-      <div class="field"><label for="f-plz">Postleitzahl</label><input type="text" id="f-plz" inputmode="numeric" placeholder="301.."></div>
-      <button class="btn btn--signal btn--full" type="button">Weiter zu Turnus &amp; Kontakt</button>
-      <p class="calc-note">Drei kurze Schritte statt einem langen Formular. Kein Newsletter, keine Weitergabe an Vermittlungsportale.</p>
-    </div>
+
+      <div class="form-step" data-step="1">
+        <div class="field"><label for="f-typ">Objektart</label>
+          <select id="f-typ"><option>Büro</option><option>Arzt- oder Zahnarztpraxis</option><option>Treppenhaus / Wohnanlage</option><option>Ladenfläche</option><option>Neubau / nach Umbau</option><option>Sonstiges</option></select></div>
+        <div class="field"><label for="f-qm">Fläche in m²</label><input type="text" id="f-qm" inputmode="numeric" placeholder="z. B. 180" required></div>
+        <div class="field"><label for="f-plz">Postleitzahl</label><input type="text" id="f-plz" inputmode="numeric" placeholder="301.." required pattern="[0-9]{4,5}"></div>
+        <button class="btn btn--signal btn--full" type="button" data-next>Weiter zu Turnus &amp; Kontakt</button>
+      </div>
+
+      <div class="form-step" data-step="2" hidden>
+        <div class="field">
+          <span class="flabel">Turnus</span>
+          <div class="chips" role="group" aria-label="Turnus">
+            <button class="chip" type="button" data-turnus="1×/Woche">1×/Wo.</button>
+            <button class="chip" type="button" data-turnus="2×/Woche" aria-pressed="true">2×/Wo.</button>
+            <button class="chip" type="button" data-turnus="3×/Woche">3×/Wo.</button>
+            <button class="chip" type="button" data-turnus="5×/Woche">5×/Wo.</button>
+          </div>
+        </div>
+        <div class="form-nav">
+          <button class="btn btn--ghost" type="button" data-back>Zurück</button>
+          <button class="btn btn--signal" type="button" data-next>Weiter zu Kontakt</button>
+        </div>
+      </div>
+
+      <div class="form-step" data-step="3" hidden>
+        <div class="field"><label for="f-name">Name</label><input type="text" id="f-name" autocomplete="name" placeholder="Vor- und Nachname" required></div>
+        <div class="field"><label for="f-email">E-Mail</label><input type="email" id="f-email" autocomplete="email" placeholder="name@firma.de" required></div>
+        <div class="field"><label for="f-tel">Telefon <span class="fval">optional</span></label><input type="tel" id="f-tel" autocomplete="tel" placeholder="0511 ..."></div>
+        <div class="form-nav">
+          <button class="btn btn--ghost" type="button" data-back>Zurück</button>
+          <button class="btn btn--signal btn--full" type="submit">Anfrage senden</button>
+        </div>
+      </div>
+
+      <p class="calc-note">Drei kurze Schritte statt einem langen Formular. „Anfrage senden" öffnet Ihr E-Mail-Programm mit einer vorausgefüllten Nachricht an uns — nichts wird automatisch verschickt, Sie sehen und bestätigen die Mail selbst. Kein Newsletter, keine Weitergabe an Vermittlungsportale.</p>
+    </form>
   </div>
 </section>
 
