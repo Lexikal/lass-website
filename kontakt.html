@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kontakt &amp; Angebot in 24 Stunden · LISS Reinigungsservice Hannover</title>
 <meta name="description" content="Anfrage an LISS Reinigungsservice Hannover: Angebot binnen 24 Stunden, telefonisch unter 0511 1234 567-0 oder über das dreistufige Anfrageformular.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -58,16 +56,46 @@
       </div>
     </div>
 
-    <div class="form rv">
+    <form class="form rv" id="kontaktForm" novalidate>
       <div class="form-steps" aria-hidden="true"><div class="on"></div><div></div><div></div></div>
       <h3>Schritt 1 von 3 · Ihr Objekt</h3>
-      <div class="field"><label for="f-typ">Objektart</label>
-        <select id="f-typ"><option>Büro</option><option>Arzt- oder Zahnarztpraxis</option><option>Treppenhaus / Wohnanlage</option><option>Ladenfläche</option><option>Neubau / nach Umbau</option><option>Sonstiges</option></select></div>
-      <div class="field"><label for="f-qm">Fläche in m²</label><input type="text" id="f-qm" inputmode="numeric" placeholder="z. B. 180"></div>
-      <div class="field"><label for="f-plz">Postleitzahl</label><input type="text" id="f-plz" inputmode="numeric" placeholder="301.."></div>
-      <button class="btn btn--signal btn--full" type="button">Weiter zu Turnus &amp; Kontakt</button>
-      <p class="calc-note">Drei kurze Schritte statt einem langen Formular. Kein Newsletter, keine Weitergabe an Vermittlungsportale.</p>
-    </div>
+
+      <div class="form-step" data-step="1">
+        <div class="field"><label for="f-typ">Objektart</label>
+          <select id="f-typ"><option>Büro</option><option>Arzt- oder Zahnarztpraxis</option><option>Treppenhaus / Wohnanlage</option><option>Ladenfläche</option><option>Neubau / nach Umbau</option><option>Sonstiges</option></select></div>
+        <div class="field"><label for="f-qm">Fläche in m²</label><input type="text" id="f-qm" inputmode="numeric" placeholder="z. B. 180" required></div>
+        <div class="field"><label for="f-plz">Postleitzahl</label><input type="text" id="f-plz" inputmode="numeric" placeholder="30159" required pattern="[0-9]{5}" maxlength="5"></div>
+        <button class="btn btn--signal btn--full" type="button" data-next>Weiter zu Turnus &amp; Kontakt</button>
+      </div>
+
+      <div class="form-step" data-step="2" hidden>
+        <div class="field">
+          <span class="flabel">Turnus</span>
+          <div class="chips" role="group" aria-label="Turnus">
+            <button class="chip" type="button" data-turnus="1×/Woche">1×/Wo.</button>
+            <button class="chip" type="button" data-turnus="2×/Woche" aria-pressed="true">2×/Wo.</button>
+            <button class="chip" type="button" data-turnus="3×/Woche">3×/Wo.</button>
+            <button class="chip" type="button" data-turnus="5×/Woche">5×/Wo.</button>
+          </div>
+        </div>
+        <div class="form-nav">
+          <button class="btn btn--ghost" type="button" data-back>Zurück</button>
+          <button class="btn btn--signal" type="button" data-next>Weiter zu Kontakt</button>
+        </div>
+      </div>
+
+      <div class="form-step" data-step="3" hidden>
+        <div class="field"><label for="f-name">Name</label><input type="text" id="f-name" autocomplete="name" placeholder="Vor- und Nachname" required></div>
+        <div class="field"><label for="f-email">E-Mail</label><input type="email" id="f-email" autocomplete="email" placeholder="name@firma.de" required></div>
+        <div class="field"><label for="f-tel">Telefon <span class="fval">optional</span></label><input type="tel" id="f-tel" autocomplete="tel" placeholder="0511 ..."></div>
+        <div class="form-nav">
+          <button class="btn btn--ghost" type="button" data-back>Zurück</button>
+          <button class="btn btn--signal btn--full" type="submit">Anfrage senden</button>
+        </div>
+      </div>
+
+      <p class="calc-note">Drei kurze Schritte statt einem langen Formular. „Anfrage senden" öffnet Ihr E-Mail-Programm mit einer vorausgefüllten Nachricht an uns — nichts wird automatisch verschickt, Sie sehen und bestätigen die Mail selbst. Kein Newsletter, keine Weitergabe an Vermittlungsportale.</p>
+    </form>
   </div>
 </section>
 
@@ -119,13 +147,13 @@
         <h4>Kontakt</h4>
         <a href="tel:+4951112345670">0511 · 1234 567-0</a>
         <a href="mailto:info@liss-reinigungsservice.de">info@liss-reinigungsservice.de</a>
-        <a href="#">Mo–Fr 07:00–18:00 Uhr</a>
-        <a href="#">Musterstraße 1, 30159 Hannover</a>
+        <span>Mo–Fr 07:00–18:00 Uhr</span>
+        <span>Musterstraße 1, 30159 Hannover</span>
       </div>
     </div>
     <div class="fbottom">
       <span>© 2026 LISS Reinigungsservice · Hannover</span>
-      <span><a href="#" style="display:inline">Impressum</a> · <a href="#" style="display:inline">Datenschutz</a> · <a href="#" style="display:inline">AGB</a></span>
+      <span><a href="impressum.html" style="display:inline">Impressum</a> · <a href="datenschutz.html" style="display:inline">Datenschutz</a> · <a href="agb.html" style="display:inline">AGB</a></span>
       <span>PROTOTYP · ARBEITSSTAND 08/2026</span>
     </div>
   </div>

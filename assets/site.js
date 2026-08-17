@@ -169,6 +169,89 @@
   }
 
   document.querySelectorAll('.calc').forEach(initCalc);
+
+  /* ---------- 6. Anfrageformular (kontakt.html) ----------
+     Drei Schritte in einem echten <form>. "Weiter"/"Zurück" sind
+     type="button" und lösen kein Submit aus; nur der letzte Button ist
+     type="submit". Wichtig: das hidden-Attribut auf einem Eltern-Element
+     nimmt verschachtelte required-Felder NICHT automatisch von der
+     Constraint-Validation aus (geprüft: form.reportValidity() würde beim
+     Klick auf Schritt 1 fälschlich auch die leeren Pflichtfelder aus
+     Schritt 3 melden) — darum wird pro Klick gezielt nur der gerade
+     sichtbare Schritt geprüft, nicht das ganze Formular auf einmal.
+     Ohne eigenes Backend (siehe compliance/OFFENE-PUNKTE.md) öffnet das
+     Absenden das E-Mail-Programm mit vorausgefüllter Anfrage — nichts
+     wird ohne Zutun des Nutzers verschickt. */
+  function initContactForm(form) {
+    var steps = [].slice.call(form.querySelectorAll('.form-step'));
+    if (!steps.length) return;
+    var dots = [].slice.call(form.querySelectorAll('.form-steps > div'));
+    var heading = form.querySelector('h3');
+    var titles = { 1: 'Schritt 1 von 3 · Ihr Objekt', 2: 'Schritt 2 von 3 · Turnus', 3: 'Schritt 3 von 3 · Kontakt' };
+    var current = 1;
+    var turnus = form.querySelector('[data-turnus][aria-pressed=true]');
+    turnus = turnus ? turnus.dataset.turnus : '';
+
+    function validateStep(stepEl) {
+      var fields = [].slice.call(stepEl.querySelectorAll('input, select, textarea'));
+      var firstInvalid = fields.find(function (el) { return !el.checkValidity(); });
+      if (firstInvalid) { firstInvalid.reportValidity(); return false; }
+      return true;
+    }
+
+    function show(step) {
+      current = step;
+      steps.forEach(function (s) { s.hidden = (+s.dataset.step !== step); });
+      dots.forEach(function (d, i) { d.classList.toggle('on', i < step); });
+      if (heading && titles[step]) heading.textContent = titles[step];
+      var focusEl = steps[step - 1] && steps[step - 1].querySelector('input, select, button');
+      if (focusEl) focusEl.focus({ preventScroll: true });
+    }
+
+    form.querySelectorAll('[data-next]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var stepEl = btn.closest('.form-step');
+        if (!validateStep(stepEl)) return;
+        show(current + 1);
+      });
+    });
+    form.querySelectorAll('[data-back]').forEach(function (btn) {
+      btn.addEventListener('click', function () { show(current - 1); });
+    });
+    form.querySelectorAll('[data-turnus]').forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        form.querySelectorAll('[data-turnus]').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
+        chip.setAttribute('aria-pressed', 'true');
+        turnus = chip.dataset.turnus;
+      });
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!validateStep(steps[current - 1])) return;
+      var val = function (id) { var el = form.querySelector(id); return el ? el.value.trim() : ''; };
+      var typ = val('#f-typ'), qm = val('#f-qm'), plz = val('#f-plz');
+      var name = val('#f-name'), email = val('#f-email'), tel = val('#f-tel');
+      var body = [
+        'Neue Anfrage über liss-reinigungsservice.de', '',
+        'Objektart: ' + typ,
+        'Fläche: ' + qm + ' m²',
+        'Postleitzahl: ' + plz,
+        'Turnus: ' + (turnus || '—'), '',
+        'Name: ' + name,
+        'E-Mail: ' + email,
+        'Telefon: ' + (tel || '—')
+      ].join('\n');
+      var subject = 'Anfrage: ' + typ + ', ' + qm + ' m², PLZ ' + plz;
+      window.location.href = 'mailto:info@liss-reinigungsservice.de'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(body);
+    });
+
+    show(1);
+  }
+  document.querySelectorAll('.form').forEach(initContactForm);
+
   window.__lissInitCalc = initCalc;
   window.__lissMeasure = function () { if (!reduced) { collect(); paint(); } };
   window.__lissReduced = reduced;
