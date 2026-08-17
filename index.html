@@ -195,26 +195,27 @@
 
 <section class="scene-track" data-bound="1">
   <div class="scene-stick">
-    <div class="scene-num" style="top:6%;left:-6%">01</div>
-    <div class="scene-num" style="bottom:2%;right:-8%">€</div>
+    <!-- Ein mitzählendes Schrittzeichen statt zweier beliebiger Zierziffern:
+         die Zahl sagt aus, an welcher der drei Zusagen man gerade steht. -->
+    <div class="scene-count" aria-hidden="true"><i>01</i><i>02</i><i>03</i></div>
     <div class="scene-inner">
       <div class="scene-step on">
         <span class="k">Ein Versprechen</span>
-        <h2>Ein Preis, der vorher feststeht.</h2>
+        <h2>Ein <em>Preis</em>, der vorher feststeht.</h2>
         <p>Kein Vor-Ort-Termin, nur damit Sie eine Zahl bekommen. Der Rechner zeigt dieselbe Staffel, die später im Vertrag steht.</p>
       </div>
       <div class="scene-step">
         <span class="k">Zwei Versprechen</span>
-        <h2>Ein Gesicht, das wiederkommt.</h2>
+        <h2>Ein <em>Gesicht</em>, das wiederkommt.</h2>
         <p>Eine namentlich zugeordnete Reinigungskraft und eine eingewiesene Vertretung. Sie erklären Ihre Räume einmal — nicht jede Woche neu.</p>
       </div>
       <div class="scene-step">
         <span class="k">Drei Versprechen</span>
-        <h2>Ein Nachweis nach jedem Einsatz.</h2>
+        <h2>Ein <em>Nachweis</em> nach jedem Einsatz.</h2>
         <p>Abgehakte Checkliste, Uhrzeit, Name und Fotos der Hauptbereiche. Per E-Mail, meist innerhalb einer Stunde.</p>
       </div>
     </div>
-    <div class="scene-rail" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
+    <div class="scene-rail" aria-hidden="true"><i></i></div>
   </div>
 </section>
 <section class="sec-ablauf">
@@ -555,8 +556,8 @@
   if (track) {
     var stick = track.querySelector('.scene-stick');
     var steps = track.querySelectorAll('.scene-step');
-    var rails = track.querySelectorAll('.scene-rail i');
-    var nums = track.querySelectorAll('.scene-num');
+    var counts = track.querySelectorAll('.scene-count i');
+    var railFill = track.querySelector('.scene-rail i');
     var n = steps.length;
 
     ScrollTrigger.create({
@@ -568,20 +569,22 @@
       scrub: .6,
       onUpdate: function (self) {
         var p = self.progress;
+        /* Ein Gewicht pro Stufe, aus dem sich alles andere ableitet:
+           Text, Schrittzahl und Balken laufen damit garantiert synchron. */
+        function weight(k) { return Math.max(0, 1 - Math.abs(p - k / (n - 1 || 1)) * n); }
+
         steps.forEach(function (s, k) {
-          var w = Math.max(0, 1 - Math.abs(p - k / (n - 1 || 1)) * n);
+          var w = weight(k);
           s.style.opacity = w.toFixed(3);
           s.style.transform = 'translateY(' + ((1 - w) * 30).toFixed(1) + 'px) scale(' + (.97 + w * .03).toFixed(3) + ')';
           s.style.pointerEvents = w > .5 ? 'auto' : 'none';
         });
-        rails.forEach(function (r, k) {
-          var on = Math.abs(p - k / (n - 1 || 1)) < (.5 / (n - 1 || 1));
-          r.style.background = on ? 'var(--aqua)' : 'rgba(255,255,255,.22)';
+        counts.forEach(function (el, k) {
+          var w = weight(k);
+          el.style.opacity = w.toFixed(3);
+          el.style.transform = 'translateY(' + ((1 - w) * 18).toFixed(1) + 'px)';
         });
-        nums.forEach(function (el, k) {
-          el.style.transform = 'translate3d(' + (-p * (140 + k * 90)).toFixed(0) + 'px,' + (p * (40 - k * 60)).toFixed(0) + 'px,0) rotate(' + (p * (k ? -8 : 8)).toFixed(1) + 'deg)';
-          el.style.opacity = Math.max(0, Math.min(1, .9 - Math.abs(p - (k + .5) / n) * 1.4)).toFixed(2);
-        });
+        if (railFill) railFill.style.transform = 'scaleX(' + p.toFixed(4) + ')';
       }
     });
   }
