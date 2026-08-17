@@ -350,7 +350,48 @@
 
     var startScrub = function () {
       if (!vid.duration || isNaN(vid.duration)) { fallbackToLoop(); return; }
+
+      /* Decoder anwärmen: ohne ein einziges play() initialisiert der Browser
+         die Dekodier-Pipeline nicht, readyState fällt zurück und der erste
+         Seek bleibt hängen — das Bild stünde dann dauerhaft auf dem Poster.
+         Also kurz anspielen, ein paar Frames dekodieren lassen, dann
+         pausieren und ab da nur noch über currentTime steuern. */
+      var pl = vid.play();
+      if (pl && pl.then) pl.then(function () { setTimeout(bindScrub, 140); })
+                           .catch(function () { bindScrub(); });
+      else setTimeout(bindScrub, 140);
+    };
+
+    function bindScrub() {
       vid.pause();
+
+      /* Seeks werden zusammengefasst statt gestapelt: es ist immer nur EIN
+         Sprung unterwegs, das jeweils neueste Ziel wird gemerkt und nach
+         dessen Abschluss nachgezogen. Wichtig ist der Wachhund: bliebe ein
+         Seek hängen (langsames Gerät, Software-Decoder), würde ein simples
+         `if (!video.seeking)` die Sperre nie wieder lösen und das Bild
+         stünde dauerhaft still. Nach 400 ms wird die Sperre daher
+         freigegeben und das aktuelle Ziel erneut angefragt. */
+      var pending = null, busy = false, watchdog = 0, stalls = 0;
+
+      function release() { busy = false; stalls = 0; clearTimeout(watchdog); apply(); }
+      vid.addEventListener('seeked', release);
+
+      function apply() {
+        if (busy || pending === null) return;
+        var t = pending; pending = null; busy = true;
+        try { vid.currentTime = t; } catch (e) { busy = false; return; }
+        clearTimeout(watchdog);
+        watchdog = setTimeout(function () {
+          /* Drei hängende Sprünge in Folge heißt: dieser Browser kann die
+             Datei zwar abspielen, aber nicht zuverlässig anspringen. Dann
+             ist die Endlosschleife das ehrlichere Ergebnis als ein Video,
+             das für immer auf einem Frame steht. */
+          if (++stalls >= 3) { fallbackToLoop(); return; }
+          busy = false; apply();
+        }, 400);
+      }
+
       scrubTrigger = ScrollTrigger.create({
         trigger: hv || vid,
         start: 'top top',
@@ -359,25 +400,22 @@
         onUpdate: function (self) {
           var dur = vid.duration;
           if (!dur || isNaN(dur)) return;
-          /* Nur setzen, wenn der Decoder bereit ist und nicht ohnehin
-             schon sucht — sonst stapeln sich Seeks und alles ruckelt. */
-          if (vid.readyState >= 2 && !vid.seeking) {
-            try { vid.currentTime = self.progress * (dur - 0.05); } catch (e) {}
-          }
+          pending = self.progress * (dur - 0.05);
+          apply();
         }
       });
     };
 
-    if (vid.canPlayType && vid.canPlayType('video/mp4; codecs="avc1.42E01E"') === '') {
-      fallbackToLoop();
-    } else {
-      var settled = false;
-      var settle = function (fn) { if (!settled) { settled = true; fn(); } };
-      if (vid.readyState >= 1) settle(startScrub);
-      else vid.addEventListener('loadedmetadata', function () { settle(startScrub); }, { once: true });
-      vid.addEventListener('error', function () { settle(fallbackToLoop); }, { once: true });
-      setTimeout(function () { settle(fallbackToLoop); }, 3000);
-    }
+    /* Quellenunabhängig: es wird nicht auf einen bestimmten Codec geprüft,
+       sondern schlicht darauf gewartet, ob Metadaten eintreffen. Kommen sie
+       (Datei ist dekodierbar), wird gescrubbt; kommt stattdessen ein Fehler
+       oder gar nichts, läuft die Endlosschleife. */
+    var settled = false;
+    var settle = function (fn) { if (!settled) { settled = true; fn(); } };
+    if (vid.readyState >= 1) settle(startScrub);
+    else vid.addEventListener('loadedmetadata', function () { settle(startScrub); }, { once: true });
+    vid.addEventListener('error', function () { settle(fallbackToLoop); }, { once: true });
+    setTimeout(function () { settle(fallbackToLoop); }, 3000);
   }
 
   /* ============================================================
