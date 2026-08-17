@@ -36,34 +36,36 @@
 </nav>
 
 <main>
-<div class="hero stage">
-  <div class="vid-layer" aria-hidden="true" style="background-image:url(assets/hero-poster.jpg)">
-    <video autoplay muted loop playsinline preload="auto" disablepictureinpicture
-           poster="assets/hero-poster.jpg" src="assets/hero.mp4"
-           data-px="0.18" data-px-scale="0.08"></video>
+<section class="hv" id="hero">
+  <!-- Wasserband: kein Vollflächen-Hintergrund, sondern ein bewusst
+       gesetzter, rechts auslaufender Streifen. Der Fortschritt des Videos
+       hängt am Scroll (siehe GSAP-Block am Seitenende). -->
+  <div class="hv-media" aria-hidden="true">
+    <video class="hv-video" muted playsinline preload="auto" disablepictureinpicture
+           poster="assets/hero-poster.jpg" src="assets/hero.mp4"></video>
   </div>
-  <div class="layer grid-layer" data-px="0.06" aria-hidden="true"></div>
-  <div class="layer blob b1" data-px="0.22" data-px-x="0.04" aria-hidden="true"></div>
-  <div class="layer blob b2" data-px="0.14" aria-hidden="true"></div>
-  <div class="layer blob b3" data-px="0.30" data-px-x="-0.05" aria-hidden="true"></div>
-  <div class="price-ghost" data-px="0.04" aria-hidden="true"><span class="cut">Preis auf Anfrage</span></div>
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <p class="eyebrow" data-px="0.03">Gebäudereinigung Hannover · seit 2026</p>
-      <h1 data-px="0.06">Die Reinigungsfirma, die <em>ihre Preise</em> auf die Website schreibt.</h1>
-      <p class="lead">Büros, Praxen und Treppenhäuser in Hannover — zum Festpreis pro Monat. Sie rechnen hier selbst, wir bestätigen innerhalb von 24 Stunden. Ohne Vor-Ort-Termin, nur damit Sie eine Zahl bekommen.</p>
+
+  <p class="hv-rail" aria-hidden="true">Gebäudereinigung Hannover <i></i> seit 2026</p>
+
+  <div class="hv-inner">
+   <div class="hv-text">
+    <h1 class="hv-h1">
+      <span class="hv-line"><span>Die Reinigungsfirma,</span></span>
+      <span class="hv-line"><span>die <em>ihre Preise</em></span></span>
+      <span class="hv-line"><span>auf die Website</span></span>
+      <span class="hv-line"><span>schreibt.</span></span>
+    </h1>
+
+    <div class="hv-body">
+      <p class="hv-lead">Büros, Praxen und Treppenhäuser in Hannover — zum Festpreis pro Monat. Sie rechnen hier selbst, wir bestätigen innerhalb von 24 Stunden. Ohne Vor-Ort-Termin, nur damit Sie eine Zahl bekommen.</p>
       <div class="hero-actions">
         <a class="btn btn--signal" href="kontakt.html">Angebot in 24 Std. anfordern</a>
-        <a class="btn btn--ghost" href="preise.html">Zur Preisliste</a>
-      </div>
-      <div class="proofline">
-        <span><b>24 Std.</b> Angebotszusage</span>
-        <span><b>1 feste</b> Reinigungskraft</span>
-        <span><b>Foto-Protokoll</b> je Einsatz</span>
-        <span><b>Monatlich</b> kündbar</span>
+        <a class="btn btn--ghost btn--on-navy" href="preise.html">Zur Preisliste</a>
       </div>
     </div>
-    <div data-px="0.09"><div class="calc">
+   </div>
+
+    <div class="hv-panel"><div class="calc">
       <div class="calc-head"><h3>Preis jetzt berechnen</h3><span class="tag">Live</span></div>
       <div class="field">
         <label>Fläche <span class="fval"><span class="num" data-role="qmOut">180</span> m²</span></label>
@@ -97,7 +99,14 @@
       </div>
     </div></div>
   </div>
-</div>
+
+  <ul class="hv-ticker">
+    <li><b>24 Std.</b><span>Angebotszusage</span></li>
+    <li><b>1 feste</b><span>Reinigungskraft</span></li>
+    <li><b>Foto-Protokoll</b><span>je Einsatz</span></li>
+    <li><b>Monatlich</b><span>kündbar</span></li>
+  </ul>
+</section>
 
 <section>
   <div class="wrap">
@@ -276,6 +285,128 @@
   }
 
   if (reduced) return; // CSS- und site.js-Fallbacks übernehmen, GSAP animiert nichts
+
+  /* ============================================================
+     HERO
+     ============================================================ */
+
+  /* --- Auftakt beim Laden: die Schlagzeile fährt zeilenweise aus ihrer
+         Maske hoch, alles andere folgt versetzt. Eine orchestrierte
+         Bewegung statt vier unabhängiger Effekte. --- */
+  var hv = document.querySelector('.hv');
+  if (hv) {
+    var intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
+    intro
+      .from('.hv-line > span', { yPercent: 108, duration: 1.15, stagger: 0.075 })
+      .from('.hv-media', { opacity: 0, duration: 1.4, ease: 'power2.out' }, 0.15)
+      .from('.hv-rail', { opacity: 0, x: -14, duration: 0.9 }, 0.5)
+      .from('.hv-lead', { opacity: 0, y: 18, duration: 0.9 }, 0.55)
+      .from('.hv-body .btn', { opacity: 0, y: 14, duration: 0.7, stagger: 0.08 }, 0.65)
+      .from('.hv-panel', { opacity: 0, y: 34, duration: 1.1 }, 0.5)
+      .from('.hv-ticker li', { opacity: 0, y: 16, duration: 0.7, stagger: 0.06 }, 0.8);
+
+    /* --- Tiefenstaffelung beim Scrollen: Schlagzeile, Rechner und
+           Wasserband laufen unterschiedlich schnell. Ersetzt die
+           data-px-Engine aus site.js, die auf dieser Seite nichts mehr
+           findet. --- */
+    gsap.to('.hv-h1', {
+      yPercent: -13, ease: 'none',
+      scrollTrigger: { trigger: hv, start: 'top top', end: 'bottom top', scrub: 0.5 }
+    });
+    gsap.to('.hv-panel', {
+      yPercent: -30, ease: 'none',
+      scrollTrigger: { trigger: hv, start: 'top top', end: 'bottom top', scrub: 0.5 }
+    });
+    gsap.to('.hv-media', {
+      yPercent: 12, ease: 'none',
+      scrollTrigger: { trigger: hv, start: 'top top', end: 'bottom top', scrub: 0.5 }
+    });
+  }
+
+  /* --- Wasservideo am Scroll: currentTime folgt der Scrollposition,
+         statt in einer eigenen Endlosschleife zu laufen.
+
+         Wichtig zur Erwartung: hero.mp4 enthält genau EINEN Keyframe
+         (117 Frames, 4,875 s, ein einziger GOP). Jeder Rücksprung zwingt
+         den Decoder, ab Frame 0 neu aufzubauen — das Scrubbing ist
+         dadurch spürbar träge. Der Code hier ist bereits auf ein
+         keyframe-dichtes Reencode ausgelegt (siehe Antwort im Chat);
+         sobald die Datei getauscht ist, läuft er ohne Änderung flüssig.
+         Bis dahin glättet `scrub` wenigstens die Sprünge. --- */
+  var vid = document.querySelector('.hv-video');
+  if (vid) {
+    var scrubTrigger = null;
+
+    /* Rückfallebene: kann der Browser die Datei nicht dekodieren (z. B.
+       Chromium-Builds ohne H.264), blockiert er das Abspielen oder trifft
+       innerhalb der Frist keine Metadaten ein, läuft das Video wieder als
+       ruhige Endlosschleife — nie ein eingefrorenes oder leeres Feld. */
+    var fallbackToLoop = function () {
+      if (scrubTrigger) { scrubTrigger.kill(); scrubTrigger = null; }
+      vid.loop = true;
+      var pl = vid.play();
+      if (pl && pl.catch) pl.catch(function () { /* Poster bleibt stehen */ });
+    };
+
+    var startScrub = function () {
+      if (!vid.duration || isNaN(vid.duration)) { fallbackToLoop(); return; }
+      vid.pause();
+      scrubTrigger = ScrollTrigger.create({
+        trigger: hv || vid,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.6,
+        onUpdate: function (self) {
+          var dur = vid.duration;
+          if (!dur || isNaN(dur)) return;
+          /* Nur setzen, wenn der Decoder bereit ist und nicht ohnehin
+             schon sucht — sonst stapeln sich Seeks und alles ruckelt. */
+          if (vid.readyState >= 2 && !vid.seeking) {
+            try { vid.currentTime = self.progress * (dur - 0.05); } catch (e) {}
+          }
+        }
+      });
+    };
+
+    if (vid.canPlayType && vid.canPlayType('video/mp4; codecs="avc1.42E01E"') === '') {
+      fallbackToLoop();
+    } else {
+      var settled = false;
+      var settle = function (fn) { if (!settled) { settled = true; fn(); } };
+      if (vid.readyState >= 1) settle(startScrub);
+      else vid.addEventListener('loadedmetadata', function () { settle(startScrub); }, { once: true });
+      vid.addEventListener('error', function () { settle(fallbackToLoop); }, { once: true });
+      setTimeout(function () { settle(fallbackToLoop); }, 3000);
+    }
+  }
+
+  /* ============================================================
+     MIKRO-INTERAKTIONEN — GSAP statt CSS-transition
+     quickTo() hält einen laufenden Tween am Leben, statt bei jedem
+     Ereignis einen neuen zu starten: die Bewegung kehrt aus ihrem
+     aktuellen Zustand um, anstatt zu springen.
+     ============================================================ */
+  function hoverLift(el, opts) {
+    opts = opts || {};
+    var yTo = gsap.quickTo(el, 'y', { duration: 0.45, ease: 'expo.out' });
+    var sTo = gsap.quickTo(el, 'scale', { duration: 0.45, ease: 'expo.out' });
+    el.addEventListener('pointerenter', function () { yTo(opts.y || -4); sTo(opts.scale || 1.015); });
+    el.addEventListener('pointerleave', function () { yTo(0); sTo(1); });
+    el.addEventListener('pointerdown', function () { yTo((opts.y || -4) * 0.35); sTo(0.985); });
+    el.addEventListener('pointerup', function () { yTo(opts.y || -4); sTo(opts.scale || 1.015); });
+  }
+
+  if (window.matchMedia('(pointer:fine)').matches) {
+    /* Signalisiert dem CSS, transform aus seiner transition-Liste zu nehmen —
+       sonst animiert die CSS-Transition GSAPs Inline-transform ein zweites
+       Mal hinterher und die Bewegung wirkt zäh. Farbe und Schatten bleiben
+       weiterhin Sache des CSS. */
+    document.documentElement.classList.add('gsap-hover');
+    document.querySelectorAll('.btn').forEach(function (b) { hoverLift(b, { y: -3, scale: 1.02 }); });
+    document.querySelectorAll('.card').forEach(function (c) { hoverLift(c, { y: -7, scale: 1.006 }); });
+    document.querySelectorAll('.area').forEach(function (a) { hoverLift(a, { y: -2, scale: 1.04 }); });
+    document.querySelectorAll('.chip').forEach(function (c) { hoverLift(c, { y: -2, scale: 1.03 }); });
+  }
 
   /* ---------- Reveal-Choreografie ----------
      Gleiche Erscheinungsreihenfolge wie zuvor mit .rv/data-stagger, jetzt als

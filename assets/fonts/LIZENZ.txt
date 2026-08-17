@@ -10,8 +10,11 @@ Geladene Dateien
 -----------------
   archivo-variable.woff2
     Quelle: Google Fonts (fonts.gstatic.com), Familie "Archivo",
-            Subset "latin", Variable Font, Achse wght 100–900
-    Genutzte Schnitte im Projekt: 400, 500, 600, 800
+            Subset "latin", Variable Font, Achsen wght 100–900 und
+            wdth 62–125 % (am 2026-08-17 gegen die Fassung mit beiden
+            Achsen getauscht, zuvor nur wght — gleiche Familie, gleiche
+            Quelle, gleiche Lizenz)
+    Genutzte Schnitte im Projekt: wght 400–900, wdth 62–125
     Copyright 2020 The Archivo Project Authors
     (https://github.com/Omnibus-Type/Archivo)
 
