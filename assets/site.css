@@ -322,6 +322,118 @@ body.nav-open .mobnav{transform:translateX(0)}
 .btn--on-navy:hover{background:rgba(255,255,255,.07);border-color:var(--aqua)}
 .hv :focus-visible{outline-color:var(--aqua)}
 
+/* ============================================================
+   SEITENABSCHNITTE index.html — Fortsetzung der Hero-Sprache
+   Gleiche Mittel wie oben: Breitenachse statt nur Schriftgrad, harte
+   Kanten, Haarlinien als Raster, Navy als Fläche.
+   Alle Klassen sind neu und index-eigen (.zusagen, .svc, .sec-stats,
+   .steps-line) bzw. auf dieser Seite exklusiv (.areas) — die von
+   hannover-list/standorte/preise/ueber-uns geteilten Regeln
+   (.promises, .cards, .stats, .steps) bleiben unangetastet.
+   ============================================================ */
+
+/* --- Zusagen: stehender Titel links, laufende Liste rechts --- */
+.zusagen{display:grid;gap:var(--s7)}
+@media(min-width:960px){
+  .zusagen{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:var(--s9);align-items:start}
+  .zusagen-head{position:sticky;top:calc(var(--hdr) + var(--s6))}
+}
+.zusagen-list{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--tiefsee)}
+.zusage{padding:var(--s6) 0;border-bottom:1px solid var(--linie);display:grid;gap:var(--s3)}
+.zusage .k{
+  font-family:var(--mono);font-size:11px;font-weight:700;
+  letter-spacing:.16em;color:var(--leisblau);
+}
+.zusage h3{
+  font-stretch:86%;font-weight:780;letter-spacing:-.022em;line-height:1.08;
+  font-size:clamp(1.3rem,2.3vw,1.85rem);
+}
+.zusage p{max-width:48ch;font-size:15px;margin:0}
+
+/* --- Leistungen als Preisverzeichnis --- */
+.svc{border-top:1.5px solid var(--tiefsee)}
+.svc-row{
+  position:relative;display:grid;gap:var(--s2);
+  padding:var(--s5) 0;border-bottom:1px solid var(--linie);
+  text-decoration:none;color:inherit;
+  transition:background var(--dur-2) var(--ease-soft);
+}
+@media(min-width:900px){
+  .svc-row{
+    grid-template-columns:minmax(0,5fr) minmax(0,3.4fr) minmax(0,2.6fr) 38px;
+    column-gap:var(--s5);row-gap:var(--s2);align-items:start;
+    padding:var(--s5);margin-inline:calc(var(--s5) * -1);
+  }
+  .svc-name{grid-column:1;grid-row:1}
+  .svc-desc{grid-column:1;grid-row:2}
+  .svc-tags{grid-column:2;grid-row:1 / span 2}
+  .svc-price{grid-column:3;grid-row:1 / span 2;text-align:right}
+  .svc-go  {grid-column:4;grid-row:1 / span 2;text-align:right}
+}
+.svc-name{
+  font-stretch:80%;font-weight:790;letter-spacing:-.024em;line-height:1.04;
+  font-size:clamp(1.3rem,2.5vw,2rem);color:var(--tiefsee);
+}
+.svc-desc{font-size:14px;line-height:1.5;color:var(--stahl);max-width:44ch}
+.svc-tags{display:grid;gap:5px;font-family:var(--mono);font-size:11px;color:var(--nebel)}
+.svc-tags i{font-style:normal}
+.svc-price{
+  font-family:var(--mono);font-weight:700;white-space:nowrap;color:var(--leisblau);
+  font-size:clamp(1.05rem,1.9vw,1.45rem);letter-spacing:-.02em;
+}
+.svc-price small{
+  display:block;margin-top:3px;font-size:10px;font-weight:500;
+  letter-spacing:.1em;color:var(--nebel);
+}
+.svc-go{font-family:var(--mono);font-size:17px;color:var(--tiefsee);line-height:1}
+/* Ganze Zeile kippt auf Navy — kein Kasten, der sich anhebt */
+.svc-row:hover,.svc-row:focus-visible{background:var(--tiefsee)}
+.svc-row:hover .svc-name,.svc-row:focus-visible .svc-name,
+.svc-row:hover .svc-go,  .svc-row:focus-visible .svc-go{color:var(--gletscher)}
+.svc-row:hover .svc-desc,.svc-row:focus-visible .svc-desc{color:#B9C8E6}
+.svc-row:hover .svc-tags,.svc-row:focus-visible .svc-tags{color:#8FA3CC}
+.svc-row:hover .svc-price,.svc-row:focus-visible .svc-price{color:var(--aqua)}
+
+/* --- Kennzahlen: Zahl in aufgeweiteter Breite, nicht in Mono --- */
+.sec-stats .stat .v{
+  font-family:var(--display);font-stretch:116%;font-weight:800;
+  font-size:clamp(1.9rem,3.4vw,2.75rem);letter-spacing:-.03em;line-height:.98;
+  color:var(--weiss);
+}
+/* Feste Höhe für das Zahlenfeld: bricht eine Angabe ("3 Monate") doch
+   einmal um, stehen die Beschriftungen darunter trotzdem auf einer Linie. */
+@media(min-width:700px){.sec-stats .stat .v{min-height:1.96em}}
+
+/* --- Ablauf: mitlaufende Linie über den vier Schritten.
+       Die durchgehende Linie übernimmt die Trennfunktion, deshalb entfällt
+       hier der eigene Oberstrich je Schritt — sonst stünden zwei Linien
+       wenige Pixel übereinander. Nur in dieser Sektion: .step wird auch
+       von kontakt.html genutzt. --- */
+.sec-ablauf .step{border-top:none;padding-top:0}
+.steps-line{position:relative;height:1px;background:var(--linie);margin-bottom:var(--s6)}
+.steps-line i{
+  position:absolute;inset:0;display:block;background:var(--leisblau);
+  transform:scaleX(0);transform-origin:0 50%;
+}
+
+/* --- Einsatzgebiet als Register, nicht als Pillen --- */
+.areas{
+  display:grid;gap:0;border-top:1.5px solid var(--tiefsee);
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  /* schließt die letzte, nicht voll besetzte Zeile über die ganze Breite —
+     sonst endet das Register mit einem abgerissenen Strich unter dem
+     letzten Eintrag. */
+  border-bottom:1px solid var(--linie);
+}
+.area{
+  font-family:var(--mono);font-size:13px;letter-spacing:.02em;
+  padding:var(--s3) var(--s3) var(--s3) 0;
+  border:none;border-bottom:1px solid var(--linie);border-radius:0;
+  background:transparent;color:var(--stahl);text-decoration:none;
+  transition:color var(--dur-2) var(--ease-soft),background var(--dur-2) var(--ease-soft);
+}
+.area:hover{background:var(--tiefsee);color:var(--gletscher);padding-left:var(--s3);box-shadow:none}
+
 /* Wenn GSAP die Hover-Bewegung übernimmt (Klasse wird vom Skript gesetzt),
    darf transform nicht zusätzlich per CSS-Transition laufen — sonst zieht
    die Transition GSAPs Inline-Werten hinterher. Farbe/Rahmen/Schatten
@@ -475,16 +587,10 @@ section{padding:var(--s7) 0;position:relative}
 .stat .v{font-family:var(--mono);font-weight:700;font-size:clamp(30px,6vw,42px);letter-spacing:-.03em;color:var(--aqua);line-height:1}
 .stat .k{font-size:14px;color:#C9D5EC;margin-top:var(--s2)}
 
-/* ---------- Gebiete ---------- */
-.areas{display:flex;flex-wrap:wrap;gap:var(--s2)}
-.area{
-  font-family:var(--mono);font-size:13px;padding:var(--s2) var(--s3);border:1.5px solid var(--linie);
-  background:var(--weiss);border-radius:var(--r);text-decoration:none;
-  transition:background var(--dur-2) var(--ease-soft),border-color var(--dur-2) var(--ease-soft),
-             color var(--dur-2) var(--ease-soft),transform var(--dur-2) var(--ease-out),box-shadow var(--dur-2) var(--ease-out);
-}
-.area:hover{border-color:var(--leisblau);background:var(--leisblau);color:#fff;transform:translateY(-2px);box-shadow:0 6px 14px rgba(1,46,137,.28)}
-.area:active{transform:translateY(0) scale(.97);transition-duration:var(--dur-1)}
+/* Gebiete: die frühere Pillen-Darstellung ist entfallen, das Register
+   steht weiter oben im index-Abschnitt. .areas/.area kommen nur auf
+   index.html vor (geprüft), daher hier ersatzlos gestrichen statt
+   doppelt gepflegt. */
 
 /* ---------- FAQ ---------- */
 .faq{border-top:1.5px solid var(--tiefsee)}
