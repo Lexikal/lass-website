@@ -56,36 +56,6 @@
     window.addEventListener('load', function () { measure(); paint(); });
   }
 
-  /* ---------- 1b. Stagger-Choreografie ----------
-     [data-stagger="70"] auf einem Grid/Flex-Container versetzt seine
-     .rv-Kinder zeitlich: Grid-Kinder diagonal nach Spalte/Zeile, Flex-Kinder
-     (Zeilenumbruch) nach tatsächlicher Zeile. Reine CSS-Variable — die
-     bestehende IntersectionObserver-Logik unten muss davon nichts wissen. */
-  function applyStagger(group) {
-    var step = parseFloat(group.dataset.stagger) || 70;
-    var kids = [].slice.call(group.children).filter(function (k) { return k.classList.contains('rv'); });
-    if (!kids.length) return;
-    var cs = getComputedStyle(group);
-    if (cs.display.indexOf('grid') > -1) {
-      var cols = cs.gridTemplateColumns.split(' ').filter(Boolean).length || 1;
-      kids.forEach(function (k, i) {
-        var col = i % cols, row = Math.floor(i / cols);
-        k.style.setProperty('--rv-delay', (row * 60 + col * step) + 'ms');
-      });
-    } else {
-      requestAnimationFrame(function () {
-        var lastTop = null, rowIdx = -1, colIdx = 0;
-        kids.forEach(function (k) {
-          var top = k.offsetTop;
-          if (top !== lastTop) { rowIdx++; colIdx = 0; lastTop = top; }
-          k.style.setProperty('--rv-delay', Math.min(rowIdx * 60 + colIdx * step, 560) + 'ms');
-          colIdx++;
-        });
-      });
-    }
-  }
-  if (!reduced) document.querySelectorAll('[data-stagger]').forEach(applyStagger);
-
   /* ---------- 2. Scroll-Reveal ---------- */
   var rvs = document.querySelectorAll('.rv');
   if (rvs.length) {
@@ -169,90 +139,85 @@
   }
 
   document.querySelectorAll('.calc').forEach(initCalc);
+  window.__lissInitCalc = initCalc;
 
-  /* ---------- 6. Anfrageformular (kontakt.html) ----------
-     Drei Schritte in einem echten <form>. "Weiter"/"Zurück" sind
-     type="button" und lösen kein Submit aus; nur der letzte Button ist
-     type="submit". Wichtig: das hidden-Attribut auf einem Eltern-Element
-     nimmt verschachtelte required-Felder NICHT automatisch von der
-     Constraint-Validation aus (geprüft: form.reportValidity() würde beim
-     Klick auf Schritt 1 fälschlich auch die leeren Pflichtfelder aus
-     Schritt 3 melden) — darum wird pro Klick gezielt nur der gerade
-     sichtbare Schritt geprüft, nicht das ganze Formular auf einmal.
-     Ohne eigenes Backend (siehe compliance/OFFENE-PUNKTE.md) öffnet das
-     Absenden das E-Mail-Programm mit vorausgefüllter Anfrage — nichts
-     wird ohne Zutun des Nutzers verschickt. */
-  function initContactForm(form) {
-    var steps = [].slice.call(form.querySelectorAll('.form-step'));
+  /* ---------- 6. Anfrageformular in drei Schritten ----------
+     Kein Backend: der letzte Schritt baut eine mailto-Nachricht aus den
+     Feldern. Abgeschickt wird erst im Mailprogramm des Nutzers.          */
+  function initAnfrage(form) {
+    var steps = [].slice.call(form.querySelectorAll('.fstep'));
     if (!steps.length) return;
-    var dots = [].slice.call(form.querySelectorAll('.form-steps > div'));
-    var heading = form.querySelector('h3');
-    var titles = { 1: 'Schritt 1 von 3 · Ihr Objekt', 2: 'Schritt 2 von 3 · Turnus', 3: 'Schritt 3 von 3 · Kontakt' };
-    var current = 1;
-    var turnus = form.querySelector('[data-turnus][aria-pressed=true]');
-    turnus = turnus ? turnus.dataset.turnus : '';
+    var bars = form.querySelectorAll('.form-steps > div');
+    var title = form.querySelector('[data-role=stepTitle]');
+    var back = form.querySelector('[data-role=back]');
+    var next = form.querySelector('[data-role=next]');
+    var err = form.querySelector('[data-role=err]');
+    var titles = ['Ihr Objekt', 'Turnus & Start', 'Ihre Kontaktdaten'];
+    var labels = ['Weiter zu Turnus', 'Weiter zu Kontakt', 'Anfrage per E-Mail öffnen'];
+    var at = 0;
 
-    function validateStep(stepEl) {
-      var fields = [].slice.call(stepEl.querySelectorAll('input, select, textarea'));
-      var firstInvalid = fields.find(function (el) { return !el.checkValidity(); });
-      if (firstInvalid) { firstInvalid.reportValidity(); return false; }
+    function show(moveFocus) {
+      steps.forEach(function (s, i) { s.hidden = i !== at; });
+      bars.forEach(function (b, i) { b.classList.toggle('on', i <= at); });
+      title.textContent = 'Schritt ' + (at + 1) + ' von ' + steps.length + ' · ' + titles[at];
+      next.textContent = labels[at];
+      back.hidden = at === 0;
+      err.hidden = true;
+      /* Fokus nur beim Schrittwechsel — beim Laden der Seite würde er
+         den Nutzer ungefragt ins Formular springen lassen. */
+      if (moveFocus) {
+        var focus = steps[at].querySelector('input,select,textarea');
+        if (focus) focus.focus({ preventScroll: true });
+      }
+    }
+
+    /* Pflichtfelder des aktuellen Schritts prüfen — HTML-Validierung
+       greift bei novalidate nicht von selbst. */
+    function valid() {
+      var fields = steps[at].querySelectorAll('[required]');
+      for (var i = 0; i < fields.length; i++) {
+        var f = fields[i];
+        if (!f.value.trim() || (f.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.value))) {
+          err.textContent = f.type === 'email' && f.value.trim()
+            ? 'Bitte eine gültige E-Mail-Adresse angeben.'
+            : 'Bitte „' + f.previousElementSibling.textContent + '“ ausfüllen.';
+          err.hidden = false;
+          f.focus({ preventScroll: true });
+          return false;
+        }
+      }
       return true;
     }
 
-    function show(step) {
-      current = step;
-      steps.forEach(function (s) { s.hidden = (+s.dataset.step !== step); });
-      dots.forEach(function (d, i) { d.classList.toggle('on', i < step); });
-      if (heading && titles[step]) heading.textContent = titles[step];
-      var focusEl = steps[step - 1] && steps[step - 1].querySelector('input, select, button');
-      if (focusEl) focusEl.focus({ preventScroll: true });
+    function send() {
+      var lines = [];
+      form.querySelectorAll('input,select,textarea').forEach(function (f) {
+        if (f.name && f.value.trim()) lines.push(f.name + ': ' + f.value.trim());
+      });
+      var typ = form.querySelector('#f-typ').value;
+      var qm = form.querySelector('#f-qm').value.trim();
+      var subject = 'Anfrage Reinigung — ' + typ + (qm ? ', ' + qm + ' m²' : '');
+      var body = 'Anfrage über liss-reinigungsservice.de\n\n' + lines.join('\n') +
+        '\n\nBitte um ein Angebot binnen 24 Stunden.';
+      window.location.href = 'mailto:info@liss-reinigungsservice.de?subject=' +
+        encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      err.textContent = 'Ihr E-Mail-Programm sollte sich jetzt öffnen. Falls nicht, schreiben Sie direkt an info@liss-reinigungsservice.de.';
+      err.hidden = false;
     }
 
-    form.querySelectorAll('[data-next]').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var stepEl = btn.closest('.form-step');
-        if (!validateStep(stepEl)) return;
-        show(current + 1);
-      });
+    next.addEventListener('click', function () {
+      if (!valid()) return;
+      if (at < steps.length - 1) { at++; show(true); } else send();
     });
-    form.querySelectorAll('[data-back]').forEach(function (btn) {
-      btn.addEventListener('click', function () { show(current - 1); });
+    back.addEventListener('click', function () { if (at > 0) { at--; show(true); } });
+    form.addEventListener('submit', function (e) { e.preventDefault(); });
+    form.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' && e.target.tagName !== 'TEXTAREA') { e.preventDefault(); next.click(); }
     });
-    form.querySelectorAll('[data-turnus]').forEach(function (chip) {
-      chip.addEventListener('click', function () {
-        form.querySelectorAll('[data-turnus]').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
-        chip.setAttribute('aria-pressed', 'true');
-        turnus = chip.dataset.turnus;
-      });
-    });
-
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (!validateStep(steps[current - 1])) return;
-      var val = function (id) { var el = form.querySelector(id); return el ? el.value.trim() : ''; };
-      var typ = val('#f-typ'), qm = val('#f-qm'), plz = val('#f-plz');
-      var name = val('#f-name'), email = val('#f-email'), tel = val('#f-tel');
-      var body = [
-        'Neue Anfrage über liss-reinigungsservice.de', '',
-        'Objektart: ' + typ,
-        'Fläche: ' + qm + ' m²',
-        'Postleitzahl: ' + plz,
-        'Turnus: ' + (turnus || '—'), '',
-        'Name: ' + name,
-        'E-Mail: ' + email,
-        'Telefon: ' + (tel || '—')
-      ].join('\n');
-      var subject = 'Anfrage: ' + typ + ', ' + qm + ' m², PLZ ' + plz;
-      window.location.href = 'mailto:info@liss-reinigungsservice.de'
-        + '?subject=' + encodeURIComponent(subject)
-        + '&body=' + encodeURIComponent(body);
-    });
-
-    show(1);
+    show();
   }
-  document.querySelectorAll('.form').forEach(initContactForm);
 
-  window.__lissInitCalc = initCalc;
+  document.querySelectorAll('#anfrage').forEach(initAnfrage);
   window.__lissMeasure = function () { if (!reduced) { collect(); paint(); } };
   window.__lissReduced = reduced;
 })();
@@ -416,37 +381,4 @@
   }
   if (!reduced) scenes(); else document.querySelectorAll('.scene-step').forEach(function (s) { s.classList.add('on'); });
   window.__lissScenes = scenes;
-})();
-
-/* ============================================================
-   SEITENÜBERGANG — Vorhang statt Cut
-   Funktioniert seitenweise (kein Router): das Markup <div class="page-veil">
-   muss auf der Seite stehen, sonst wird ganz normal navigiert. Der Vorhang
-   selbst deckt beim Laden kurz zu (siehe @keyframes veilReveal in site.css)
-   und läuft beim Klick auf einen internen Link rückwärts, bevor der
-   eigentliche, native Seitenwechsel ausgelöst wird.
-   ============================================================ */
-(function () {
-  var veil = document.querySelector('.page-veil');
-  if (!veil || window.__lissReduced) return;
-  var EXIT_MS = 480;
-
-  document.addEventListener('click', function (e) {
-    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    var a = e.target.closest && e.target.closest('a[href]');
-    if (!a || a.target === '_blank' || a.hasAttribute('download')) return;
-    var url;
-    try { url = new URL(a.getAttribute('href'), location.href); } catch (err) { return; }
-    if (url.origin !== location.origin) return;
-    if (/\.(pdf|zip|jpe?g|png|svg|docx?|mp4)$/i.test(url.pathname)) return;
-    if (url.pathname === location.pathname && url.search === location.search) return; // Anker/Platzhalter auf derselben Seite
-    e.preventDefault();
-    veil.classList.add('veil-exit');
-    setTimeout(function () { location.href = a.href; }, EXIT_MS);
-  });
-
-  /* Aus dem Bfcache zurückkommend könnte der Vorhang noch zu sein */
-  window.addEventListener('pageshow', function (e) {
-    if (e.persisted) veil.classList.remove('veil-exit');
-  });
 })();

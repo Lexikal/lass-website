@@ -3,20 +3,64 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Vorab-Stand: Indexierung gesperrt, siehe .agent/decisions.md D-001.
+     Vor dem Live-Gang entfernen. -->
+<meta name="robots" content="noindex,nofollow">
 <title>LISS Reinigungsservice Hannover · Büroreinigung zum Festpreis</title>
 <meta name="description" content="Büro-, Praxis- und Treppenhausreinigung in Hannover zum veröffentlichten Festpreis. Angebot in 24 Stunden, feste Reinigungskraft, Foto-Protokoll nach jedem Einsatz.">
-<link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/site.css">
-<!-- Nur auf dieser Seite: GSAP + ScrollTrigger + Lenis, self-hosted unter
-     assets/vendor/ (Lizenzen: assets/vendor/LIZENZ.txt). Treibt unten im
-     body ausschließlich die Reveal-Choreografie und die angeheftete Szene —
-     site.js bleibt unverändert und bedient weiterhin alle anderen Seiten. -->
-<script src="assets/vendor/gsap.min.js"></script>
-<script src="assets/vendor/ScrollTrigger.min.js"></script>
-<script src="assets/vendor/lenis.min.js"></script>
+<!-- LocalBusiness-Auszeichnung. BEWUSST NICHT enthalten: address und
+     telephone — beide stehen im Quelltext noch auf Platzhaltern
+     (Musterstraße 1 / 0511 1234 567-0). Falsche NAP-Daten in strukturierten
+     Daten sind schädlicher als fehlende, weil Suchmaschinen und
+     KI-Assistenten sie als Tatsache übernehmen. Ergänzen, sobald die echten
+     Firmendaten vorliegen — siehe compliance/OPEN-ITEMS.md, BLOCKER-002/003.
+     Ebenfalls nicht enthalten: foundingDate — Gründungsjahr unbestätigt,
+     siehe BLOCKER-007. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://lexikal.github.io/lass-website/#organisation",
+  "name": "LISS Reinigungsservice",
+  "description": "Büro-, Praxis- und Treppenhausreinigung in Hannover zum veröffentlichten Festpreis. Angebot binnen 24 Stunden, feste Reinigungskraft je Objekt, Foto-Protokoll nach jedem Einsatz.",
+  "url": "https://lexikal.github.io/lass-website/",
+  "logo": "https://lexikal.github.io/lass-website/assets/mark-blue.png",
+  "image": "https://lexikal.github.io/lass-website/assets/mark-blue.png",
+  "email": "info@liss-reinigungsservice.de",
+  "knowsLanguage": "de",
+  "currenciesAccepted": "EUR",
+  "areaServed": [
+    { "@type": "City", "name": "Hannover" },
+    { "@type": "City", "name": "Langenhagen" },
+    { "@type": "City", "name": "Laatzen" },
+    { "@type": "City", "name": "Garbsen" },
+    { "@type": "City", "name": "Isernhagen" }
+  ],
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+    "opens": "07:00",
+    "closes": "18:00"
+  }],
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Büroreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "0.90", "priceCurrency": "EUR", "unitText": "m² pro Einsatz" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Praxisreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "1.20", "priceCurrency": "EUR", "unitText": "m² pro Einsatz" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Treppenhausreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "39.00", "priceCurrency": "EUR", "unitText": "je Einsatz" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Glas- und Fensterreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "3.00", "priceCurrency": "EUR", "unitText": "je Fensterelement" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Grundreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "2.50", "priceCurrency": "EUR", "unitText": "m² einmalig" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bauendreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "3.50", "priceCurrency": "EUR", "unitText": "m² einmalig" } }
+  ]
+}
+</script>
 </head>
 <body>
-<div class="page-veil" aria-hidden="true"></div>
 
 <header>
   <div class="wrap hdr">
@@ -36,36 +80,33 @@
 </nav>
 
 <main>
-<section class="hv" id="hero">
-  <!-- Wasserband: kein Vollflächen-Hintergrund, sondern ein bewusst
-       gesetzter, rechts auslaufender Streifen. Der Fortschritt des Videos
-       hängt am Scroll (siehe GSAP-Block am Seitenende). -->
-  <div class="hv-media" aria-hidden="true">
-    <video class="hv-video" muted playsinline preload="auto" disablepictureinpicture
-           poster="assets/hero-poster.jpg" src="assets/hero.mp4"></video>
+<div class="hero stage">
+  <div class="vid-layer" aria-hidden="true" style="background-image:url(assets/hero-poster.jpg)">
+    <video autoplay muted loop playsinline preload="auto" disablepictureinpicture
+           poster="assets/hero-poster.jpg" src="assets/hero.mp4"
+           data-px="0.18" data-px-scale="0.08"></video>
   </div>
-
-  <p class="hv-rail" aria-hidden="true">Gebäudereinigung Hannover <i></i> seit 2026</p>
-
-  <div class="hv-inner">
-   <div class="hv-text">
-    <h1 class="hv-h1">
-      <span class="hv-line"><span>Die Reinigungsfirma,</span></span>
-      <span class="hv-line"><span>die <em>ihre Preise</em></span></span>
-      <span class="hv-line"><span>auf die Website</span></span>
-      <span class="hv-line"><span>schreibt.</span></span>
-    </h1>
-
-    <div class="hv-body">
-      <p class="hv-lead">Büros, Praxen und Treppenhäuser in Hannover — zum Festpreis pro Monat. Sie rechnen hier selbst, wir bestätigen innerhalb von 24 Stunden. Ohne Vor-Ort-Termin, nur damit Sie eine Zahl bekommen.</p>
+  <div class="layer grid-layer" data-px="0.06" aria-hidden="true"></div>
+  <div class="layer blob b1" data-px="0.22" data-px-x="0.04" aria-hidden="true"></div>
+  <div class="layer blob b2" data-px="0.14" aria-hidden="true"></div>
+  <div class="layer blob b3" data-px="0.30" data-px-x="-0.05" aria-hidden="true"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow" data-px="0.03">Gebäudereinigung Hannover · Büro · Praxis · Treppenhaus</p>
+      <h1 data-px="0.06">Die Reinigungsfirma, die <em>ihre Preise</em> auf die Website schreibt.</h1>
+      <p class="lead">Büros, Praxen und Treppenhäuser in Hannover — zum Festpreis pro Monat. Sie rechnen hier selbst, wir bestätigen innerhalb von 24 Stunden. Ohne Vor-Ort-Termin, nur damit Sie eine Zahl bekommen.</p>
       <div class="hero-actions">
         <a class="btn btn--signal" href="kontakt.html">Angebot in 24 Std. anfordern</a>
-        <a class="btn btn--ghost btn--on-navy" href="preise.html">Zur Preisliste</a>
+        <a class="btn btn--ghost" href="preise.html">Zur Preisliste</a>
+      </div>
+      <div class="proofline">
+        <span><b>24 Std.</b> Angebotszusage</span>
+        <span><b>1 feste</b> Reinigungskraft</span>
+        <span><b>Foto-Protokoll</b> je Einsatz</span>
+        <span><b>Monatlich</b> kündbar</span>
       </div>
     </div>
-   </div>
-
-    <div class="hv-panel"><div class="calc">
+    <div data-px="0.09"><div class="calc calc--video">
       <div class="calc-head"><h3>Preis jetzt berechnen</h3><span class="tag">Live</span></div>
       <div class="field">
         <label>Fläche <span class="fval"><span class="num" data-role="qmOut">180</span> m²</span></label>
@@ -99,132 +140,84 @@
       </div>
     </div></div>
   </div>
-
-  <ul class="hv-ticker">
-    <li><b>24 Std.</b><span>Angebotszusage</span></li>
-    <li><b>1 feste</b><span>Reinigungskraft</span></li>
-    <li><b>Foto-Protokoll</b><span>je Einsatz</span></li>
-    <li><b>Monatlich</b><span>kündbar</span></li>
-  </ul>
-</section>
+</div>
 
 <section>
-  <div class="wrap zusagen">
-    <div class="zusagen-head">
+  <div class="wrap">
+    <div class="sec-head rv">
       <p class="eyebrow">Was anders läuft</p>
       <h2>Vier Zusagen, die in Hannover sonst keiner gibt.</h2>
     </div>
-    <ol class="zusagen-list">
-      <li class="zusage"><span class="k">01 · PREIS</span><h3>Festpreis statt „auf Anfrage“</h3><p>Jede Leistung hat einen veröffentlichten Quadratmeter- oder Stückpreis. Was im Rechner steht, steht später im Vertrag.</p></li>
-      <li class="zusage"><span class="k">02 · TEMPO</span><h3>Angebot in 24 Stunden</h3><p>Anfrage bis 16 Uhr, Angebot am nächsten Werktag — auf Wunsch ganz ohne Besichtigung.</p></li>
-      <li class="zusage"><span class="k">03 · TEAM</span><h3>Eine feste Reinigungskraft</h3><p>Namentlich zugeordnet, mit eingewiesener Vertretung. Sie erklären Ihre Räume einmal, nicht jede Woche neu.</p></li>
-      <li class="zusage"><span class="k">04 · NACHWEIS</span><h3>Digitales Foto-Protokoll</h3><p>Nach jedem Einsatz: abgehakte Checkliste plus Fotos per E-Mail. Sie sehen die Leistung, auch wenn Sie nicht da sind.</p></li>
-    </ol>
+    <div class="promises rv">
+      <div class="promise"><span class="k">01 · PREIS</span><h3>Festpreis statt „auf Anfrage“</h3><p>Jede Leistung hat einen veröffentlichten Quadratmeter- oder Stückpreis. Was im Rechner steht, steht später im Vertrag.</p></div>
+      <div class="promise"><span class="k">02 · TEMPO</span><h3>Angebot in 24 Stunden</h3><p>Anfrage bis 16 Uhr, Angebot am nächsten Werktag — auf Wunsch ganz ohne Besichtigung.</p></div>
+      <div class="promise"><span class="k">03 · TEAM</span><h3>Eine feste Reinigungskraft</h3><p>Namentlich zugeordnet, mit eingewiesener Vertretung. Sie erklären Ihre Räume einmal, nicht jede Woche neu.</p></div>
+      <div class="promise"><span class="k">04 · NACHWEIS</span><h3>Digitales Foto-Protokoll</h3><p>Nach jedem Einsatz: abgehakte Checkliste plus Fotos per E-Mail. Sie sehen die Leistung, auch wenn Sie nicht da sind.</p></div>
+    </div>
   </div>
 </section>
 
-<section class="sec-line">
+<section class="sec-line stage">
+  <div class="layer blob b3" data-px="0.18" style="top:10%;left:-10%" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sec-head">
+    <div class="sec-head rv">
       <p class="eyebrow">Leistungen · 6 Bereiche</p>
       <h2>Was wir reinigen — und was es kostet.</h2>
       <p>Jede Leistung hat eine eigene Seite mit vollem Leistungsverzeichnis, Beispielrechnung und Referenzobjekt.</p>
     </div>
-    <!-- Als Preisverzeichnis gesetzt, nicht als Kachelgalerie: das
-         offengelegte Preisblatt ist das eigentliche Alleinstellungsmerkmal
-         der Firma, also bekommt es auch die Form eines Preisblatts. -->
-    <div class="svc">
-      <a class="svc-row" href="bueroreinigung.html">
-        <span class="svc-name">Büroreinigung</span>
-        <span class="svc-price">ab 0,90 €<small>/ m² PRO EINSATZ</small></span>
-        <span class="svc-desc">Unterhaltsreinigung für Büros von 80 bis 1.500 m², vor oder nach Ihren Öffnungszeiten.</span>
-        <span class="svc-tags"><i>Böden, Sanitär, Küche</i><i>Papierkörbe &amp; Entsorgung</i><i>Verbrauchsmaterial optional</i></span>
-        <span class="svc-go" aria-hidden="true">→</span>
-      </a>
-      <a class="svc-row" href="leistungen.html#praxis">
-        <span class="svc-name">Praxisreinigung</span>
-        <span class="svc-price">ab 1,20 €<small>/ m² PRO EINSATZ</small></span>
-        <span class="svc-desc">Arzt-, Zahn- und Physiopraxen nach Hygieneplan mit dokumentierter Flächendesinfektion.</span>
-        <span class="svc-tags"><i>RKI-konforme Mittelwahl</i><i>Zonen rein / unrein getrennt</i><i>Nachweis für Begehungen</i></span>
-        <span class="svc-go" aria-hidden="true">→</span>
-      </a>
-      <a class="svc-row" href="leistungen.html#treppenhaus">
-        <span class="svc-name">Treppenhausreinigung</span>
-        <span class="svc-price">ab 39 €<small>/ EINSATZ</small></span>
-        <span class="svc-desc">Für Hausverwaltungen und WEG: feste Wochentage, Aushang im Haus, Winterdienst kombinierbar.</span>
-        <span class="svc-tags"><i>Treppen, Flure, Kellergänge</i><i>Handläufe &amp; Briefkästen</i><i>Turnusplan als PDF</i></span>
-        <span class="svc-go" aria-hidden="true">→</span>
-      </a>
-      <a class="svc-row" href="leistungen.html#glas">
-        <span class="svc-name">Glas- &amp; Fensterreinigung</span>
-        <span class="svc-price">ab 3,00 €<small>/ FENSTERELEMENT</small></span>
-        <span class="svc-desc">Innen und außen, inklusive Rahmen und Fensterbank. Schaufenster auch im Wochenturnus.</span>
-        <span class="svc-tags"><i>Bis 3. OG ohne Hubsteiger</i><i>Rahmen inklusive</i><i>Einzeltermin oder Turnus</i></span>
-        <span class="svc-go" aria-hidden="true">→</span>
-      </a>
-      <a class="svc-row" href="leistungen.html#grund">
-        <span class="svc-name">Grundreinigung</span>
-        <span class="svc-price">ab 2,50 €<small>/ m² EINMALIG</small></span>
-        <span class="svc-desc">Einmalige Tiefenreinigung inklusive Beschichtung von Linoleum-, PVC- und Steinböden.</span>
-        <span class="svc-tags"><i>Maschinelle Bodenreinigung</i><i>Grundreinigung Sanitär</i><i>Termin auch am Wochenende</i></span>
-        <span class="svc-go" aria-hidden="true">→</span>
-      </a>
-      <a class="svc-row" href="leistungen.html#bau">
-        <span class="svc-name">Bauendreinigung</span>
-        <span class="svc-price">ab 3,50 €<small>/ m² EINMALIG</small></span>
-        <span class="svc-desc">Übergabefertig nach Umbau oder Neubau — inklusive Feinreinigung vor der Abnahme.</span>
-        <span class="svc-tags"><i>Bau- und Feinreinigung</i><i>Etikettenentfernung Glas</i><i>Start binnen 5 Werktagen</i></span>
-        <span class="svc-go" aria-hidden="true">→</span>
-      </a>
+    <div class="cards">
+      <a class="card rv" href="bueroreinigung.html"><h3>Büroreinigung</h3><div class="price">ab 0,90 €<small>/ m² PRO EINSATZ</small></div><p>Unterhaltsreinigung für Büros von 80 bis 1.500 m², vor oder nach Ihren Öffnungszeiten.</p><ul><li>Böden, Sanitär, Küche</li><li>Papierkörbe &amp; Entsorgung</li><li>Verbrauchsmaterial optional</li></ul><span class="go">Leistungsverzeichnis →</span></a>
+      <a class="card rv rv-d1" href="leistungen.html#praxis"><h3>Praxisreinigung</h3><div class="price">ab 1,20 €<small>/ m² PRO EINSATZ</small></div><p>Arzt-, Zahn- und Physiopraxen nach Hygieneplan mit dokumentierter Flächendesinfektion.</p><ul><li>RKI-konforme Mittelwahl</li><li>Zonen rein / unrein getrennt</li><li>Nachweis für Begehungen</li></ul><span class="go">Leistungsverzeichnis →</span></a>
+      <a class="card rv rv-d2" href="leistungen.html#treppenhaus"><h3>Treppenhausreinigung</h3><div class="price">ab 39 €<small>/ EINSATZ</small></div><p>Für Hausverwaltungen und WEG: feste Wochentage, Aushang im Haus, Winterdienst kombinierbar.</p><ul><li>Treppen, Flure, Kellergänge</li><li>Handläufe &amp; Briefkästen</li><li>Turnusplan als PDF</li></ul><span class="go">Leistungsverzeichnis →</span></a>
+      <a class="card rv" href="leistungen.html#glas"><h3>Glas- &amp; Fensterreinigung</h3><div class="price">ab 3,00 €<small>/ FENSTERELEMENT</small></div><p>Innen und außen, inklusive Rahmen und Fensterbank. Schaufenster auch im Wochenturnus.</p><ul><li>Bis 3. OG ohne Hubsteiger</li><li>Rahmen inklusive</li><li>Einzeltermin oder Turnus</li></ul><span class="go">Leistungsverzeichnis →</span></a>
+      <a class="card rv rv-d1" href="leistungen.html#grund"><h3>Grundreinigung</h3><div class="price">ab 2,50 €<small>/ m² EINMALIG</small></div><p>Einmalige Tiefenreinigung inklusive Beschichtung von Linoleum-, PVC- und Steinböden.</p><ul><li>Maschinelle Bodenreinigung</li><li>Grundreinigung Sanitär</li><li>Termin auch am Wochenende</li></ul><span class="go">Leistungsverzeichnis →</span></a>
+      <a class="card rv rv-d2" href="leistungen.html#bau"><h3>Bauendreinigung</h3><div class="price">ab 3,50 €<small>/ m² EINMALIG</small></div><p>Übergabefertig nach Umbau oder Neubau — inklusive Feinreinigung vor der Abnahme.</p><ul><li>Bau- und Feinreinigung</li><li>Etikettenentfernung Glas</li><li>Start binnen 5 Werktagen</li></ul><span class="go">Leistungsverzeichnis →</span></a>
     </div>
   </div>
 </section>
 
-<section class="tiefsee-bg sec-stats">
+<section class="tiefsee-bg stage">
+  <div class="layer blob b1" data-px="0.20" style="opacity:.30;top:-30%" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">In Zahlen</p><h2>Womit wir uns messen lassen.</h2></div>
-    <div class="stats">
-      <div class="stat"><div class="v">24 h</div><div class="k">bis zum verbindlichen Angebot, werktags</div></div>
-      <div class="stat"><div class="v">7 Tage</div><div class="k">vom Auftrag bis zum ersten Einsatz</div></div>
-      <div class="stat"><div class="v">100 %</div><div class="k">der Einsätze mit Foto-Protokoll dokumentiert</div></div>
-      <div class="stat"><div class="v">3 Monate</div><div class="k">Mindestlaufzeit, danach monatlich kündbar</div></div>
+    <div class="sec-head rv"><p class="eyebrow">In Zahlen</p><h2>Womit wir uns messen lassen.</h2></div>
+    <div class="stats rv">
+      <div class="stat"><div class="v" data-px="0.04">24 h</div><div class="k">bis zum verbindlichen Angebot, werktags</div></div>
+      <div class="stat"><div class="v" data-px="0.06">7 Tage</div><div class="k">vom Auftrag bis zum ersten Einsatz</div></div>
+      <div class="stat"><div class="v" data-px="0.08">100 %</div><div class="k">der Einsätze mit Foto-Protokoll dokumentiert</div></div>
+      <div class="stat"><div class="v" data-px="0.10">3 Monate</div><div class="k">Mindestlaufzeit, danach monatlich kündbar</div></div>
     </div>
   </div>
 </section>
 
 
-<section class="scene-track" data-bound="1">
+<section class="scene-track">
   <div class="scene-stick">
-    <!-- Ein mitzählendes Schrittzeichen statt zweier beliebiger Zierziffern:
-         die Zahl sagt aus, an welcher der drei Zusagen man gerade steht. -->
-    <div class="scene-count" aria-hidden="true"><i>01</i><i>02</i><i>03</i></div>
+    <div class="scene-num" style="top:6%;left:-6%">17</div>
+    <div class="scene-num" style="bottom:2%;right:-8%">✓</div>
     <div class="scene-inner">
       <div class="scene-step on">
-        <span class="k">Ein Versprechen</span>
-        <h2>Ein <em>Preis</em>, der vorher feststeht.</h2>
-        <p>Kein Vor-Ort-Termin, nur damit Sie eine Zahl bekommen. Der Rechner zeigt dieselbe Staffel, die später im Vertrag steht.</p>
+        <span class="k">17:32 Uhr</span>
+        <h2>Das Büro ist leer. Jetzt fängt die Arbeit an.</h2>
+        <p>Ihre Reinigungskraft schließt mit dem hinterlegten Schlüssel auf — Sie sind längst zu Hause. Genau das ist der Punkt, an dem Reinigung sonst zur Vertrauensfrage wird: Niemand ist da, der bestätigt, was gemacht wurde.</p>
       </div>
       <div class="scene-step">
-        <span class="k">Zwei Versprechen</span>
-        <h2>Ein <em>Gesicht</em>, das wiederkommt.</h2>
-        <p>Eine namentlich zugeordnete Reinigungskraft und eine eingewiesene Vertretung. Sie erklären Ihre Räume einmal — nicht jede Woche neu.</p>
+        <span class="k">18:15 Uhr</span>
+        <h2>Abgehakt wird, was im Vertrag steht.</h2>
+        <p>Die Checkliste ist kein allgemeines Formular, sondern das Leistungsverzeichnis Ihres Objekts. Jede Position, die Sie im Angebot bezahlt haben, steht dort — und wird einzeln quittiert, nicht pauschal.</p>
       </div>
       <div class="scene-step">
-        <span class="k">Drei Versprechen</span>
-        <h2>Ein <em>Nachweis</em> nach jedem Einsatz.</h2>
-        <p>Abgehakte Checkliste, Uhrzeit, Name und Fotos der Hauptbereiche. Per E-Mail, meist innerhalb einer Stunde.</p>
+        <span class="k">19:40 Uhr</span>
+        <h2>Der Nachweis liegt in Ihrem Postfach.</h2>
+        <p>Checkliste, Uhrzeit, Name und Fotos der Hauptbereiche — spätestens eine Stunde nach dem Einsatz. Fehlt etwas, antworten Sie einfach auf diese Mail. Das ist Ihr Reklamationsweg, ohne Hotline und ohne Ticketnummer.</p>
       </div>
     </div>
-    <div class="scene-rail" aria-hidden="true"><i></i></div>
+    <div class="scene-rail" aria-hidden="true"><i class="on"></i><i></i><i></i></div>
   </div>
 </section>
-<section class="sec-ablauf">
+<section>
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Ablauf · vier Schritte</p><h2>Von der Anfrage zur ersten Reinigung: eine Woche.</h2></div>
-    <!-- Hier ist die Nummerierung inhaltlich gedeckt: das IST eine
-         Reihenfolge. Die Linie zeichnet sich beim Scrollen mit. -->
-    <div class="steps-line" aria-hidden="true"><i></i></div>
-    <div class="steps">
+    <div class="sec-head rv"><p class="eyebrow">Ablauf · vier Schritte</p><h2>Von der Anfrage zur ersten Reinigung: eine Woche.</h2></div>
+    <div class="steps rv">
       <div class="step"><span class="n">SCHRITT 01</span><h3>Sie rechnen selbst</h3><p>Fläche und Turnus eingeben, Richtpreis ablesen, Anfrage abschicken. Dauer: zwei Minuten.</p><span class="t">TAG 0</span></div>
       <div class="step"><span class="n">SCHRITT 02</span><h3>Wir bestätigen den Preis</h3><p>Kurze Rückfrage per Telefon oder Mail, dann das verbindliche Angebot als PDF.</p><span class="t">BIS TAG 1</span></div>
       <div class="step"><span class="n">SCHRITT 03</span><h3>Übergabe vor Ort</h3><p>Wir kommen mit Ihrer künftigen Reinigungskraft, nehmen Schlüssel und Sonderwünsche auf.</p><span class="t">BIS TAG 5</span></div>
@@ -235,8 +228,8 @@
 
 <section class="sec-line">
   <div class="wrap">
-    <div class="sec-head"><p class="eyebrow">Einsatzgebiet</p><h2>Hannover und Umland — jeder Stadtteil mit eigener Seite.</h2><p>Wir arbeiten stadtteilweise, damit Anfahrtswege kurz bleiben und Ihre Reinigungskraft dieselbe bleibt.</p></div>
-    <div class="areas">
+    <div class="sec-head rv"><p class="eyebrow">Einsatzgebiet</p><h2>Hannover und Umland — jeder Stadtteil mit eigener Seite.</h2><p>Wir arbeiten stadtteilweise, damit Anfahrtswege kurz bleiben und Ihre Reinigungskraft dieselbe bleibt.</p></div>
+    <div class="areas rv">
       <a class="area" href="standorte.html">Mitte</a><a class="area" href="hannover-list.html">List</a>
       <a class="area" href="standorte.html">Linden</a><a class="area" href="standorte.html">Südstadt</a>
       <a class="area" href="standorte.html">Vahrenwald</a><a class="area" href="standorte.html">Bothfeld</a>
@@ -246,7 +239,7 @@
       <a class="area" href="standorte.html">Laatzen</a><a class="area" href="standorte.html">Garbsen</a>
       <a class="area" href="standorte.html">Isernhagen</a>
     </div>
-    <div style="margin-top:32px" class="cta-reveal"><a class="btn btn--ghost" href="standorte.html">Alle Standorte ansehen</a></div>
+    <div style="margin-top:32px" class="rv"><a class="btn btn--ghost" href="standorte.html">Alle Standorte ansehen</a></div>
   </div>
 </section>
 </main>
@@ -286,8 +279,8 @@
         <h4>Kontakt</h4>
         <a href="tel:+4951112345670">0511 · 1234 567-0</a>
         <a href="mailto:info@liss-reinigungsservice.de">info@liss-reinigungsservice.de</a>
-        <span>Mo–Fr 07:00–18:00 Uhr</span>
-        <span>Musterstraße 1, 30159 Hannover</span>
+        <span class="finfo">Mo–Fr 07:00–18:00 Uhr</span>
+        <span class="finfo">Musterstraße 1, 30159 Hannover</span>
       </div>
     </div>
     <div class="fbottom">
@@ -304,293 +297,5 @@
 </div>
 
 <script src="assets/site.js"></script>
-
-<!-- GSAP-Choreografie für diese Seite. Ersetzt hier die .rv/.rv-d1/.rv-d2/
-     data-stagger-Logik aus site.js (die Klassen kommen auf dieser Seite
-     bewusst nicht mehr vor, site.js findet also nichts zum Binden) und
-     verstärkt die angeheftete Szene über ScrollTrigger.pin statt über die
-     bisherige position:sticky + eigener Scroll-Handler-Lösung. Fällt die
-     CDN-Ladung aus, bleiben alle betroffenen Elemente einfach sichtbar. -->
-<script>
-(function () {
-  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-  gsap.registerPlugin(ScrollTrigger);
-
-  /* ---------- Lenis: sanftes Scrollen, an den GSAP-Ticker gekoppelt ---------- */
-  if (!reduced && typeof Lenis !== 'undefined') {
-    var lenis = new Lenis({ duration: 1.05, smoothWheel: true });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
-  }
-
-  if (reduced) return; // CSS- und site.js-Fallbacks übernehmen, GSAP animiert nichts
-
-  /* ============================================================
-     HERO
-     ============================================================ */
-
-  /* --- Auftakt beim Laden: die Schlagzeile fährt zeilenweise aus ihrer
-         Maske hoch, alles andere folgt versetzt. Eine orchestrierte
-         Bewegung statt vier unabhängiger Effekte. --- */
-  var hv = document.querySelector('.hv');
-  if (hv) {
-    var intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
-    intro
-      .from('.hv-line > span', { yPercent: 108, duration: 1.15, stagger: 0.075 })
-      .from('.hv-media', { opacity: 0, duration: 1.4, ease: 'power2.out' }, 0.15)
-      .from('.hv-rail', { opacity: 0, x: -14, duration: 0.9 }, 0.5)
-      .from('.hv-lead', { opacity: 0, y: 18, duration: 0.9 }, 0.55)
-      .from('.hv-body .btn', { opacity: 0, y: 14, duration: 0.7, stagger: 0.08 }, 0.65)
-      .from('.hv-panel', { opacity: 0, y: 34, duration: 1.1 }, 0.5)
-      .from('.hv-ticker li', { opacity: 0, y: 16, duration: 0.7, stagger: 0.06 }, 0.8);
-
-    /* --- Tiefenstaffelung beim Scrollen: Schlagzeile, Rechner und
-           Wasserband laufen unterschiedlich schnell. Ersetzt die
-           data-px-Engine aus site.js, die auf dieser Seite nichts mehr
-           findet. --- */
-    gsap.to('.hv-h1', {
-      yPercent: -13, ease: 'none',
-      scrollTrigger: { trigger: hv, start: 'top top', end: 'bottom top', scrub: 0.5 }
-    });
-    gsap.to('.hv-panel', {
-      yPercent: -30, ease: 'none',
-      scrollTrigger: { trigger: hv, start: 'top top', end: 'bottom top', scrub: 0.5 }
-    });
-    gsap.to('.hv-media', {
-      yPercent: 12, ease: 'none',
-      scrollTrigger: { trigger: hv, start: 'top top', end: 'bottom top', scrub: 0.5 }
-    });
-  }
-
-  /* --- Wasservideo am Scroll: currentTime folgt der Scrollposition,
-         statt in einer eigenen Endlosschleife zu laufen.
-
-         Wichtig zur Erwartung: hero.mp4 enthält genau EINEN Keyframe
-         (117 Frames, 4,875 s, ein einziger GOP). Jeder Rücksprung zwingt
-         den Decoder, ab Frame 0 neu aufzubauen — das Scrubbing ist
-         dadurch spürbar träge. Der Code hier ist bereits auf ein
-         keyframe-dichtes Reencode ausgelegt (siehe Antwort im Chat);
-         sobald die Datei getauscht ist, läuft er ohne Änderung flüssig.
-         Bis dahin glättet `scrub` wenigstens die Sprünge. --- */
-  var vid = document.querySelector('.hv-video');
-  if (vid) {
-    var scrubTrigger = null;
-
-    /* Rückfallebene: kann der Browser die Datei nicht dekodieren (z. B.
-       Chromium-Builds ohne H.264), blockiert er das Abspielen oder trifft
-       innerhalb der Frist keine Metadaten ein, läuft das Video wieder als
-       ruhige Endlosschleife — nie ein eingefrorenes oder leeres Feld. */
-    var fallbackToLoop = function () {
-      if (scrubTrigger) { scrubTrigger.kill(); scrubTrigger = null; }
-      vid.loop = true;
-      var pl = vid.play();
-      if (pl && pl.catch) pl.catch(function () { /* Poster bleibt stehen */ });
-    };
-
-    var startScrub = function () {
-      if (!vid.duration || isNaN(vid.duration)) { fallbackToLoop(); return; }
-
-      /* Decoder anwärmen: ohne ein einziges play() initialisiert der Browser
-         die Dekodier-Pipeline nicht, readyState fällt zurück und der erste
-         Seek bleibt hängen — das Bild stünde dann dauerhaft auf dem Poster.
-         Also kurz anspielen, ein paar Frames dekodieren lassen, dann
-         pausieren und ab da nur noch über currentTime steuern. */
-      var pl = vid.play();
-      if (pl && pl.then) pl.then(function () { setTimeout(bindScrub, 140); })
-                           .catch(function () { bindScrub(); });
-      else setTimeout(bindScrub, 140);
-    };
-
-    function bindScrub() {
-      vid.pause();
-
-      /* Seeks werden zusammengefasst statt gestapelt: es ist immer nur EIN
-         Sprung unterwegs, das jeweils neueste Ziel wird gemerkt und nach
-         dessen Abschluss nachgezogen. Wichtig ist der Wachhund: bliebe ein
-         Seek hängen (langsames Gerät, Software-Decoder), würde ein simples
-         `if (!video.seeking)` die Sperre nie wieder lösen und das Bild
-         stünde dauerhaft still. Nach 400 ms wird die Sperre daher
-         freigegeben und das aktuelle Ziel erneut angefragt. */
-      var pending = null, busy = false, watchdog = 0, stalls = 0;
-
-      function release() { busy = false; stalls = 0; clearTimeout(watchdog); apply(); }
-      vid.addEventListener('seeked', release);
-
-      function apply() {
-        if (busy || pending === null) return;
-        var t = pending; pending = null; busy = true;
-        try { vid.currentTime = t; } catch (e) { busy = false; return; }
-        clearTimeout(watchdog);
-        watchdog = setTimeout(function () {
-          /* Drei hängende Sprünge in Folge heißt: dieser Browser kann die
-             Datei zwar abspielen, aber nicht zuverlässig anspringen. Dann
-             ist die Endlosschleife das ehrlichere Ergebnis als ein Video,
-             das für immer auf einem Frame steht. */
-          if (++stalls >= 3) { fallbackToLoop(); return; }
-          busy = false; apply();
-        }, 400);
-      }
-
-      scrubTrigger = ScrollTrigger.create({
-        trigger: hv || vid,
-        start: 'top top',
-        end: 'bottom top',
-        scrub: 0.6,
-        onUpdate: function (self) {
-          var dur = vid.duration;
-          if (!dur || isNaN(dur)) return;
-          pending = self.progress * (dur - 0.05);
-          apply();
-        }
-      });
-    };
-
-    /* Quellenunabhängig: es wird nicht auf einen bestimmten Codec geprüft,
-       sondern schlicht darauf gewartet, ob Metadaten eintreffen. Kommen sie
-       (Datei ist dekodierbar), wird gescrubbt; kommt stattdessen ein Fehler
-       oder gar nichts, läuft die Endlosschleife. */
-    var settled = false;
-    var settle = function (fn) { if (!settled) { settled = true; fn(); } };
-    if (vid.readyState >= 1) settle(startScrub);
-    else vid.addEventListener('loadedmetadata', function () { settle(startScrub); }, { once: true });
-    vid.addEventListener('error', function () { settle(fallbackToLoop); }, { once: true });
-    setTimeout(function () { settle(fallbackToLoop); }, 3000);
-  }
-
-  /* ============================================================
-     MIKRO-INTERAKTIONEN — GSAP statt CSS-transition
-     quickTo() hält einen laufenden Tween am Leben, statt bei jedem
-     Ereignis einen neuen zu starten: die Bewegung kehrt aus ihrem
-     aktuellen Zustand um, anstatt zu springen.
-     ============================================================ */
-  function hoverLift(el, opts) {
-    opts = opts || {};
-    var yTo = gsap.quickTo(el, 'y', { duration: 0.45, ease: 'expo.out' });
-    var sTo = gsap.quickTo(el, 'scale', { duration: 0.45, ease: 'expo.out' });
-    el.addEventListener('pointerenter', function () { yTo(opts.y || -4); sTo(opts.scale || 1.015); });
-    el.addEventListener('pointerleave', function () { yTo(0); sTo(1); });
-    el.addEventListener('pointerdown', function () { yTo((opts.y || -4) * 0.35); sTo(0.985); });
-    el.addEventListener('pointerup', function () { yTo(opts.y || -4); sTo(opts.scale || 1.015); });
-  }
-
-  if (window.matchMedia('(pointer:fine)').matches) {
-    /* Signalisiert dem CSS, transform aus seiner transition-Liste zu nehmen —
-       sonst animiert die CSS-Transition GSAPs Inline-transform ein zweites
-       Mal hinterher und die Bewegung wirkt zäh. Farbe und Schatten bleiben
-       weiterhin Sache des CSS. */
-    document.documentElement.classList.add('gsap-hover');
-    document.querySelectorAll('.btn').forEach(function (b) { hoverLift(b, { y: -3, scale: 1.02 }); });
-    document.querySelectorAll('.chip').forEach(function (c) { hoverLift(c, { y: -2, scale: 1.03 }); });
-
-    /* Preisverzeichnis: die Zeile selbst bleibt ruhig stehen (ein
-       anhebender Vollbreiten-Balken wirkt unbeholfen) — nur der Pfeil
-       läuft nach rechts, die Farbumkehr macht das CSS. */
-    document.querySelectorAll('.svc-row').forEach(function (row) {
-      var go = row.querySelector('.svc-go');
-      if (!go) return;
-      var xTo = gsap.quickTo(go, 'x', { duration: 0.5, ease: 'expo.out' });
-      row.addEventListener('pointerenter', function () { xTo(7); });
-      row.addEventListener('pointerleave', function () { xTo(0); });
-    });
-  }
-
-  /* ---------- Reveal-Choreografie ----------
-     Gleiche Erscheinungsreihenfolge wie zuvor mit .rv/data-stagger, jetzt als
-     echter GSAP-Stagger auf ScrollTrigger. Spaltenzahl wird wie vorher zur
-     Laufzeit aus dem CSS-Grid gelesen, damit Tablet/Mobile mitwandern. */
-  function gridDims(el) {
-    var cs = getComputedStyle(el);
-    if (cs.display.indexOf('grid') === -1) return null;
-    var cols = cs.gridTemplateColumns.split(' ').filter(Boolean).length || 1;
-    return [Math.ceil(el.children.length / cols), cols];
-  }
-
-  function reveal(el, opts) {
-    opts = opts || {};
-    var items = opts.items ? el.querySelectorAll(opts.items) : el;
-    if (opts.items && !items.length) return;
-    gsap.set(items, { opacity: 0, y: opts.y || 26, scale: opts.scale != null ? opts.scale : .98 });
-    gsap.to(items, {
-      opacity: 1, y: 0, scale: 1,
-      duration: opts.duration || .85, ease: 'expo.out',
-      stagger: opts.items ? { each: opts.each || .09, grid: gridDims(el) || 'auto', from: 'start' } : 0,
-      scrollTrigger: { trigger: el, start: 'top 85%', once: true }
-    });
-  }
-
-  document.querySelectorAll('.sec-head').forEach(function (h) { reveal(h); });
-  document.querySelectorAll('.cta-reveal').forEach(function (c) { reveal(c); });
-
-  var groups = [
-    ['.zusagen-list', '.zusage',  .10, 26, .98],
-    ['.svc',         '.svc-row',  .07, 22, 1],
-    ['.stats',       '.stat',     .12, 26, .98],
-    ['.steps',       '.step',     .11, 26, .98],
-    ['.areas',       '.area',     .022, 12, 1]
-  ];
-  groups.forEach(function (g) {
-    var el = document.querySelector(g[0]);
-    if (el) reveal(el, { items: g[1], each: g[2], y: g[3], scale: g[4], duration: g[1] === '.area' ? .55 : .85 });
-  });
-
-  /* Ablauf-Linie zeichnet sich über die vier Schritte hinweg mit —
-     die Bewegung bildet die Dauer ab, um die es im Text geht. */
-  var stepsLine = document.querySelector('.steps-line i');
-  if (stepsLine) {
-    gsap.to(stepsLine, {
-      scaleX: 1, ease: 'none',
-      scrollTrigger: {
-        trigger: '.steps', start: 'top 80%', end: 'bottom 70%', scrub: 0.5
-      }
-    });
-  }
-
-  /* ---------- Angeheftete Szene: ScrollTrigger.pin statt Sticky + eigenem Handler ----------
-     Gleiche Mathematik wie zuvor (Fortschritt 0–1 über die Track-Länge treibt
-     Step-Überblendung, Schienen-Punkte und Ziffern-Parallax), jetzt aber über
-     ScrollTrigger gepinnt und gescrubbt statt über einen eigenen
-     scroll-Listener mit getBoundingClientRect. */
-  var track = document.querySelector('.scene-track');
-  if (track) {
-    var stick = track.querySelector('.scene-stick');
-    var steps = track.querySelectorAll('.scene-step');
-    var counts = track.querySelectorAll('.scene-count i');
-    var railFill = track.querySelector('.scene-rail i');
-    var n = steps.length;
-
-    ScrollTrigger.create({
-      trigger: track,
-      start: 'top top',
-      end: function () { return '+=' + (track.offsetHeight - window.innerHeight); },
-      pin: stick,
-      pinSpacing: false,
-      scrub: .6,
-      onUpdate: function (self) {
-        var p = self.progress;
-        /* Ein Gewicht pro Stufe, aus dem sich alles andere ableitet:
-           Text, Schrittzahl und Balken laufen damit garantiert synchron. */
-        function weight(k) { return Math.max(0, 1 - Math.abs(p - k / (n - 1 || 1)) * n); }
-
-        steps.forEach(function (s, k) {
-          var w = weight(k);
-          s.style.opacity = w.toFixed(3);
-          s.style.transform = 'translateY(' + ((1 - w) * 30).toFixed(1) + 'px) scale(' + (.97 + w * .03).toFixed(3) + ')';
-          s.style.pointerEvents = w > .5 ? 'auto' : 'none';
-        });
-        counts.forEach(function (el, k) {
-          var w = weight(k);
-          el.style.opacity = w.toFixed(3);
-          el.style.transform = 'translateY(' + ((1 - w) * 18).toFixed(1) + 'px)';
-        });
-        if (railFill) railFill.style.transform = 'scaleX(' + p.toFixed(4) + ')';
-      }
-    });
-  }
-
-  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
-})();
-</script>
 </body>
 </html>
