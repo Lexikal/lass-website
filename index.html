@@ -163,6 +163,17 @@
 <section>
   <div class="wrap zusagen">
     <div class="zusagen-head">
+      <!-- Zeigt eine Hand beim Abwischen einer Fläche — unbearbeitet, auf
+           ausdrücklichen Kundenwunsch sichtbar statt abstrahiert. Das
+           widerspricht CLAUDE.md („Keine KI-generierten Menschen ...
+           rechtlich heikel unter § 5 UWG") — explizit in Kauf genommene,
+           dokumentierte Entscheidung, siehe compliance/OFFENE-PUNKTE.md
+           Punkt 10. Scrollt am Fortschritt der Liste rechts, nicht in
+           eigener Schleife — siehe GSAP-Block. -->
+      <div class="zusagen-media" aria-hidden="true">
+        <video class="zusagen-video" muted playsinline preload="auto" disablepictureinpicture
+               poster="assets/zusagen-poster.jpg" src="assets/zusagen.mp4"></video>
+      </div>
       <p class="eyebrow">Was anders läuft</p>
       <h2>Vier Zusagen, die in Hannover sonst keiner gibt.</h2>
     </div>
@@ -416,18 +427,16 @@
     });
   }
 
-  /* --- Wasservideo am Scroll: currentTime folgt der Scrollposition,
-         statt in einer eigenen Endlosschleife zu laufen.
+  /* --- Video am Scroll: currentTime folgt der Scrollposition, statt in
+         einer eigenen Endlosschleife zu laufen. Eine Funktion, zwei
+         Anwendungsfälle (Hero-Wasserband, Zusagen-Titelspalte) — dieselbe
+         Robustheit für beide statt einer zweiten, abweichenden Kopie.
 
-         Wichtig zur Erwartung: hero.mp4 enthält genau EINEN Keyframe
-         (117 Frames, 4,875 s, ein einziger GOP). Jeder Rücksprung zwingt
-         den Decoder, ab Frame 0 neu aufzubauen — das Scrubbing ist
-         dadurch spürbar träge. Der Code hier ist bereits auf ein
-         keyframe-dichtes Reencode ausgelegt (siehe Antwort im Chat);
-         sobald die Datei getauscht ist, läuft er ohne Änderung flüssig.
-         Bis dahin glättet `scrub` wenigstens die Sprünge. --- */
-  var vid = document.querySelector('.hv-video');
-  if (vid) {
+         Wichtig zur Erwartung: beide Dateien sind keyframe-dicht kodiert
+         (ein Keyframe pro Frame), damit jeder Rücksprung beim Scrubben
+         ohne GOP-Neuaufbau auskommt. --- */
+  function bindVideoScrub(vid, triggerEl, startPos, endPos) {
+    if (!vid) return;
     var scrubTrigger = null;
 
     /* Rückfallebene: kann der Browser die Datei nicht dekodieren (z. B.
@@ -486,9 +495,9 @@
       }
 
       scrubTrigger = ScrollTrigger.create({
-        trigger: hv || vid,
-        start: 'top top',
-        end: 'bottom top',
+        trigger: triggerEl || vid,
+        start: startPos || 'top top',
+        end: endPos || 'bottom top',
         scrub: 0.6,
         onUpdate: function (self) {
           var dur = vid.duration;
@@ -510,6 +519,15 @@
     vid.addEventListener('error', function () { settle(fallbackToLoop); }, { once: true });
     setTimeout(function () { settle(fallbackToLoop); }, 3000);
   }
+
+  bindVideoScrub(document.querySelector('.hv-video'), hv, 'top top', 'bottom top');
+
+  /* Zusagen-Titelspalte: scrubbt über die Dauer, in der .zusagen-head per
+     CSS position:sticky stehen bleibt — also über die volle Höhe des
+     Grid-Containers, nicht nur über die (kürzere) Höhe der Titelspalte
+     selbst. Unterhalb von 960px ist .zusagen-head nicht sticky (siehe CSS);
+     die Funktion scrubbt dann trotzdem sauber über den normalen Fluss. */
+  bindVideoScrub(document.querySelector('.zusagen-video'), document.querySelector('.zusagen'), 'top top', 'bottom bottom');
 
   /* ============================================================
      MIKRO-INTERAKTIONEN — GSAP statt CSS-transition

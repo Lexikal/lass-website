@@ -130,6 +130,48 @@ auch dann gehört sie in `foundingDate` im Schema.org-Block.
 - [ ] NAP (Name/Adresse/Telefon) kann erst vollständig ins Schema, wenn
   Punkt 1 unten geklärt ist
 
+### 10. Zweites KI-generiertes Video — `assets/zusagen.mp4` (2026-08-20, korrigiert 2026-08-20)
+
+Auf ausdrücklichen Wunsch in der Titelspalte von „Was anders läuft"
+ergänzt, scroll-scrubbed wie das Hero-Wasserband, aber **ohne** dessen
+Maskierungstechnik — siehe unten.
+
+**Wichtig, unverändert:** Das Ausgangsmaterial zeigt eine Hand in
+Einweghandschuh beim Abwischen einer Fläche — anders als die abstrakte
+Wassertropfen-Aufnahme im Hero also **eine Person**, wenn auch nur Hand/
+Arm. Nach `CLAUDE.md` („Keine KI-generierten Menschen ... Rechtlich heikel
+unter § 5 UWG") wäre das Video in erkennbarer Form eigentlich nicht
+einsetzbar.
+
+**Verlauf der Entscheidung:**
+1. Erster Durchgang: stark abstrahiert (Kontrast/Helligkeit/Screen-Blend
+   so eingestellt, dass nur noch Licht und Bewegung erkennbar blieben,
+   keine Hand mehr) — Kompromissvorschlag des Modells, vom Kunden zunächst
+   auch so gewählt.
+2. Nach Ansicht des Ergebnisses ausdrücklich zurückgewiesen: Kunde will
+   die Hand und die Wischbewegung sichtbar. Auf diesen Wunsch hin wurde
+   die Abstraktion entfernt — das Video läuft jetzt unbearbeitet, nur mit
+   einem Navy-Verlauf als Lesbarkeits-Scrim hinter dem Text (siehe
+   `site.css`, `.zusagen-media::after`).
+3. **Der CLAUDE.md-Konflikt besteht damit weiterhin, bewusst in Kauf
+   genommen vom Kunden.** Diese Datei hält beide Seiten fest: das Risiko
+   (§ 5 UWG, irreführende Darstellung eigenen Personals durch
+   KI-generiertes Material) und die ausdrückliche Entscheidung, es
+   trotzdem so zu veröffentlichen. Vor Launch der Rechtsprüfung
+   ausdrücklich vorlegen, nicht stillschweigend durchlaufen lassen.
+
+- [ ] Wie Punkt 6: sichtbare KI-Kennzeichnung fehlt noch für dieses Video
+  (dieselbe Zusage in `datenschutz.html` Abschnitt 9 betrifft jetzt zwei
+  statt ein Video) — bei einem sichtbaren statt abstrahierten Video umso
+  dringlicher.
+- [ ] Wie Punkt 7: Lizenznachweis/Generierungsbeleg fehlt noch, siehe
+  `LIZENZEN.md`.
+- [ ] **Vor Launch mit Rechtsberatung klären, ob das Video in dieser Form
+  (erkennbare Person, KI-generiert, zeigt die verkaufte Leistung selbst)
+  überhaupt veröffentlicht werden darf** — keine Umsetzungsfrage mehr,
+  sondern eine Rechtsfrage. Bis dahin bewusst live im Vorab-Stand, der
+  ohnehin per `robots.txt`/`noindex` von der Indexierung ausgenommen ist.
+
 ---
 
 **Nächster Schritt:** Diese Datei eignet sich als Kundenfragebogen — die
