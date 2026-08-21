@@ -99,3 +99,12 @@ Läuft im `.vid-layer` hinter dem Hero-Text mit eigenem Parallax.
   ohne Marketing-Floskeln. Neue Seiten sollten sich daran halten.
 - Bei neuen Seiten: Kopf- und Footer-Markup 1:1 aus einer bestehenden Seite
   übernehmen, damit Navigation und Rechtstexte überall gleich sind.
+- **Agent-Dispatch (siehe `~/.claude/CLAUDE.md`):** Für dieses Projekt ist
+  der relevante Agenten-Pool der website-factory-eigene (`builder`,
+  `compliance-agent`, `content-agent`, `design-agent`, `qa-agent`,
+  `security-agent`, `seo-audit-agent`, `strategist`, `researcher`,
+  `visual-qa-agent`) — nicht der allgemeine Sprach-/Framework-Reviewer-
+  Pool (react-reviewer, kotlin-build-resolver usw.), der für ein reines
+  HTML/CSS/JS-Projekt ohne Framework größtenteils nicht zutrifft. Vor
+  jeder Aufgabe kurz benennen, welche 1–3 Agenten (falls überhaupt nötig)
+  eingesetzt werden, per 📋 REKOMMENDATION-Block laut `~/.claude/CLAUDE.md`.

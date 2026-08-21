@@ -522,12 +522,20 @@
 
   bindVideoScrub(document.querySelector('.hv-video'), hv, 'top top', 'bottom top');
 
-  /* Zusagen-Titelspalte: scrubbt über die Dauer, in der .zusagen-head per
-     CSS position:sticky stehen bleibt — also über die volle Höhe des
-     Grid-Containers, nicht nur über die (kürzere) Höhe der Titelspalte
-     selbst. Unterhalb von 960px ist .zusagen-head nicht sticky (siehe CSS);
-     die Funktion scrubbt dann trotzdem sauber über den normalen Fluss. */
-  bindVideoScrub(document.querySelector('.zusagen-video'), document.querySelector('.zusagen'), 'top top', 'bottom bottom');
+  /* Zusagen-Titelspalte: scrubbt über die volle Höhe des Grid-Containers,
+     nicht nur über die (kürzere) Höhe der Titelspalte selbst — genau wie
+     beim Hero-Video oben. Wichtig ist dabei 'bottom top', nicht
+     'bottom bottom': Mit 'bottom bottom' ist die tatsächliche Scroll-
+     distanz nur (Container-Höhe − Viewport-Höhe) — bei diesem Container
+     (~750px) auf normal großen Bildschirmen nur 0–30px, also praktisch der
+     gesamte 8s-Clip in einem einzigen Scroll-Tick. Das erzeugte genau den
+     ruckartigen "Bild-springt"-Effekt, den ein Nutzer gemeldet hat.
+     'bottom top' misst dagegen über die volle Container-Höhe, unabhängig
+     von der Viewport-Höhe — dieselbe Distanz, über die .zusagen-head
+     sticky steht. Unterhalb von 960px ist .zusagen-head nicht sticky
+     (siehe CSS); die Funktion scrubbt dann trotzdem sauber über den
+     normalen Fluss. */
+  bindVideoScrub(document.querySelector('.zusagen-video'), document.querySelector('.zusagen'), 'top top', 'bottom top');
 
   /* ============================================================
      MIKRO-INTERAKTIONEN — GSAP statt CSS-transition

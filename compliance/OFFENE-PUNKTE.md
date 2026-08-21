@@ -172,6 +172,48 @@ einsetzbar.
   sondern eine Rechtsfrage. Bis dahin bewusst live im Vorab-Stand, der
   ohnehin per `robots.txt`/`noindex` von der Indexierung ausgenommen ist.
 
+**Kundeneinwand (2026-08-21):** Auf die Rückfrage, ob der Punkt gestrichen
+werden kann, weil auf dem Video nur eine Hand zu sehen ist — keine
+identifizierbare Person, kein Gesicht — und deshalb niemand erkennen
+könne, dass das Material KI-generiert ist. Einwand inhaltlich richtig
+(die Hand ist tatsächlich nicht als bestimmte reale Person identifizierbar),
+trifft aber nicht die beiden Risiken, die diesen Punkt begründen:
+
+- **§ 5 UWG** hängt nicht an der Erkennbarkeit einer Person, sondern daran,
+  dass dem Betrachter eine scheinbar echte Aufnahme der verkauften
+  Leistung gezeigt wird, die tatsächlich synthetisch ist — eine
+  Irreführung **kann** sich aus der Darstellung des Vorgangs ergeben,
+  nicht aus der Identität der Hand. Das ist eine Wertungsfrage, kein
+  feststehender Verstoß — genau deshalb bleibt der Punkt offen statt
+  „erledigt" oder „gestrichen".
+  Konkret verschärft wird dieses Risiko durch die Platzierung im Layout:
+  Das Video läuft direkt neben Zusage „04 · NACHWEIS — Digitales
+  Foto-Protokoll … Sie sehen die Leistung, auch wenn Sie nicht da sind"
+  (`index.html`, `.zusagen-list`, vierter Punkt). Ausgerechnet in einem
+  Abschnitt, dessen Aussage „Sie sehen die echte Leistung" ist, läuft ein
+  synthetisches Bild einer nicht real stattgefundenen Reinigung — das ist
+  das stärkste konkrete Argument für ein Irreführungsrisiko, deutlich
+  konkreter als die abstrakte Vorgangs-Darstellung allein.
+- **Art. 50 KI-VO** verlangt Kennzeichnung von KI-generiertem Video-/
+  Audiomaterial unabhängig davon, ob eine abgebildete Person erkennbar
+  ist — die Pflicht ist an die Herkunft des Materials geknüpft, nicht an
+  Persönlichkeitsrechte.
+- Zusätzlich: `datenschutz.html` §9 sagt bereits sichtbare KI-Kennzeichnung
+  zu (Punkt 6/oben) — den Risikopunkt zu streichen, ohne diese Zusage
+  einzulösen, würde einen Widerspruch innerhalb der Seite selbst schaffen.
+
+**Offene Anschlussfrage, bisher nirgends dokumentiert:** Diente für die
+Generierung von `zusagen.mp4` reales Referenzmaterial (Foto/Video einer
+tatsächlichen Hand, z. B. img2video-Verfahren)? Falls ja, könnte trotz
+„KI-generiert" das Persönlichkeitsrecht/§ 22 KUG der abgebildeten realen
+Person greifen — unabhängig von UWG und KI-VO. Das ist aktuell nicht
+geklärt und hängt an derselben Lücke wie Punkt 7 (fehlender
+Generierungsbeleg für `zusagen.mp4` in `LIZENZEN.md`).
+
+Punkt bleibt deshalb offen und ungestrichen. Kundenseitige Position ist
+hier mit aufgenommen, damit die Rechtsberatung beide Seiten sieht — die
+Entscheidung selbst liegt weiterhin bei ihr, nicht bei dieser Datei.
+
 ---
 
 **Nächster Schritt:** Diese Datei eignet sich als Kundenfragebogen — die
