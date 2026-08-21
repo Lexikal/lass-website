@@ -1,7 +1,9 @@
 # Compliance-Status — LISS Reinigungsservice
 
-Stand: **2026-08-16** (4. Durchgang — kompletter Re-Scan ohne Vorannahmen,
-plus Security-Audit nach OWASP Top 10:2025 und Code-Review). 3. Durchgang:
+Stand: **2026-08-20** (5. Durchgang — Discoverability/SEO-Grundlagen:
+Indexierungssperre, Sitemap, LocalBusiness-Schema, unbelegte Jahreszahl
+entfernt). 4. Durchgang: kompletter Re-Scan ohne Vorannahmen, plus
+Security-Audit nach OWASP Top 10:2025 und Code-Review. 3. Durchgang:
 Kontaktformular repariert, GSAP/ScrollTrigger/Lenis self-hosted. 2.
 Durchgang: voller Compliance-Re-Scan. 1. Durchgang: 2026-08-11, Grundlagen
 (Footer-Links, Fonts, Streitschlichtung). Nächste Re-Prüfung: spätestens
@@ -52,6 +54,10 @@ Kernabschnitte (Impressum, Datenschutz, Cookies, Lizenzen, ggf. BFSG).
 | Cookie-Consent-Banner | n/a | Keine Cookies im Einsatz (s. o.) — Banner-Pflicht entfällt, solange das so bleibt. |
 | Barrierefreiheitserklärung (BFSG) | — | Nicht abschließend geprüft. Grundlegende technische Barrierefreiheit ist gegeben; formale Erklärung + Kleinstunternehmen-Ausnahme noch nicht bestätigt. |
 | Rechtstexte fachlich geprüft | ❌ | Weiterhin als Entwurf markiert. |
+| **Indexierungssperre (NEU, 5. Durchgang)** | ✅ | `robots.txt` (`Disallow: /`) + `<meta name="robots" content="noindex,nofollow">` auf allen 12 Seiten. Notwendig, solange Impressum-Platzhalter live erreichbar sind — Disallow allein verhindert nur das Crawlen, nicht zuverlässig die Indexierung. |
+| **Sitemap.xml (NEU, 5. Durchgang)** | ✅ | Alle 12 Seiten, vorbereitet für den Live-Gang, in `robots.txt` bewusst noch nicht referenziert. |
+| **LocalBusiness Schema.org (NEU, 5. Durchgang)** | ⚠️ | Auf `index.html`. Bewusst ohne `address`, `telephone`, `foundingDate` — dieselben Platzhalter-Blocker wie im Impressum, siehe Zeile oben. Nachtragen, sobald Punkt 1 in `OFFENE-PUNKTE.md` geklärt ist. |
+| **„seit 2026" ohne Beleg (NEU, 5. Durchgang)** | ✅ | Stand unbelegt an drei Stellen (`index.html` Hero-Kennzeile, `ueber-uns.html` Meta-Description/Lead/Kennzahl) — dieses Projekt nennt selbst nur „neu gegründet", kein Jahr. Entfernt bzw. durch anderswo bereits veröffentlichte, belegbare Aussage ersetzt. Details: `OFFENE-PUNKTE.md` Punkt 9. |
 
 ---
 
@@ -174,6 +180,17 @@ Code-Probleme.
 - `assets/site.css` — 15 Zeilen dupliziertes CSS entfernt, `.vid-slot`/`.watermark` (totes CSS) entfernt, `.fcol span`-Regel neu für die Footer-Textzeilen.
 - `compliance/COMPLIANCE.md` — dieser Durchgang, inkl. Security-Audit- und Code-Review-Abschnitt.
 - Volle Regression über alle 12 Seiten nach jeder Änderung (Playwright, 0 Konsolenfehler, Formular-Flow erneut end-to-end getestet).
+
+## Änderungen im 5. Durchgang (2026-08-20)
+
+- `robots.txt` neu angelegt (`Disallow: /`, Sitemap-Zeile auskommentiert).
+- `sitemap.xml` neu angelegt, 12 URLs, nach Seitenrolle gestaffelte Priorität.
+- 12× `*.html` — `<meta name="robots" content="noindex,nofollow">` direkt nach dem Viewport-Meta.
+- `index.html` — `LocalBusiness`-JSON-LD ergänzt (ohne `address`/`telephone`/`foundingDate`, siehe Tabelle oben).
+- `index.html` — Hero-Kennzeile „seit 2026" → „Büro · Praxis · Treppenhaus" (nur Textinhalt geändert, `<i>`-Trennelement für die GSAP-Animation unangetastet).
+- `ueber-uns.html` — Meta-Description, Lead-Text und Kennzahl-Kachel von unbelegtem Gründungsjahr befreit; Kachel jetzt „0 € Zuschlag für Einsätze vor 8 und ab 17 Uhr" (identisch zur bereits veröffentlichten Aussage in `faq.html`/`bueroreinigung.html`).
+- `compliance/OFFENE-PUNKTE.md` — Punkt 9 neu (Discoverability-Grundlagen, was erledigt ist, was noch fehlt: Canonical, Favicon, Open Graph, FAQPage-Schema).
+- Nicht angefasst: `kontakt.html` (Formular bereits im 3. Durchgang repariert, keine Berührung nötig), `standorte.html`/`faq.html`/`ueber-uns.html`-Layout, alle Fonts/GSAP/Lenis-Dateien.
 
 ## Frühere Durchgänge
 

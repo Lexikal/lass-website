@@ -92,6 +92,44 @@ Verifiziert: `grep -rEo 'https?://[a-zA-Z0-9.-]+' *.html` über alle 12
 HTML-Dateien liefert keinen Treffer mehr — keine externe Domain im gesamten
 Projekt.
 
+### 9. Discoverability-Grundlagen (erledigt 2026-08-20)
+
+Bis dahin fehlten jede Steuerung der Indexierung und jede strukturierte
+Auszeichnung — bei einem öffentlich erreichbaren Vorab-Stand mit
+Platzhalter-Impressum ein eigenes Risiko, unabhängig von den Punkten 1–4.
+
+**Jetzt behoben:**
+- `robots.txt` (`Disallow: /`) + `<meta name="robots" content="noindex,nofollow">`
+  auf allen 12 Seiten. Disallow allein verhindert nur das Crawlen, nicht
+  zuverlässig die Indexierung; GitHub Pages erlaubt keine eigenen
+  `X-Robots-Tag`-Header, daher beides zusammen.
+- `sitemap.xml` mit allen 12 Seiten, vorbereitet für den Live-Gang, aber in
+  `robots.txt` bewusst noch nicht referenziert.
+- `LocalBusiness`-Schema.org auf `index.html`. **Bewusst ohne** `address`,
+  `telephone` und `foundingDate` — siehe Punkt 1 unten, falsche NAP-Daten in
+  strukturierten Daten sind schädlicher als fehlende.
+
+**Nebenbefund, im selben Durchgang behoben:** Die Behauptung „seit 2026" /
+„2026 in Hannover gegründet" stand an drei Stellen (`index.html`
+Hero-Kennzeile, `ueber-uns.html` Meta-Description, Lead-Text und
+Kennzahl-Kachel) ohne Beleg — dieses Projekt selbst nennt nur „neu
+gegründete Gebäudereinigungsfirma", ohne Jahr. Alle vier Stellen entfernt
+bzw. durch bereits anderswo veröffentlichte, belegbare Aussagen ersetzt
+(„0 € Zuschlag für Einsätze vor 8 und ab 17 Uhr" — siehe `faq.html` und
+`bueroreinigung.html`). Sobald das tatsächliche Gründungsdatum von LISS
+vorliegt (Punkt 1), kann die Aussage mit Beleg wieder aufgenommen werden —
+auch dann gehört sie in `foundingDate` im Schema.org-Block.
+
+**Noch offen:**
+- [ ] Canonical-Tags — erst sinnvoll, wenn die endgültige Domain feststeht
+  (aktuell GitHub-Pages-URL, sonst müssten 12 Dateien zweimal geändert werden)
+- [ ] Favicon fehlt komplett (404 auf jeder Seite)
+- [ ] Open-Graph-/Twitter-Card-Tags fehlen (keine Vorschau beim Teilen des Links)
+- [ ] `FAQPage`-Schema für die zwölf echten Fragen auf `faq.html` und die
+  drei auf `bueroreinigung.html` — noch nicht ergänzt
+- [ ] NAP (Name/Adresse/Telefon) kann erst vollständig ins Schema, wenn
+  Punkt 1 unten geklärt ist
+
 ---
 
 **Nächster Schritt:** Diese Datei eignet sich als Kundenfragebogen — die

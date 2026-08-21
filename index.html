@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Vorab-Stand: Indexierung gesperrt, siehe robots.txt.
+     Vor dem Live-Gang entfernen. -->
+<meta name="robots" content="noindex,nofollow">
 <title>LISS Reinigungsservice Hannover · Büroreinigung zum Festpreis</title>
 <meta name="description" content="Büro-, Praxis- und Treppenhausreinigung in Hannover zum veröffentlichten Festpreis. Angebot in 24 Stunden, feste Reinigungskraft, Foto-Protokoll nach jedem Einsatz.">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
@@ -14,6 +17,55 @@
 <script src="assets/vendor/gsap.min.js"></script>
 <script src="assets/vendor/ScrollTrigger.min.js"></script>
 <script src="assets/vendor/lenis.min.js"></script>
+<!-- LocalBusiness-Auszeichnung. BEWUSST NICHT enthalten: address und
+     telephone — beide stehen im Impressum noch auf Platzhaltern
+     (compliance/OFFENE-PUNKTE.md, Punkt 1). Falsche NAP-Daten in
+     strukturierten Daten sind schädlicher als fehlende, weil Suchmaschinen
+     und KI-Assistenten sie als Tatsache übernehmen. Ergänzen, sobald die
+     echten Firmendaten vorliegen. Ebenfalls nicht enthalten: foundingDate —
+     Gründungsjahr unbestätigt, siehe Commit-Historie zu dieser Änderung. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://lexikal.github.io/lass-website/#organisation",
+  "name": "LISS Reinigungsservice",
+  "description": "Büro-, Praxis- und Treppenhausreinigung in Hannover zum veröffentlichten Festpreis. Angebot binnen 24 Stunden, feste Reinigungskraft je Objekt, Foto-Protokoll nach jedem Einsatz.",
+  "url": "https://lexikal.github.io/lass-website/",
+  "logo": "https://lexikal.github.io/lass-website/assets/mark-blue.png",
+  "image": "https://lexikal.github.io/lass-website/assets/mark-blue.png",
+  "email": "info@liss-reinigungsservice.de",
+  "knowsLanguage": "de",
+  "currenciesAccepted": "EUR",
+  "areaServed": [
+    { "@type": "City", "name": "Hannover" },
+    { "@type": "City", "name": "Langenhagen" },
+    { "@type": "City", "name": "Laatzen" },
+    { "@type": "City", "name": "Garbsen" },
+    { "@type": "City", "name": "Isernhagen" }
+  ],
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+    "opens": "07:00",
+    "closes": "18:00"
+  }],
+  "makesOffer": [
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Büroreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "0.90", "priceCurrency": "EUR", "unitText": "m² pro Einsatz" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Praxisreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "1.20", "priceCurrency": "EUR", "unitText": "m² pro Einsatz" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Treppenhausreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "39.00", "priceCurrency": "EUR", "unitText": "je Einsatz" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Glas- und Fensterreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "3.00", "priceCurrency": "EUR", "unitText": "je Fensterelement" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Grundreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "2.50", "priceCurrency": "EUR", "unitText": "m² einmalig" } },
+    { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bauendreinigung" },
+      "priceSpecification": { "@type": "UnitPriceSpecification", "minPrice": "3.50", "priceCurrency": "EUR", "unitText": "m² einmalig" } }
+  ]
+}
+</script>
 </head>
 <body>
 <div class="page-veil" aria-hidden="true"></div>
@@ -45,7 +97,7 @@
            poster="assets/hero-poster.jpg" src="assets/hero.mp4"></video>
   </div>
 
-  <p class="hv-rail" aria-hidden="true">Gebäudereinigung Hannover <i></i> seit 2026</p>
+  <p class="hv-rail" aria-hidden="true">Gebäudereinigung Hannover <i></i> Büro · Praxis · Treppenhaus</p>
 
   <div class="hv-inner">
    <div class="hv-text">
