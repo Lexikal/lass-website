@@ -638,6 +638,14 @@ section{padding:var(--s7) 0;position:relative}
 
 /* ---------- FAQ ---------- */
 .faq{border-top:1.5px solid var(--tiefsee)}
+/* Themengruppen — gleiche Beschriftungs-Typografie wie das
+   Leistungsverzeichnis (.lv-grp h4), aber ohne dessen Listen-/Haken-Stil,
+   weil hier <details> statt <ul> stehen. */
+.faq-grp+.faq-grp{margin-top:var(--s6)}
+.faq-grp>h4{
+  font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--leisblau);font-weight:700;padding:var(--s4) 0 var(--s2);
+}
 details{border-bottom:1px solid var(--linie)}
 summary{cursor:pointer;list-style:none;padding:var(--s5) 40px var(--s5) 0;position:relative;font-weight:600;font-size:17px;letter-spacing:-.01em;transition:color var(--dur-2) var(--ease-soft)}
 summary:hover{color:var(--leisblau)}
