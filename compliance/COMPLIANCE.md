@@ -192,6 +192,30 @@ Code-Probleme.
 - `compliance/OFFENE-PUNKTE.md` — Punkt 9 neu (Discoverability-Grundlagen, was erledigt ist, was noch fehlt: Canonical, Favicon, Open Graph, FAQPage-Schema).
 - Nicht angefasst: `kontakt.html` (Formular bereits im 3. Durchgang repariert, keine Berührung nötig), `standorte.html`/`faq.html`/`ueber-uns.html`-Layout, alle Fonts/GSAP/Lenis-Dateien.
 
+## Änderungen im 6. Durchgang (2026-08-21)
+
+- `standorte.html` — alle 15 Stadtteil-Karten von „Reinigungsfirma
+  &lt;Stadtteil&gt;" auf „LISS in &lt;Stadtteil&gt;" umformuliert
+  (compliance-agent + content-agent, siehe `OFFENE-PUNKTE.md`-Historie
+  zum Zusagen-Video für das gleiche Agent-Pärchen an anderer Stelle).
+  Grund: alter Wortlaut liest sich isoliert wie 15 eigenständige Firmen
+  statt einer Marke mit mehreren Einsatzgebieten — § 5 UWG-Risiko dabei
+  gering (LISS-Branding im Header jeder Seite mildert stark), aber
+  objektiv unpräzise. Gleiches Muster im sitweiten Footer-Baustein (12
+  Seiten identisch) und im `<title>` von `hannover-list.html` ergänzt.
+- **Neuer Blocker-naher Punkt, noch nicht umgesetzt:** Doorway-Page-
+  Risiko für die 14 aktuell unverlinkten Stadtteil-Karten
+  (`href="#"`). Solange sie Platzhalter bleiben, kein Problem. Sobald
+  sie nach dem Muster von `hannover-list.html` befüllt werden (identischer
+  Seitenaufbau, nur Stadtteilname + ein bis zwei Sätze ausgetauscht),
+  kippt das nach Googles Spam-Richtlinien in echtes Doorway-Page-Risiko.
+  Vor Umsetzung der restlichen 14 Seiten (siehe `CLAUDE.md`, „Was als
+  Nächstes ansteht", Punkt 1) mindestens pro Seite variieren: reale
+  Objektreferenzen/Gebäudetypen, unterschiedliche Kundenstruktur-
+  Beschreibung, eigene Anfahrts-/Einsatzgebiets-Angaben, unterschiedliche
+  FAQ-/Preisbeispiel-Passagen — nicht mechanisch dieselbe Vorlage mit
+  ausgetauschtem Namen.
+
 ## Frühere Durchgänge
 
 Siehe Git-Historie von `compliance/COMPLIANCE.md` für die Änderungen aus
