@@ -333,39 +333,62 @@ body.nav-open .mobnav{transform:translateX(0)}
    ============================================================ */
 
 /* --- Zusagen: stehender Titel links, laufende Liste rechts ---
-       Titel steht auf normalem Seitenhintergrund, ohne Fläche dahinter —
-       das Video läuft als eigenes Feld direkt darunter, nicht mehr als
-       Hintergrund hinter dem Text (früherer Entwurf, auf Kundenwunsch
-       umgebaut: Video wirkte im Text eingesperrt und dort nicht nötig).
-       Die Titelspalte bleibt eine „kleine Hero-Zelle", die während des
-       Scrollens durch die vier Zusagen rechts stehen bleibt und mitläuft.
+       Dritter Anlauf auf Kundenwunsch: weder „Video hinter dem Text"
+       (Entwurf 1) noch „Video in eigener Rahmen-Karte" (Entwurf 2) trafen
+       das gewünschte Bild — Vorgabe war ausdrücklich das Wasserband im
+       Hero als Vorlage. Gleiche Mechanik hier übernommen, gespiegelt:
+       .zusagen-media ist wie .hv-media ein vollflächiger Hintergrund
+       hinter der ganzen Sektion (nicht Teil des Grids), links statt
+       rechts verankert, per Maskenverlauf zur Textseite hin ausgeblendet.
        Video scrollt am Fortschritt der Liste, wie das Wasserband im
-       Hero — aber unbearbeitet, ohne Screen-Blend/Farbklammer, siehe
-       Begründung direkt bei .zusagen-media unten. --- */
-.zusagen{display:grid;gap:var(--s7)}
+       Hero — Begründung zur Farb-/Blendtechnik direkt bei .zusagen-media
+       unten. --- */
+.zusagen-sec{position:relative;overflow:hidden;isolation:isolate}
+.zusagen{display:grid;gap:var(--s7);position:relative;z-index:2}
 @media(min-width:960px){
   .zusagen{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:var(--s9);align-items:start}
   .zusagen-head{position:sticky;top:calc(var(--hdr) + var(--s6))}
 }
 
 /* Video bleibt erkennbar sichtbar — bewusste Entscheidung, siehe
-   compliance/OFFENE-PUNKTE.md Punkt 10. Kein Screen-Blend/Farbklammer wie
-   im Hero (die Kombination war für dieses helle Quellmaterial ohnehin
-   falsch: brightness(.26) + screen + 80% Farbklammer löschten das Bild
-   praktisch komplett). Kein Scrim mehr nötig — anders als beim früheren
-   Entwurf liegt jetzt kein Text mehr über dem Video, es steht als eigenes
-   Feld für sich, Rahmen/Radius wie die übrigen Karten der Seite
-   (.promises, .ptable usw.), damit es nicht wie ein loses Rechteck wirkt. */
+   compliance/OFFENE-PUNKTE.md Punkt 10. ABER: kein Screen-Blend wie im
+   Hero — das Quellmaterial ist hell auf hellem Grund (weißer Handschuh,
+   weißes Tuch, helle Fläche), Screen-Blend gegen den ohnehin schon
+   hellen Seitenhintergrund hätte das Bild praktisch gelöscht (genau das
+   ist beim ersten Anlauf mit brightness(.26)+screen+Farbklammer
+   passiert, siehe compliance/OFFENE-PUNKTE.md Punkt 10). Multiply statt
+   Screen: dunkelt ab statt aufzuhellen, helle Flächen verschwinden weich
+   im weißen Seitengrund, die dunkleren Formen (Handschuh, Schattenkontur)
+   bleiben klar erkennbar — funktioniert auf hellem Grund, wo Screen
+   versagt. Der Maskenverlauf sitzt spiegelverkehrt zum Hero: dort blendet
+   er zur Textseite hin aus (rechts sichtbar, links zum Text hin
+   transparent), hier links positioniert und zur Textseite (rechts) hin
+   transparent, nach außen (links, Seitenkante) hin voll sichtbar. */
 .zusagen-media{
-  position:relative;overflow:hidden;pointer-events:none;
-  border:1.5px solid var(--tiefsee);border-radius:var(--r-lg);
-  aspect-ratio:752/416;margin-top:var(--s6);
-}
-@media(min-width:960px){
-  .zusagen-media{aspect-ratio:auto;height:440px;margin-top:var(--s7)}
+  position:absolute;inset:0 auto 0 0;width:min(58vw,780px);z-index:0;
+  pointer-events:none;
+  -webkit-mask-image:linear-gradient(90deg,#000 0,#000 38%,rgba(0,0,0,.5) 66%,transparent 100%);
+  mask-image:linear-gradient(90deg,#000 0,#000 38%,rgba(0,0,0,.5) 66%,transparent 100%);
 }
 .zusagen-video{
   width:100%;height:100%;object-fit:cover;display:block;
+  mix-blend-mode:multiply;opacity:.92;
+}
+/* Farbklammer wie im Hero, nur invertiert (color statt der dortigen
+   Kombination): zieht den Ton dezent Richtung Markenblau, ohne das
+   Motiv wie im Hero fast vollständig zu übermalen — hier bewusst
+   niedrige Deckkraft, das Motiv soll erkennbar bleiben, nicht gefärbt. */
+.zusagen-media::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:var(--leisblau);mix-blend-mode:color;opacity:.18;
+}
+@media(max-width:959px){
+  .zusagen-media{
+    position:relative;inset:auto;width:100%;aspect-ratio:752/416;
+    margin-top:var(--s6);
+    -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 22%);
+    mask-image:linear-gradient(180deg,transparent 0,#000 22%);
+  }
 }
 
 .zusagen-list{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--tiefsee)}

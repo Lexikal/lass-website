@@ -160,24 +160,27 @@
   </ul>
 </section>
 
-<section>
+<section class="zusagen-sec">
+  <!-- Zeigt eine Hand beim Abwischen einer Fläche — unbearbeitet, auf
+       ausdrücklichen Kundenwunsch sichtbar statt abstrahiert. Das
+       widerspricht CLAUDE.md („Keine KI-generierten Menschen ... rechtlich
+       heikel unter § 5 UWG") — explizit in Kauf genommene, dokumentierte
+       Entscheidung, siehe compliance/OFFENE-PUNKTE.md Punkt 10.
+       Vollflächiges Hintergrundfeld nach demselben Muster wie .hv-media
+       im Hero (siehe dort), gespiegelt: Video links statt rechts, Maske
+       läuft von der Textseite (rechts, transparent) nach außen (links,
+       voll sichtbar) statt umgekehrt — dritter Anlauf auf Kundenwunsch,
+       nachdem weder „Video hinter dem Text" noch „Video in eigener
+       Rahmen-Karte" das gewünschte Bild trafen. Scrollt am Fortschritt
+       der Liste rechts, nicht in eigener Schleife — siehe GSAP-Block. -->
+  <div class="zusagen-media" aria-hidden="true">
+    <video class="zusagen-video" muted playsinline preload="auto" disablepictureinpicture
+           poster="assets/zusagen-poster.jpg" src="assets/zusagen.mp4"></video>
+  </div>
   <div class="wrap zusagen">
     <div class="zusagen-head">
       <p class="eyebrow">Was anders läuft</p>
       <h2>Vier Zusagen, die in Hannover sonst keiner gibt.</h2>
-      <!-- Zeigt eine Hand beim Abwischen einer Fläche — unbearbeitet, auf
-           ausdrücklichen Kundenwunsch sichtbar statt abstrahiert. Das
-           widerspricht CLAUDE.md („Keine KI-generierten Menschen ...
-           rechtlich heikel unter § 5 UWG") — explizit in Kauf genommene,
-           dokumentierte Entscheidung, siehe compliance/OFFENE-PUNKTE.md
-           Punkt 10. Eigenes Feld unter dem Titel statt dessen Hintergrund
-           (auf Kundenwunsch umgebaut, siehe site.css). Scrollt am
-           Fortschritt der Liste rechts, nicht in eigener Schleife — siehe
-           GSAP-Block. -->
-      <div class="zusagen-media" aria-hidden="true">
-        <video class="zusagen-video" muted playsinline preload="auto" disablepictureinpicture
-               poster="assets/zusagen-poster.jpg" src="assets/zusagen.mp4"></video>
-      </div>
     </div>
     <ol class="zusagen-list">
       <li class="zusage"><span class="k">01 · PREIS</span><h3>Festpreis statt „auf Anfrage“</h3><p>Jede Leistung hat einen veröffentlichten Quadratmeter- oder Stückpreis. Was im Rechner steht, steht später im Vertrag.</p></li>

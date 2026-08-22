@@ -153,17 +153,30 @@ einsetzbar.
    die Abstraktion entfernt — das Video lief zunächst unbearbeitet, aber
    noch als Hintergrund hinter der Überschrift, mit einem Navy-Scrim für
    die Textlesbarkeit.
-3. **Update 2026-08-21:** Auch diese Anordnung war nicht das, was der
-   Kunde wollte — er empfand die Überschrift-über-Video-Kombination als
-   „Rahmen", in dem die Hand eingesperrt wirkte. Umgebaut: Überschrift
-   steht jetzt auf normalem Seitenhintergrund (kein Navy, kein Scrim,
-   keine Textschatten), das Video läuft als eigenes, gerahmtes Feld direkt
-   darunter (`.zusagen-media`, `border` + `border-radius` wie andere
-   Karten der Seite). Am Grundkonflikt (KI-generierte, erkennbare Hand,
-   zeigt die verkaufte Leistung) ändert die Platzierung nichts — nur die
-   Lesbarkeits-Begründung von Punkt 2 entfällt, weil kein Text mehr über
-   dem Video liegt.
-4. **Der CLAUDE.md-Konflikt besteht damit weiterhin, bewusst in Kauf
+3. **Update 2026-08-21, zweiter Umbau:** Auch diese Anordnung war nicht das,
+   was der Kunde wollte — er empfand die Überschrift-über-Video-Kombination
+   als „Rahmen", in dem die Hand eingesperrt wirkte. Umgebaut: Überschrift
+   stand auf normalem Seitenhintergrund, Video als eigenes, gerahmtes Feld
+   direkt darunter (`border` + `border-radius` wie andere Karten der Seite).
+4. **Update 2026-08-21, dritter Umbau:** Auch die Rahmen-Karte war nicht
+   das gewünschte Bild — ausdrückliche Vorgabe war jetzt das Wasserband im
+   Hero als Vorlage. Video läuft seitdem wie dort als vollflächiges
+   Hintergrundfeld hinter der ganzen Sektion (nicht mehr Teil des Grids),
+   links statt rechts verankert, per CSS-Maskenverlauf zur Textseite hin
+   ausgeblendet — dieselbe Mechanik wie `.hv-media` im Hero, gespiegelt.
+   **Wichtiger Unterschied zum Hero:** kein Screen-Blend, weil das
+   Quellmaterial hell auf hellem Grund ist (weißer Handschuh/Tuch) —
+   Screen-Blend gegen den hellen Seitenhintergrund hätte das Bild wie beim
+   ersten Anlauf praktisch gelöscht. Stattdessen `mix-blend-mode:multiply`
+   (dunkelt ab statt aufzuhellen) plus eine sehr leichte Markenblau-
+   Farbklammer (`opacity:.18`, deutlich schwächer als im Hero) — Hand und
+   Handschuh bleiben klar erkennbar, das war über alle drei Umbauten
+   hinweg die einzige konstante, nicht verhandelbare Vorgabe des Kunden.
+   Am Grundkonflikt (KI-generierte, erkennbare Hand, zeigt die verkaufte
+   Leistung) ändert keine dieser drei Anordnungen etwas — nur die
+   Lesbarkeits-Begründung von Punkt 2 entfällt seit Umbau 2, weil kein
+   Text mehr direkt über sichtbaren Video-Pixeln liegt.
+5. **Der CLAUDE.md-Konflikt besteht damit weiterhin, bewusst in Kauf
    genommen vom Kunden.** Diese Datei hält beide Seiten fest: das Risiko
    (§ 5 UWG, irreführende Darstellung eigenen Personals durch
    KI-generiertes Material) und die ausdrückliche Entscheidung, es
