@@ -68,8 +68,57 @@ Projektkontext mit Seedance/Dreamina KI-generiert, trägt aber aktuell
 war in diesem Auftrag ausdrücklich ausgeschlossen ("Не трогай верстку"), daher
 hier nur als offener Punkt vermerkt statt umgesetzt.
 
-- [ ] Entscheiden: dezentes On-Screen-Label im Video selbst, oder Bildunterschrift/Hinweis neben dem Hero-Bereich im HTML?
-- [ ] Bis dahin: Zusage in `datenschutz.html` Abschnitt 9 stimmt inhaltlich, ist aber technisch noch nicht eingelöst.
+**Risikoeinordnung, getrennt von Punkt 10 zu bewerten (2026-08-22):**
+hero.mp4 zeigt reine Hintergrund-Atmosphäre — eine Wassertropfen-
+Makroaufnahme, kein Mensch, keine dargestellte Tätigkeit. Risiko nach
+Art. 50 KI-VO/§ 5 UWG dadurch niedrig-mittel, spürbar geringer als bei
+`zusagen.mp4` (Punkt 10). Beide Videos wurden in früheren Durchgängen
+teils mit demselben Maßstab behandelt — ab diesem Durchgang bewusst
+getrennt, siehe Risikoeinordnung in Punkt 10.
+
+**§ 22 KUG (2026-08-22, geklärt):** Nicht anwendbar. hero.mp4 ist laut
+bestätigtem Kundenfakt (Basis: zwei unabhängige juristische Reviews)
+reines Text-zu-Video ohne Image-to-Video-Verfahren und ohne reales
+Referenzfoto/-video einer echten Person. § 22 KUG setzt die Abbildung
+einer tatsächlich existierenden, identifizierbaren Person voraus — es
+gibt keine „Abgebildete", deren Einwilligung nötig wäre. Frage damit für
+hero.mp4 geschlossen; offen bleiben Art. 50 KI-VO und § 5 UWG (s. u.).
+
+- [ ] ~~Umgesetzt 2026-08-22: sichtbares Label „KI-generierte Darstellung"
+  (`.ai-tag`, `assets/site.css`) — kein On-Screen-Burn-in im Video selbst,
+  sondern ein eigenes HTML-Element über dem Video, dauerhaft sichtbar
+  (keine Animation, kein Ausblenden nach der ersten Sekunde). Damit ist
+  die Zusage aus `datenschutz.html` Abschnitt 9 jetzt auch technisch
+  eingelöst, nicht mehr nur inhaltlich richtig.~~
+  **Update 2026-08-22 (zurückgenommen, selber Tag):** Auf Nutzerwunsch
+  vollständig entfernt (`index.html`, `assets/site.css`) — Kennzeichnung
+  wurde als fehlerhaft/vorzeitig eingesetzt bezeichnet. Kennzeichnung
+  wird NICHT ohne erneute ausdrückliche Freigabe wieder eingefügt. Punkt
+  damit wieder offen: die Zusage aus `datenschutz.html` Abschnitt 9 ist
+  aktuell wieder nur inhaltlich, nicht technisch eingelöst.
+- [ ] **An die Rechtsberatung, statt pauschal „Kennzeichnung nötig"
+  anzunehmen:** Ist für hero.mp4 (reine Atmosphäre, kein Mensch/keine
+  Handlung im Bild) trotzdem eine Kennzeichnung nach Art. 50(2) KI-VO
+  nötig — wer ist Provider des verwendeten KI-Tools in der Kette, und
+  ist dessen maschinenlesbare Kennzeichnungspflicht erfüllt?
+
+**Provider-Recherche (2026-08-22, per Websuche, kein Ersatz für
+Rechtsberatung):** Für `hero.mp4` ist der Provider laut Projektstand
+Dreamina/Seedance (ByteDance). Öffentlich zugängliche Quellen (Stand
+August 2026) beschreiben, dass ByteDance Seedance 2.0 mit C2PA-
+Wasserzeichen/„Content Credentials" ausliefert — kryptografisch
+signierte Provenienzdaten, die laut denselben Quellen beim Export nicht
+entfernt werden und erhalten bleiben. Das spricht dafür, dass die
+maschinenlesbare Kennzeichnungspflicht aus Art. 50(2) KI-VO für
+hero.mp4 grundsätzlich vom Provider erfüllt werden könnte — **nicht
+verifiziert**: nicht selbst geprüft, ob das MP4 in `assets/hero.mp4`
+tatsächlich intakte C2PA-Metadaten enthält (dafür fehlt ein
+C2PA-Prüfwerkzeug in dieser Umgebung), und die Quellen sind
+Sekundärquellen (Blogartikel), keine offizielle ByteDance-Dokumentation.
+**Für `zusagen.mp4` bleibt diese Frage vollständig offen** — Provider
+weiterhin unbekannt (siehe `LIZENZEN.md`), diese Recherche gilt nicht
+automatisch für dieses Video.
+Quellen: [tellers.ai](https://tellers.ai/blog/ai_video_eu_ai_act_compliance_august_2026_2026-04-27), [ComplianceHub.Wiki](https://compliancehub.wiki/eu-ai-act-marking-labelling-code-of-practice-article-50-2026/), [MindStudio](https://www.mindstudio.ai/blog/what-is-seedance-2-release-guide), [Dreamina Privacy Policy](https://dreamina.capcut.com/clause/dreamina-privacy-policy).
 
 ### 7. Lizenznachweis für `hero.mp4` selbst
 
@@ -183,10 +232,19 @@ einsetzbar.
    trotzdem so zu veröffentlichen. Vor Launch der Rechtsprüfung
    ausdrücklich vorlegen, nicht stillschweigend durchlaufen lassen.
 
-- [x] ~~Wie Punkt 6: sichtbare KI-Kennzeichnung fehlt noch für dieses
-  Video~~ — nicht erledigt, aber siehe Update unten: das Video wurde
-  ausgetauscht, dieser Punkt gilt jetzt für das neue Motiv weiter, siehe
-  „Update 2026-08-21, Quellvideo ausgetauscht" am Ende dieses Abschnitts.
+- [ ] ~~Umgesetzt 2026-08-22: sichtbares Label „KI-generierte
+  Darstellung" (`.ai-tag`, in `.zusagen-head`, dauerhaft sichtbar) —
+  wie bei Punkt 6, siehe dort für die Begründung. Bewusst OHNE den
+  Zusatz „kein tatsächlicher Reinigungsvorgang": das aktuelle Video
+  zeigt seit dem Tausch (siehe „Update 2026-08-21, Quellvideo
+  ausgetauscht" unten) kein Reinigungshandeln mehr, sondern ein
+  Logo-in-Seifenblasen-Motiv — ein Hinweis auf einen nicht gezeigten
+  Vorgang wäre sachlich falsch gewesen.~~
+  **Update 2026-08-22 (zurückgenommen, selber Tag):** Auf Nutzerwunsch
+  vollständig entfernt (`index.html`, `assets/site.css`) — Kennzeichnung
+  wurde als fehlerhaft/vorzeitig eingesetzt bezeichnet. Kennzeichnung
+  wird NICHT ohne erneute ausdrückliche Freigabe wieder eingefügt. Punkt
+  damit wieder offen.
 - [x] ~~Wie Punkt 7: Lizenznachweis/Generierungsbeleg~~ — dito, siehe
   Update unten.
 - [x] **Vor Launch mit Rechtsberatung klären, ob das Video in dieser Form
@@ -225,17 +283,15 @@ trifft aber nicht die beiden Risiken, die diesen Punkt begründen:
   zu (Punkt 6/oben) — den Risikopunkt zu streichen, ohne diese Zusage
   einzulösen, würde einen Widerspruch innerhalb der Seite selbst schaffen.
 
-**Offene Anschlussfrage, bisher nirgends dokumentiert:** Diente für die
-Generierung von `zusagen.mp4` reales Referenzmaterial (Foto/Video einer
-tatsächlichen Hand, z. B. img2video-Verfahren)? Falls ja, könnte trotz
-„KI-generiert" das Persönlichkeitsrecht/§ 22 KUG der abgebildeten realen
-Person greifen — unabhängig von UWG und KI-VO. Das ist aktuell nicht
-geklärt und hängt an derselben Lücke wie Punkt 7 (fehlender
-Generierungsbeleg für `zusagen.mp4` in `LIZENZEN.md`).
-
-Punkt bleibt deshalb offen und ungestrichen. Kundenseitige Position ist
-hier mit aufgenommen, damit die Rechtsberatung beide Seiten sieht — die
-Entscheidung selbst liegt weiterhin bei ihr, nicht bei dieser Datei.
+**Anschlussfrage zu § 22 KUG — geklärt (2026-08-22):** Bestätigter
+Kundenfakt (Basis: zwei unabhängige juristische Reviews): sowohl
+hero.mp4 als auch `zusagen.mp4` (das ursprüngliche Hand-Motiv wie das
+jetzige Logo-Motiv) sind reines Text-zu-Video ohne Image-to-Video-
+Verfahren und ohne reales Referenzfoto/-video einer echten Person. Damit
+ist § 22 KUG nicht anwendbar — es gibt keine tatsächlich existierende,
+identifizierbare „Abgebildete", deren Einwilligung nötig wäre. Frage
+geschlossen; die frühere Formulierung „reales Referenzmaterial diente
+der Generierung" ist damit ausdrücklich verneint.
 
 **Update 2026-08-21, Quellvideo ausgetauscht — Grundkonflikt entfällt:**
 Der Kunde hat ein neues, selbst geliefertes Video eingesetzt: das
@@ -247,6 +303,17 @@ an bewegtem Bild allgemein. Technik (Vollflächen-Hintergrund, Masken-
 verlauf, `mix-blend-mode:multiply`) unverändert übernommen, funktioniert
 motivunabhängig.
 
+**Risikoeinordnung ggü. hero.mp4, ab jetzt getrennt zu bewerten
+(2026-08-22):** hero.mp4 ist reine Hintergrund-Atmosphäre ohne Bezug zur
+Leistung selbst — Risiko niedrig-mittel. `zusagen.mp4` läuft direkt
+neben der Zusage „Sie sehen die Leistung, auch wenn Sie nicht da sind"
+(s. Kundeneinwand oben) und zeigte bis zum Motivwechsel eine
+KI-generierte Nachstellung der verkauften Tätigkeit selbst — Risiko
+mittel, hier lag und liegt der Schwerpunkt der offenen Fragen dieses
+Dokuments. Nicht mehr symmetrisch mit hero.mp4 zu behandeln, auch jetzt,
+wo das aktuelle Motiv (Logo in Seifenblasen) personenfrei ist — die
+Video/Text-Kombination bleibt eigenständig zu prüfen, s. Frage 3 unten.
+
 Bleibt trotzdem offen, jetzt aus anderem Grund:
 - [ ] **Neu, ungeklärt:** Das Logo im Video trägt die Unterzeile
   „Gebäudereinigung" — dieser Firmenname wurde laut `CLAUDE.md` bereits
@@ -254,13 +321,151 @@ Bleibt trotzdem offen, jetzt aus anderem Grund:
   (so auch in der Kopfzeile der Seite: „Reinigungsservice Hannover").
   Muss mit dem Kunden geklärt werden: Video neu generieren ohne
   Unterzeile, Unterzeile im Bild kaschieren, oder bewusste Ausnahme?
-- [ ] Sichtbare KI-Kennzeichnung (Punkt 6) bleibt offen — betrifft
-  weiterhin alle drei Videos der Seite (Hero, dieses Video), unabhängig
-  davon, ob eine Person zu sehen ist: Art. 50 KI-VO knüpft an die
-  Herkunft des Materials an, nicht an den Bildinhalt.
+- [ ] **Sichtbare KI-Kennzeichnung (2026-08-22, konkretisiert):** Statt
+  pauschal „Kennzeichnung nach Art. 50 nötig" anzunehmen, drei konkrete
+  Fragen an die Rechtsberatung, speziell für `zusagen.mp4`:
+  - Ist `zusagen.mp4` angesichts visueller Realitätsnähe und
+    Einsatzkontext ein Deepfake im Sinne von Art. 3(60)/Art. 50(4) KI-VO?
+  - Wer ist der Provider des verwendeten KI-Tools in der Kette, und ist
+    die maschinenlesbare Kennzeichnungspflicht nach Art. 50(2) KI-VO
+    erfüllt?
+  - Erzeugt die Kombination aus Video und aktuellem Begleittext
+    (insbesondere die Zusage direkt daneben, die von echter/gesehener
+    Leistung spricht) ein Risiko nach § 5/5a UWG?
+  Hinweis zum aktuellen Motiv, damit die Rechtsberatung nicht von der
+  Hand-Version ausgeht: `zusagen.mp4` zeigt seit dem Austausch vom
+  2026-08-21 das LISS-Logo, das sich in Seifenblasen auflöst — keine
+  Person, keine dargestellte Wisch-/Reinigungshandlung mehr (siehe
+  oben). Frage 1 und 3 bleiben trotzdem sinnvoll zu stellen, weil
+  „Deepfake" und „Irreführung durch Kombination mit Text" nicht zwingend
+  an einer abgebildeten Person hängen. Für hero.mp4 gilt eine eigene,
+  auf sein Motiv zugeschnittene Frage — siehe Punkt 6.
 - [ ] Lizenznachweis/Generierungsbeleg fehlt weiterhin, siehe
   `LIZENZEN.md` — neues Video braucht einen eigenen Eintrag, altes
   Hand-Video-Material kann aus `LIZENZEN.md` entfernt werden.
+
+**Kundenentscheidung — Risiko herabgestuft, nicht Blocker (2026-08-22).**
+Nach Rückzug der Kennzeichnungs-Umsetzung (siehe oben) hat der Kunde die
+drei offenen Fragen erneut bewertet und den Punkt bewusst herabgestuft —
+nicht gestrichen, damit die Begründung nachvollziehbar bleibt:
+
+- **§ 22 KUG:** geschlossen (siehe oben) — Video ist per Prompt
+  generiert (Text-zu-Video), ohne reale Person als Referenz, keine
+  Einwilligung erforderlich.
+- **Art. 50 KI-VO:** Das Video hat keinen Bezug zu einer konkreten
+  realen Person, einem Objekt oder Ereignis — damit unwahrscheinlich,
+  dass es unter die Deepfake-Definition nach Art. 3(60) fällt; eine
+  verpflichtende sichtbare Kennzeichnung wird auf dieser Grundlage als
+  nicht erforderlich eingeschätzt. Risiko niedrig, kein Blocker.
+- **§ 5 UWG:** Das Video trifft keine konkrete Tatsachenbehauptung
+  (nicht „so wurde genau bei Ihnen gereinigt"), sondern ist eine
+  illustrative Generic-Szene, vergleichbar mit gewöhnlichem
+  Stock-Footage. Risiko niedrig — **unter der Bedingung**, dass der Text
+  „Sie sehen die Leistung" (Zusagen-Punkt 4) sich erkennbar auf die
+  Foto-Protokoll-Leistung bezieht und nicht das Video selbst als
+  Aufzeichnung eines realen Vorgangs ausgibt. Aktueller Wortlaut seit
+  2026-08-22 („echte Fotos vom Objekt … so sehen Sie, was gemacht
+  wurde") erfüllt diese Bedingung nach Einschätzung des Kunden.
+
+**Status:** Risiko als niedrig akzeptiert, sichtbare Kennzeichnung wird
+auf dieser Grundlage nicht umgesetzt. Das ist eine unternehmerische
+Risikoentscheidung des Kunden, keine Rechtsberatung durch dieses
+Dokument oder durch Claude — finale Bestätigung liegt weiterhin im
+Ermessen der Rechtsberatung bei der Gesamtprüfung der Seite vor Launch,
+ist aber ab jetzt **kein Blocker mehr für die weitere Arbeit** an diesem
+Projekt. Die drei Fragen oben bleiben als Dokumentation stehen (nicht
+gelöscht), nur nicht mehr mit Blocker-Dringlichkeit versehen.
+
+---
+
+### 11. Drittes KI-generiertes Video mit Hand — `assets/praxis.mp4` (2026-08-21, **zurückgezogen 2026-08-22**)
+
+**Update 2026-08-22:** Vom Kunden als Fehleinsatz bezeichnet und
+zurückgezogen — „das war ein Fehler, muss gelöscht werden". Dateien
+(`assets/praxis.mp4`, `assets/praxis-poster.jpg`) gelöscht, Einbindung in
+`leistungen.html` #praxis vollständig rückgängig gemacht, `site.css`
+`.praxis-*`-Regeln entfernt. Verifiziert: keine Referenzen mehr im Repo.
+Der Rest dieses Punkts bleibt als Verlaufsdokumentation stehen, nicht
+weil er noch offen ist, sondern damit nachvollziehbar bleibt, dass dieses
+Motiv bewusst geprüft und dann wieder entfernt wurde — nicht einfach
+vergessen. Ein neues, größeres Hand-Video ist am selben Tag an anderer
+Stelle hinzugekommen, siehe Punkt 12.
+
+Ursprünglicher Eintrag (2026-08-21): Vom Kunden geliefert, auf
+`leistungen.html` im Abschnitt „Praxisreinigung"
+(`#praxis`) eingesetzt: eine behandschuhte Hand desinfiziert eine
+Praxisliege. Inhaltlich passend zum Text ("Wischdesinfektion
+patientennaher Flächen"), aber **derselbe Grundkonflikt wie Punkt 10,
+jetzt an neuer Stelle:**
+
+- Erkennbare Person (Hand/Arm in Einweghandschuh), KI-generiert, zeigt
+  exakt die verkaufte Leistung — § 5 UWG/Art. 50 KI-VO-Erwägungen aus
+  Punkt 10 gelten hier unverändert, siehe dort für die volle Herleitung.
+- Anders als beim Zusagen-Video wurde dieser Konflikt hier **nicht**
+  durch ein alternatives, personenfreies Motiv aufgelöst — die Hand blieb
+  im Bild, weil kein Ersatzmotiv vorlag und die inhaltliche Passung zum
+  Text sehr hoch ist (im Gegensatz zum bloß illustrativen Hand-Video in
+  „Was anders läuft" zeigt dieses Video direkt die im selben Absatz
+  beschriebene Tätigkeit).
+- Technisch unterscheidet sich die Einbindung von Punkt 10: **kein
+  Scroll-Scrub** (diese Seite lädt kein GSAP/ScrollTrigger/Lenis),
+  stattdessen normales Autoplay-Loop-Video. Für die rechtliche Bewertung
+  macht das keinen Unterschied — sichtbar bleibt sichtbar, ob per
+  Scroll-Steuerung oder Dauerschleife.
+- Lizenzlage identisch ungeklärt wie bei Punkt 7/10: Generierungstool
+  unbekannt, kein Nutzungsnachweis, siehe `LIZENZEN.md`.
+
+- [x] ~~Gleiche Rechtsfrage wie Punkt 10~~ — **gegenstandslos seit
+  Rückzug 2026-08-22**, siehe Update oben. Bleibt als Verlauf stehen.
+- [x] ~~Sichtbare KI-Kennzeichnung~~ — gegenstandslos, Video entfernt.
+- [x] ~~Lizenznachweis~~ — gegenstandslos, Video entfernt.
+
+### 12. Viertes KI-generiertes Video mit Hand — `assets/leistungen-bg.mp4` (2026-08-22, neu, seitenweit)
+
+Vom Kunden geliefert, direkt im Anschluss an den Rückzug von Punkt 11 als
+**fixierter Vollbild-Hintergrund für die gesamte Seite `leistungen.html`**
+eingesetzt (`position:fixed`, hinter allen sechs Leistungsabschnitten,
+scroll-scrubbed über den kompletten Seiten-Scroll). Zeigt eine
+behandschuhte Hand, die verschiedene Kontaktflächen desinfiziert
+(Türklinke, Lichtschalter, Glas, Arbeitsplatte) — Montage statt
+Einzelszene.
+
+**Ausdrücklich auf Kundenwunsch, mit vollem Bewusstsein für den
+Grundkonflikt:** Anders als bei Punkt 11 (Rückzug) hat der Kunde hier
+bewusst entschieden, den gleichen Motivtyp einzusetzen — diesmal sogar
+mit deutlich größerer Reichweite (ganze Seite statt ein Abschnitt).
+Rechtlich gilt exakt dieselbe Analyse wie Punkt 10/11:
+
+- Erkennbare Person (Hand/Arm in Einweghandschuh), KI-generiert, zeigt
+  die verkaufte Kernleistung (Desinfektion/Reinigung von Kontaktflächen) —
+  § 5 UWG/Art. 50 KI-VO-Erwägungen aus Punkt 10 gelten unverändert.
+- **Verschärfender Faktor gegenüber Punkt 10/11:** Reichweite. Das Motiv
+  ist jetzt nicht mehr auf einen Abschnitt begrenzt, sondern hinterlegt
+  die komplette Seite „Leistungen & Preise" — alle sechs Leistungen,
+  nicht nur eine. Das stärkt das Irreführungsargument („der Betrachter
+  sieht durchgehend eine scheinbar echte Reinigungstätigkeit als
+  Kontext für sämtliche Preisangaben") gegenüber der bisherigen,
+  abschnittsgebundenen Nutzung.
+- Technisch neu: erstmals GSAP/ScrollTrigger/Lenis auf einer zweiten
+  Seite geladen (bisher nur `index.html`) — ändert nichts an der
+  rechtlichen Bewertung, nur an der Umsetzung.
+- Lizenzlage identisch ungeklärt: Generierungstool unbekannt, kein
+  Nutzungsnachweis, siehe `LIZENZEN.md`.
+
+- [ ] **Rechtsfrage aus Punkt 10 jetzt für drei Vorkommen gemeinsam zu
+  stellen** (Hero, dieses Video — Zusagen- und Praxis-Vorkommen sind
+  zurückgezogen): Dürfen KI-generierte, erkennbare Personen, die die
+  verkaufte Leistung zeigen, in dieser Form veröffentlicht werden? Bei
+  diesem Vorkommen zusätzlich zu klären: ändert die seitenweite statt
+  abschnittsgebundene Nutzung die Einschätzung?
+- [ ] Sichtbare KI-Kennzeichnung fehlt weiterhin (Punkt 6) — betrifft
+  jetzt Hero und dieses Video.
+- [ ] Lizenznachweis/Generierungsbeleg fehlt, siehe `LIZENZEN.md`.
+- [ ] Lesbarkeit über die ganze Seite hinweg nur per Screenshot in einer
+  bekanntermaßen unzuverlässigen Testumgebung stichprobenartig geprüft
+  (siehe Implementierungs-Notizen im Commit) — vor Launch nochmal mit
+  echtem Browser auf einem echten Gerät gegenchecken, nicht nur per DOM-
+  Messung vertrauen.
 
 ---
 

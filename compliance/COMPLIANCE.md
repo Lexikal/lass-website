@@ -50,6 +50,7 @@ Kernabschnitte (Impressum, Datenschutz, Cookies, Lizenzen, ggf. BFSG).
 | Impressum — Firmendaten (Anschrift, USt-IdNr., Versicherer) | ❌ | Weiterhin Platzhalter. Siehe `OFFENE-PUNKTE.md`. |
 | Datenschutz — Hoster-Name | ❌ | `[Hoster]` weiterhin Platzhalter. Siehe `OFFENE-PUNKTE.md`. |
 | Sichtbare KI-Kennzeichnung am Hero-Video selbst | ❌ | Zusage steht, ist am Video selbst noch nicht eingelöst. Siehe `OFFENE-PUNKTE.md`. |
+| **§ 22 KUG für `hero.mp4`/`zusagen.mp4` (NEU, 2026-08-22)** | ✅ n/a | Nicht anwendbar — bestätigt reines Text-zu-Video ohne Image-to-Video und ohne reales Referenzfoto/-video einer echten Person, daher keine „Abgebildete" i. S. d. § 22 KUG; Art. 50 KI-VO/§ 5 UWG bleiben davon unberührt offen, siehe `OFFENE-PUNKTE.md` Punkt 6/10. |
 | Kontaktformular — echtes Backend statt `mailto:`? | — (Entscheidung offen) | Siehe `OFFENE-PUNKTE.md` Punkt 5. |
 | Cookie-Consent-Banner | n/a | Keine Cookies im Einsatz (s. o.) — Banner-Pflicht entfällt, solange das so bleibt. |
 | Barrierefreiheitserklärung (BFSG) | — | Nicht abschließend geprüft. Grundlegende technische Barrierefreiheit ist gegeben; formale Erklärung + Kleinstunternehmen-Ausnahme noch nicht bestätigt. |
