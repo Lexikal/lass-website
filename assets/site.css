@@ -36,6 +36,35 @@ body{
   font-family:var(--display);background:var(--gletscher);color:var(--tiefsee);
   font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
+
+/* --- leistungen.html: fixiertes Vollbild-Hintergrundvideo statt
+       weißem Seitenhintergrund, siehe Begründung im HTML-Kommentar dort.
+       Nur diese eine Seite trägt die Klasse .lg-videobg — body-
+       Hintergrund wird hier auf transparent gesetzt, damit .lg-media
+       (dahinter, position:fixed) überall durchscheint, wo kein
+       Seitenelement eine eigene deckende Fläche hat (Footer bleibt navy,
+       .lv-Karten bleiben weiß, Header bleibt sein eigenes
+       Blur-/Transparenz-Rezept — nichts davon wird hier angefasst). --- */
+body.lg-videobg{background:transparent}
+.lg-media{
+  position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;
+}
+.lg-video{
+  width:100%;height:100%;object-fit:cover;display:block;
+  mix-blend-mode:multiply;opacity:.9;
+}
+/* Farbklammer wie bei .zusagen-media, plus zusätzlicher weißer Scrim:
+   dort deckte die Maske nur einen Bildstreifen ab, hier läuft das Video
+   hinter der kompletten Seite inkl. Fließtext ohne eigene Kartenfläche
+   (.sec-head) — der Scrim hält den Kontrast durchgehend hoch genug für
+   dunklen Navy-Text, ohne das Video komplett zu verdecken. Zwei echte
+   Elemente statt ::before/::after: ein Pseudo-Element pro Selektor
+   reicht nicht für zwei übereinanderliegende Effekte, und ::before
+   würde ohnehin HINTER dem <video>-Kind rendern (Generierungsreihenfolge),
+   nicht davor — beide Overlays müssen aber sichtbar über dem Video
+   liegen, deshalb zwei reale div-Geschwister nach dem <video> im Markup. */
+.lg-tint{position:absolute;inset:0;pointer-events:none;background:var(--leisblau);mix-blend-mode:color;opacity:.12}
+.lg-scrim{position:absolute;inset:0;pointer-events:none;background:rgba(239,242,249,.62)}
 img{max-width:100%;display:block}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--leisblau);outline-offset:3px}

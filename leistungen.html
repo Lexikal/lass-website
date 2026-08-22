@@ -10,8 +10,41 @@
 <meta name="description" content="Alle sechs Leistungen von LISS mit vollständigem Leistungsverzeichnis und veröffentlichtem Preis: Büro, Praxis, Treppenhaus, Glas, Grund- und Bauendreinigung.">
 <link rel="stylesheet" href="assets/fonts/fonts.css">
 <link rel="stylesheet" href="assets/site.css">
+<!-- GSAP + ScrollTrigger + Lenis, self-hosted unter assets/vendor/
+     (Lizenzen: assets/vendor/LIZENZ.txt) — treibt unten im body
+     ausschließlich das fixierte Vollbild-Hintergrundvideo. Ursprünglich
+     nur auf index.html geladen, seit 2026-08-22 auch hier; site.js
+     bleibt unverändert und bedient weiterhin alle anderen Seiten ohne
+     dieses Video. -->
+<script src="assets/vendor/gsap.min.js"></script>
+<script src="assets/vendor/ScrollTrigger.min.js"></script>
+<script src="assets/vendor/lenis.min.js"></script>
 </head>
-<body>
+<body class="lg-videobg">
+
+<!-- Vom Kunden geliefertes Video (2026-08-22): behandschuhte Hand
+     desinfiziert verschiedene Kontaktflächen (Türklinke, Lichtschalter,
+     Glas, Arbeitsplatte) — Montage statt Einzelszene, passt als
+     Hintergrund zu allen sechs Leistungen statt nur einer. Ersetzt den
+     weißen Seitenhintergrund für die GANZE Seite: position:fixed statt
+     der abschnittsgebundenen Panels bei .hv-media/.zusagen-media, läuft
+     über den gesamten Seiten-Scroll (Trigger ist document.documentElement,
+     nicht ein einzelnes Element). Gleiche Blend-/Maskentechnik wie dort
+     (mix-blend-mode:multiply statt screen, siehe Begründung auf
+     index.html) plus zusätzlicher weißer Scrim für Lesbarkeit über den
+     ganzen Seiteninhalt hinweg, nicht nur punktuell.
+
+     ACHTUNG (compliance/OFFENE-PUNKTE.md Punkt 12): erneut eine
+     erkennbare, KI-generierte Hand, die die verkaufte Leistung zeigt —
+     hier sogar seitenweit statt nur in einem Abschnitt. Gleicher
+     Grundkonflikt wie Punkt 10/11, hier auf Kundenwunsch bewusst NICHT
+     durch ein alternatives Motiv ersetzt. -->
+<div class="lg-media" aria-hidden="true">
+  <video class="lg-video" muted playsinline preload="auto" disablepictureinpicture
+         poster="assets/leistungen-bg-poster.jpg" src="assets/leistungen-bg.mp4"></video>
+  <div class="lg-tint"></div>
+  <div class="lg-scrim"></div>
+</div>
 
 <header>
   <div class="wrap hdr">
@@ -170,5 +203,102 @@
 </div>
 
 <script src="assets/site.js"></script>
+<!-- GSAP-Choreografie nur für das Hintergrundvideo — anders als auf
+     index.html keine Reveal-/Pin-Choreografie hier, site.js bedient die
+     .rv-Reveals dieser Seite weiterhin normal. bindVideoScrub() 1:1 aus
+     index.html übernommen (identische Robustheit: Decoder-Aufwärmlauf,
+     zusammengefasste Seeks, Stall-Wachhund, Endlosschleifen-Fallback) —
+     bewusst als zweite Kopie statt geteilter Funktion in site.js, das
+     entspricht dem bestehenden Muster dieses Projekts (jede Seite mit
+     eigenem GSAP-Bedarf trägt ihren eigenen Block). -->
+<script>
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  if (!reduced && typeof Lenis !== 'undefined') {
+    var lenis = new Lenis({ duration: 1.05, smoothWheel: true });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+  }
+
+  if (reduced) return; // CSS-Fallback: Video bleibt auf dem Poster stehen, site.js-Reveals laufen normal
+
+  function bindVideoScrub(vid, triggerEl, startPos, endPos, scrubAmt) {
+    if (!vid) return;
+    var scrubTrigger = null;
+
+    var fallbackToLoop = function () {
+      if (scrubTrigger) { scrubTrigger.kill(); scrubTrigger = null; }
+      vid.loop = true;
+      var pl = vid.play();
+      if (pl && pl.catch) pl.catch(function () { /* Poster bleibt stehen */ });
+    };
+
+    var pending = null, busy = false, watchdog = 0, stalls = 0, ready = false;
+
+    function release() { busy = false; stalls = 0; clearTimeout(watchdog); apply(); }
+    vid.addEventListener('seeked', release);
+
+    function apply() {
+      if (!ready || busy || pending === null) return;
+      var t = pending; pending = null; busy = true;
+      try { vid.currentTime = t; } catch (e) { busy = false; return; }
+      clearTimeout(watchdog);
+      watchdog = setTimeout(function () {
+        if (++stalls >= 3) { fallbackToLoop(); return; }
+        busy = false; apply();
+      }, 400);
+    }
+
+    scrubTrigger = ScrollTrigger.create({
+      trigger: triggerEl || vid,
+      start: startPos || 'top top',
+      end: endPos || 'bottom top',
+      scrub: scrubAmt != null ? scrubAmt : 0.6,
+      onUpdate: function (self) {
+        var dur = vid.duration;
+        if (!dur || isNaN(dur)) return;
+        pending = self.progress * (dur - 0.05);
+        apply();
+      }
+    });
+
+    var startScrub = function () {
+      if (!vid.duration || isNaN(vid.duration)) { fallbackToLoop(); return; }
+      var pl = vid.play();
+      if (pl && pl.then) pl.then(function () { setTimeout(finishWarmup, 140); })
+                           .catch(function () { finishWarmup(); });
+      else setTimeout(finishWarmup, 140);
+    };
+
+    function finishWarmup() {
+      vid.pause();
+      ready = true;
+      var dur = vid.duration;
+      if (dur && !isNaN(dur)) { pending = scrubTrigger.progress * (dur - 0.05); }
+      apply();
+    }
+
+    var settled = false;
+    var settle = function (fn) { if (!settled) { settled = true; fn(); } };
+    if (vid.readyState >= 1) settle(startScrub);
+    else vid.addEventListener('loadedmetadata', function () { settle(startScrub); }, { once: true });
+    vid.addEventListener('error', function () { settle(fallbackToLoop); }, { once: true });
+    setTimeout(function () { settle(fallbackToLoop); }, 3000);
+  }
+
+  /* Trigger ist die ganze Seite (documentElement), nicht ein einzelnes
+     Element: 'top top' → 'bottom bottom' deckt den kompletten
+     Scroll-Weg von ganz oben bis ganz unten ab. Das Video selbst ist
+     position:fixed (siehe site.css .lg-media) und bewegt sich nicht mit
+     — nur sein currentTime folgt dem Gesamtfortschritt der Seite. */
+  bindVideoScrub(document.querySelector('.lg-video'), document.documentElement, 'top top', 'bottom bottom', 0.2);
+
+  window.addEventListener('load', function () { ScrollTrigger.refresh(); });
+})();
+</script>
 </body>
 </html>
