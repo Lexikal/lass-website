@@ -150,10 +150,20 @@ einsetzbar.
    auch so gewählt.
 2. Nach Ansicht des Ergebnisses ausdrücklich zurückgewiesen: Kunde will
    die Hand und die Wischbewegung sichtbar. Auf diesen Wunsch hin wurde
-   die Abstraktion entfernt — das Video läuft jetzt unbearbeitet, nur mit
-   einem Navy-Verlauf als Lesbarkeits-Scrim hinter dem Text (siehe
-   `site.css`, `.zusagen-media::after`).
-3. **Der CLAUDE.md-Konflikt besteht damit weiterhin, bewusst in Kauf
+   die Abstraktion entfernt — das Video lief zunächst unbearbeitet, aber
+   noch als Hintergrund hinter der Überschrift, mit einem Navy-Scrim für
+   die Textlesbarkeit.
+3. **Update 2026-08-21:** Auch diese Anordnung war nicht das, was der
+   Kunde wollte — er empfand die Überschrift-über-Video-Kombination als
+   „Rahmen", in dem die Hand eingesperrt wirkte. Umgebaut: Überschrift
+   steht jetzt auf normalem Seitenhintergrund (kein Navy, kein Scrim,
+   keine Textschatten), das Video läuft als eigenes, gerahmtes Feld direkt
+   darunter (`.zusagen-media`, `border` + `border-radius` wie andere
+   Karten der Seite). Am Grundkonflikt (KI-generierte, erkennbare Hand,
+   zeigt die verkaufte Leistung) ändert die Platzierung nichts — nur die
+   Lesbarkeits-Begründung von Punkt 2 entfällt, weil kein Text mehr über
+   dem Video liegt.
+4. **Der CLAUDE.md-Konflikt besteht damit weiterhin, bewusst in Kauf
    genommen vom Kunden.** Diese Datei hält beide Seiten fest: das Risiko
    (§ 5 UWG, irreführende Darstellung eigenen Personals durch
    KI-generiertes Material) und die ausdrückliche Entscheidung, es

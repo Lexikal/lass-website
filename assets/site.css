@@ -333,53 +333,39 @@ body.nav-open .mobnav{transform:translateX(0)}
    ============================================================ */
 
 /* --- Zusagen: stehender Titel links, laufende Liste rechts ---
-       Die Titelspalte ist eine navy Fläche mit eigenem Video — eine
-       „kleine Hero-Zelle", die während des Scrollens durch die vier
-       Zusagen rechts stehen bleibt und mitläuft. Scrollt am Fortschritt
-       der Liste, wie das Wasserband im Hero — aber anders als dort läuft
-       das Video hier unbearbeitet, ohne Screen-Blend/Farbklammer, siehe
+       Titel steht auf normalem Seitenhintergrund, ohne Fläche dahinter —
+       das Video läuft als eigenes Feld direkt darunter, nicht mehr als
+       Hintergrund hinter dem Text (früherer Entwurf, auf Kundenwunsch
+       umgebaut: Video wirkte im Text eingesperrt und dort nicht nötig).
+       Die Titelspalte bleibt eine „kleine Hero-Zelle", die während des
+       Scrollens durch die vier Zusagen rechts stehen bleibt und mitläuft.
+       Video scrollt am Fortschritt der Liste, wie das Wasserband im
+       Hero — aber unbearbeitet, ohne Screen-Blend/Farbklammer, siehe
        Begründung direkt bei .zusagen-media unten. --- */
 .zusagen{display:grid;gap:var(--s7)}
-.zusagen-head{
-  position:relative;overflow:hidden;isolation:isolate;
-  background:var(--tiefsee);color:#fff;
-  padding:var(--s6);
-}
-.zusagen-head>*{position:relative;z-index:3}
-.zusagen-head .eyebrow{color:#8FA3CC;text-shadow:0 1px 12px rgba(6,28,74,.9)}
-.zusagen-head .eyebrow::after{background:#1B2F63}
-/* Zusätzlich zum Navy-Scrim, weil hier — anders als sonst auf der Seite —
-   Text über einem echten, sich bewegenden Video steht statt über Fläche:
-   je nach Scrollposition wechselt der Kontrast im Hintergrund. */
-.zusagen-head h2{color:#fff;text-shadow:0 2px 20px rgba(6,28,74,.9),0 1px 3px rgba(6,28,74,.7)}
 @media(min-width:960px){
   .zusagen{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:var(--s9);align-items:start}
-  .zusagen-head{position:sticky;top:calc(var(--hdr) + var(--s6));padding:var(--s7)}
+  .zusagen-head{position:sticky;top:calc(var(--hdr) + var(--s6))}
 }
 
 /* Video bleibt erkennbar sichtbar — bewusste Entscheidung, siehe
    compliance/OFFENE-PUNKTE.md Punkt 10. Kein Screen-Blend/Farbklammer wie
    im Hero (die Kombination war für dieses helle Quellmaterial ohnehin
    falsch: brightness(.26) + screen + 80% Farbklammer löschten das Bild
-   praktisch komplett). Ein diagonaler Verlauf funktionierte auf diesem
-   breiten, flachen Panel nicht vorhersagbar (die 82%-Marke lag praktisch
-   in der Ecke, der Rest blieb dunkel) — deshalb jetzt eine gleichmäßige,
-   moderate Abdunkelung über die ganze Fläche: Hand und Wischbewegung
-   bleiben überall im Panel sichtbar, der weiße Text bleibt überall lesbar. */
+   praktisch komplett). Kein Scrim mehr nötig — anders als beim früheren
+   Entwurf liegt jetzt kein Text mehr über dem Video, es steht als eigenes
+   Feld für sich, Rahmen/Radius wie die übrigen Karten der Seite
+   (.promises, .ptable usw.), damit es nicht wie ein loses Rechteck wirkt. */
 .zusagen-media{
-  position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  position:relative;overflow:hidden;pointer-events:none;
+  border:1.5px solid var(--tiefsee);border-radius:var(--r-lg);
+  aspect-ratio:752/416;margin-top:var(--s6);
+}
+@media(min-width:960px){
+  .zusagen-media{aspect-ratio:auto;height:440px;margin-top:var(--s7)}
 }
 .zusagen-video{
   width:100%;height:100%;object-fit:cover;display:block;
-}
-.zusagen-media::after{
-  content:"";position:absolute;inset:0;pointer-events:none;
-  background:rgba(6,28,74,.42);
-}
-@media(max-width:959px){
-  .zusagen-media::after{
-    background:rgba(6,28,74,.5);
-  }
 }
 
 .zusagen-list{list-style:none;margin:0;padding:0;border-top:1.5px solid var(--tiefsee)}
