@@ -435,7 +435,7 @@
          Wichtig zur Erwartung: beide Dateien sind keyframe-dicht kodiert
          (ein Keyframe pro Frame), damit jeder Rücksprung beim Scrubben
          ohne GOP-Neuaufbau auskommt. --- */
-  function bindVideoScrub(vid, triggerEl, startPos, endPos) {
+  function bindVideoScrub(vid, triggerEl, startPos, endPos, scrubAmt) {
     if (!vid) return;
     var scrubTrigger = null;
 
@@ -450,6 +450,59 @@
       if (pl && pl.catch) pl.catch(function () { /* Poster bleibt stehen */ });
     };
 
+    /* Seeks werden zusammengefasst statt gestapelt: es ist immer nur EIN
+       Sprung unterwegs, das jeweils neueste Ziel wird gemerkt und nach
+       dessen Abschluss nachgezogen. Wichtig ist der Wachhund: bliebe ein
+       Seek hängen (langsames Gerät, Software-Decoder), würde ein simples
+       `if (!video.seeking)` die Sperre nie wieder lösen und das Bild
+       stünde dauerhaft still. Nach 400 ms wird die Sperre daher
+       freigegeben und das aktuelle Ziel erneut angefragt.
+
+       `ready` trennt "ScrollTrigger existiert" von "Video darf schon
+       angesprungen werden" — ohne den ersten play()-Aufwärmlauf (siehe
+       startScrub) bleibt ein Seek hängen. apply() merkt sich pending
+       trotzdem schon vorher, wirft es nicht weg. */
+    var pending = null, busy = false, watchdog = 0, stalls = 0, ready = false;
+
+    function release() { busy = false; stalls = 0; clearTimeout(watchdog); apply(); }
+    vid.addEventListener('seeked', release);
+
+    function apply() {
+      if (!ready || busy || pending === null) return;
+      var t = pending; pending = null; busy = true;
+      try { vid.currentTime = t; } catch (e) { busy = false; return; }
+      clearTimeout(watchdog);
+      watchdog = setTimeout(function () {
+        /* Drei hängende Sprünge in Folge heißt: dieser Browser kann die
+           Datei zwar abspielen, aber nicht zuverlässig anspringen. Dann
+           ist die Endlosschleife das ehrlichere Ergebnis als ein Video,
+           das für immer auf einem Frame steht. */
+        if (++stalls >= 3) { fallbackToLoop(); return; }
+        busy = false; apply();
+      }, 400);
+    }
+
+    /* ScrollTrigger sofort anlegen, nicht erst nach dem Decoder-Aufwärmen
+       (früher: erst nach loadedmetadata + play() + 140ms). Wer schnell und
+       durchgehend über den Übergang von einem Video zum nächsten scrollt,
+       hat sonst schon einen Teil der Strecke hinter sich, bevor überhaupt
+       etwas zuhört — wirkte wie ein Ruckler/eine Pause an der Nahtstelle.
+       Jetzt fängt der Trigger von Anfang an jedes Scroll-Event, apply()
+       hält den Wert nur so lange in `pending` zurück, bis `ready` wahr
+       wird (siehe finishWarmup unten). */
+    scrubTrigger = ScrollTrigger.create({
+      trigger: triggerEl || vid,
+      start: startPos || 'top top',
+      end: endPos || 'bottom top',
+      scrub: scrubAmt != null ? scrubAmt : 0.6,
+      onUpdate: function (self) {
+        var dur = vid.duration;
+        if (!dur || isNaN(dur)) return;
+        pending = self.progress * (dur - 0.05);
+        apply();
+      }
+    });
+
     var startScrub = function () {
       if (!vid.duration || isNaN(vid.duration)) { fallbackToLoop(); return; }
 
@@ -459,54 +512,22 @@
          Also kurz anspielen, ein paar Frames dekodieren lassen, dann
          pausieren und ab da nur noch über currentTime steuern. */
       var pl = vid.play();
-      if (pl && pl.then) pl.then(function () { setTimeout(bindScrub, 140); })
-                           .catch(function () { bindScrub(); });
-      else setTimeout(bindScrub, 140);
+      if (pl && pl.then) pl.then(function () { setTimeout(finishWarmup, 140); })
+                           .catch(function () { finishWarmup(); });
+      else setTimeout(finishWarmup, 140);
     };
 
-    function bindScrub() {
+    function finishWarmup() {
       vid.pause();
-
-      /* Seeks werden zusammengefasst statt gestapelt: es ist immer nur EIN
-         Sprung unterwegs, das jeweils neueste Ziel wird gemerkt und nach
-         dessen Abschluss nachgezogen. Wichtig ist der Wachhund: bliebe ein
-         Seek hängen (langsames Gerät, Software-Decoder), würde ein simples
-         `if (!video.seeking)` die Sperre nie wieder lösen und das Bild
-         stünde dauerhaft still. Nach 400 ms wird die Sperre daher
-         freigegeben und das aktuelle Ziel erneut angefragt. */
-      var pending = null, busy = false, watchdog = 0, stalls = 0;
-
-      function release() { busy = false; stalls = 0; clearTimeout(watchdog); apply(); }
-      vid.addEventListener('seeked', release);
-
-      function apply() {
-        if (busy || pending === null) return;
-        var t = pending; pending = null; busy = true;
-        try { vid.currentTime = t; } catch (e) { busy = false; return; }
-        clearTimeout(watchdog);
-        watchdog = setTimeout(function () {
-          /* Drei hängende Sprünge in Folge heißt: dieser Browser kann die
-             Datei zwar abspielen, aber nicht zuverlässig anspringen. Dann
-             ist die Endlosschleife das ehrlichere Ergebnis als ein Video,
-             das für immer auf einem Frame steht. */
-          if (++stalls >= 3) { fallbackToLoop(); return; }
-          busy = false; apply();
-        }, 400);
-      }
-
-      scrubTrigger = ScrollTrigger.create({
-        trigger: triggerEl || vid,
-        start: startPos || 'top top',
-        end: endPos || 'bottom top',
-        scrub: 0.6,
-        onUpdate: function (self) {
-          var dur = vid.duration;
-          if (!dur || isNaN(dur)) return;
-          pending = self.progress * (dur - 0.05);
-          apply();
-        }
-      });
-    };
+      ready = true;
+      /* Nachziehen statt auf das nächste Scroll-Event warten: Wurde schon
+         gescrollt, während der Aufwärmlauf noch lief, steht der richtige
+         Wert längst in scrubTrigger.progress — sofort anwenden, nicht erst
+         beim nächsten Mausrad-Tick. */
+      var dur = vid.duration;
+      if (dur && !isNaN(dur)) { pending = scrubTrigger.progress * (dur - 0.05); }
+      apply();
+    }
 
     /* Quellenunabhängig: es wird nicht auf einen bestimmten Codec geprüft,
        sondern schlicht darauf gewartet, ob Metadaten eintreffen. Kommen sie
@@ -534,8 +555,19 @@
      von der Viewport-Höhe — dieselbe Distanz, über die .zusagen-head
      sticky steht. Unterhalb von 960px ist .zusagen-head nicht sticky
      (siehe CSS); die Funktion scrubbt dann trotzdem sauber über den
-     normalen Fluss. */
-  bindVideoScrub(document.querySelector('.zusagen-video'), document.querySelector('.zusagen'), 'top top', 'bottom top');
+     normalen Fluss.
+
+     scrub-Wert bewusst niedriger als beim Hero (0.15 statt 0.6): Lenis
+     glättet den Scroll bereits selbst (duration 1.05, siehe oben) — ein
+     zusätzliches scrub von 0.6 addiert eine zweite, unabhängige
+     Nachlauf-Verzögerung obendrauf. Beim Hero fällt das kaum auf (die
+     Seite lädt ohnehin gerade erst, Nutzer pausieren dort von selbst),
+     hier direkt im Fluss war die Summe beider Verzögerungen spürbar: das
+     Video schien die ersten ein bis zwei Scroll-Bewegungen zu „verschlafen“,
+     bevor es sichtbar anlief. 0.15 lässt Lenis die eigentliche Glättung
+     übernehmen und hält den zweiten Nachlauf nur noch als leichten Puffer
+     gegen Ruckeln bei sehr schnellen Sprüngen. */
+  bindVideoScrub(document.querySelector('.zusagen-video'), document.querySelector('.zusagen'), 'top top', 'bottom top', 0.15);
 
   /* ============================================================
      MIKRO-INTERAKTIONEN — GSAP statt CSS-transition
