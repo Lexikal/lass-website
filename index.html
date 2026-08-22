@@ -548,31 +548,34 @@
 
   bindVideoScrub(document.querySelector('.hv-video'), hv, 'top top', 'bottom top');
 
-  /* Zusagen-Titelspalte: scrubbt über die volle Höhe des Grid-Containers,
-     nicht nur über die (kürzere) Höhe der Titelspalte selbst — genau wie
-     beim Hero-Video oben. Wichtig ist dabei 'bottom top', nicht
-     'bottom bottom': Mit 'bottom bottom' ist die tatsächliche Scroll-
-     distanz nur (Container-Höhe − Viewport-Höhe) — bei diesem Container
-     (~750px) auf normal großen Bildschirmen nur 0–30px, also praktisch der
-     gesamte 8s-Clip in einem einzigen Scroll-Tick. Das erzeugte genau den
-     ruckartigen "Bild-springt"-Effekt, den ein Nutzer gemeldet hat.
-     'bottom top' misst dagegen über die volle Container-Höhe, unabhängig
-     von der Viewport-Höhe — dieselbe Distanz, über die .zusagen-head
-     sticky steht. Unterhalb von 960px ist .zusagen-head nicht sticky
-     (siehe CSS); die Funktion scrubbt dann trotzdem sauber über den
-     normalen Fluss.
+  /* Zusagen-Titelspalte: Start/Ende bewusst NICHT wie beim Hero
+     ('top top' → 'bottom top') — der Hero steht bei Seitenladung schon
+     mit der Oberkante am Viewport-Rand, für ihn ist 'top top' der
+     natürliche Start. Die Zusagen-Sektion dagegen fährt beim Scrollen erst
+     von unten ins Bild: mit 'top top' als Start blieb das Video die ganze
+     Zeit, in der der Block von unten hereinscrollte, auf Frame 0 stehen —
+     Scrubben begann erst, wenn die Oberkante oben anschlug, also genau in
+     dem Moment, in dem der Block gleichzeitig anfing, oben wieder
+     hinauszuscrollen. Ergebnis, von einem Nutzer gemeldet: „Animation
+     beginnt erst auf halber Strecke und ist praktisch fertig, sobald man
+     sie bemerkt."
 
-     scrub-Wert bewusst niedriger als beim Hero (0.15 statt 0.6): Lenis
+     Jetzt 'top bottom' → 'bottom top': Start, sobald die Oberkante unten
+     im Viewport auftaucht (Block wird gerade erst sichtbar), Ende wie
+     gehabt beim Verlassen oben. Die Bewegung läuft damit über die gesamte
+     Zeit, in der irgendein Teil des Blocks im Bild ist — Scroll-Distanz
+     dadurch sogar noch größer (Container- plus Viewport-Höhe statt nur
+     Container-Höhe), also weiterhin weit über der 30px-Ruckel-Schwelle
+     von vorher. Nebeneffekt, genau wie gewünscht: der Start-Punkt hier
+     liegt jetzt vor dem End-Punkt des Hero-Videos oben — beide Bewegungen
+     überlappen sich am Übergang, statt dass eine sauber endet, bevor die
+     nächste beginnt.
+
+     scrub-Wert weiterhin niedriger als beim Hero (0.15 statt 0.6): Lenis
      glättet den Scroll bereits selbst (duration 1.05, siehe oben) — ein
      zusätzliches scrub von 0.6 addiert eine zweite, unabhängige
-     Nachlauf-Verzögerung obendrauf. Beim Hero fällt das kaum auf (die
-     Seite lädt ohnehin gerade erst, Nutzer pausieren dort von selbst),
-     hier direkt im Fluss war die Summe beider Verzögerungen spürbar: das
-     Video schien die ersten ein bis zwei Scroll-Bewegungen zu „verschlafen“,
-     bevor es sichtbar anlief. 0.15 lässt Lenis die eigentliche Glättung
-     übernehmen und hält den zweiten Nachlauf nur noch als leichten Puffer
-     gegen Ruckeln bei sehr schnellen Sprüngen. */
-  bindVideoScrub(document.querySelector('.zusagen-video'), document.querySelector('.zusagen'), 'top top', 'bottom top', 0.15);
+     Nachlauf-Verzögerung obendrauf, das wirkte hier spürbar träge. */
+  bindVideoScrub(document.querySelector('.zusagen-video'), document.querySelector('.zusagen'), 'top bottom', 'bottom top', 0.15);
 
   /* ============================================================
      MIKRO-INTERAKTIONEN — GSAP statt CSS-transition
