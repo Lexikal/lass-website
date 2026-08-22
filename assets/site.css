@@ -324,8 +324,16 @@ body.nav-open .mobnav{transform:translateX(0)}
 /* --- Rechner auf Navy: harte Kanten, keine schwebende weiße Karte.
        Nur Darstellung — Markup und initCalc bleiben unangetastet. --- */
 .hv-panel{position:relative;z-index:4}
+/* Halbtransparent statt voll deckend (#0A2559 fest) — auf breiten
+   Bildschirmen liegt der Rechner direkt über dem Wasserband, ein
+   opaker Hintergrund blendete das Video an genau der Stelle komplett
+   aus. Auf Mobile überschneiden sich Rechner und Video ohnehin nicht
+   (siehe .hv-media-Media-Query), dort macht die Transparenz keinen
+   sichtbaren Unterschied. backdrop-filter hält den Text trotzdem lesbar,
+   gleiches Rezept wie beim Header (rgba + blur). */
 .hv .calc{
-  background:#0A2559;border:1px solid rgba(159,194,232,.22);
+  background:rgba(10,37,89,.74);border:1px solid rgba(159,194,232,.22);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
   border-radius:0;box-shadow:none;color:var(--gletscher);
 }
 .hv .calc-head h3{color:var(--weiss)}
