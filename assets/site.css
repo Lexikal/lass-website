@@ -350,15 +350,17 @@ body.nav-open .mobnav{transform:translateX(0)}
   .zusagen-head{position:sticky;top:calc(var(--hdr) + var(--s6))}
 }
 
-/* Video bleibt erkennbar sichtbar — bewusste Entscheidung, siehe
-   compliance/OFFENE-PUNKTE.md Punkt 10. ABER: kein Screen-Blend wie im
-   Hero — das Quellmaterial ist hell auf hellem Grund (weißer Handschuh,
-   weißes Tuch, helle Fläche), Screen-Blend gegen den ohnehin schon
-   hellen Seitenhintergrund hätte das Bild praktisch gelöscht (genau das
-   ist beim ersten Anlauf mit brightness(.26)+screen+Farbklammer
-   passiert, siehe compliance/OFFENE-PUNKTE.md Punkt 10). Multiply statt
-   Screen: dunkelt ab statt aufzuhellen, helle Flächen verschwinden weich
-   im weißen Seitengrund, die dunkleren Formen (Handschuh, Schattenkontur)
+/* Update 2026-08-21: Quellvideo ausgetauscht (Hand → Logo-in-Seifenblasen-
+   Auflösung, siehe compliance/OFFENE-PUNKTE.md Punkt 10 für die Historie),
+   Blend-/Maskentechnik unverändert übernommen, weil sie unabhängig vom
+   Motiv funktioniert. Kein Screen-Blend wie im Hero — das Quellmaterial
+   ist hell auf hellem Grund (weißer Hintergrund im Video), Screen-Blend
+   gegen den ohnehin schon hellen Seitenhintergrund hätte das Bild
+   praktisch gelöscht (genau das ist beim allerersten Anlauf mit der
+   Hand-Aufnahme passiert, brightness(.26)+screen+Farbklammer, siehe
+   compliance/OFFENE-PUNKTE.md Punkt 10). Multiply statt Screen: dunkelt
+   ab statt aufzuhellen, helle Flächen verschwinden weich im weißen
+   Seitengrund, die dunkleren Formen (Logo-Schriftzug, Blasenkontur)
    bleiben klar erkennbar — funktioniert auf hellem Grund, wo Screen
    versagt. Der Maskenverlauf sitzt spiegelverkehrt zum Hero: dort blendet
    er zur Textseite hin aus (rechts sichtbar, links zum Text hin
@@ -384,7 +386,7 @@ body.nav-open .mobnav{transform:translateX(0)}
 }
 @media(max-width:959px){
   .zusagen-media{
-    position:relative;inset:auto;width:100%;aspect-ratio:752/416;
+    position:relative;inset:auto;width:100%;aspect-ratio:672/448;
     margin-top:var(--s6);
     -webkit-mask-image:linear-gradient(180deg,transparent 0,#000 22%);
     mask-image:linear-gradient(180deg,transparent 0,#000 22%);

@@ -183,17 +183,17 @@ einsetzbar.
    trotzdem so zu veröffentlichen. Vor Launch der Rechtsprüfung
    ausdrücklich vorlegen, nicht stillschweigend durchlaufen lassen.
 
-- [ ] Wie Punkt 6: sichtbare KI-Kennzeichnung fehlt noch für dieses Video
-  (dieselbe Zusage in `datenschutz.html` Abschnitt 9 betrifft jetzt zwei
-  statt ein Video) — bei einem sichtbaren statt abstrahierten Video umso
-  dringlicher.
-- [ ] Wie Punkt 7: Lizenznachweis/Generierungsbeleg fehlt noch, siehe
-  `LIZENZEN.md`.
-- [ ] **Vor Launch mit Rechtsberatung klären, ob das Video in dieser Form
+- [x] ~~Wie Punkt 6: sichtbare KI-Kennzeichnung fehlt noch für dieses
+  Video~~ — nicht erledigt, aber siehe Update unten: das Video wurde
+  ausgetauscht, dieser Punkt gilt jetzt für das neue Motiv weiter, siehe
+  „Update 2026-08-21, Quellvideo ausgetauscht" am Ende dieses Abschnitts.
+- [x] ~~Wie Punkt 7: Lizenznachweis/Generierungsbeleg~~ — dito, siehe
+  Update unten.
+- [x] **Vor Launch mit Rechtsberatung klären, ob das Video in dieser Form
   (erkennbare Person, KI-generiert, zeigt die verkaufte Leistung selbst)
-  überhaupt veröffentlicht werden darf** — keine Umsetzungsfrage mehr,
-  sondern eine Rechtsfrage. Bis dahin bewusst live im Vorab-Stand, der
-  ohnehin per `robots.txt`/`noindex` von der Indexierung ausgenommen ist.
+  überhaupt veröffentlicht werden darf** — **gegenstandslos seit
+  Video-Austausch 2026-08-21, siehe Update am Ende dieses Abschnitts:
+  keine Person mehr im Bild.**
 
 **Kundeneinwand (2026-08-21):** Auf die Rückfrage, ob der Punkt gestrichen
 werden kann, weil auf dem Video nur eine Hand zu sehen ist — keine
@@ -236,6 +236,31 @@ Generierungsbeleg für `zusagen.mp4` in `LIZENZEN.md`).
 Punkt bleibt deshalb offen und ungestrichen. Kundenseitige Position ist
 hier mit aufgenommen, damit die Rechtsberatung beide Seiten sieht — die
 Entscheidung selbst liegt weiterhin bei ihr, nicht bei dieser Datei.
+
+**Update 2026-08-21, Quellvideo ausgetauscht — Grundkonflikt entfällt:**
+Der Kunde hat ein neues, selbst geliefertes Video eingesetzt: das
+LISS-Logo, das sich in Seifenblasen auflöst. **Keine Person mehr im
+Bild.** Damit entfällt der eigentliche Streitpunkt dieses Abschnitts
+(§ 5 UWG/Art. 50 KI-VO/§ 22 KUG bezogen auf eine abgebildete Person) —
+alle drei oben diskutierten Risiken hingen an der erkennbaren Hand, nicht
+an bewegtem Bild allgemein. Technik (Vollflächen-Hintergrund, Masken-
+verlauf, `mix-blend-mode:multiply`) unverändert übernommen, funktioniert
+motivunabhängig.
+
+Bleibt trotzdem offen, jetzt aus anderem Grund:
+- [ ] **Neu, ungeklärt:** Das Logo im Video trägt die Unterzeile
+  „Gebäudereinigung" — dieser Firmenname wurde laut `CLAUDE.md` bereits
+  früher im Projekt verworfen zugunsten von „LISS Reinigungsservice"
+  (so auch in der Kopfzeile der Seite: „Reinigungsservice Hannover").
+  Muss mit dem Kunden geklärt werden: Video neu generieren ohne
+  Unterzeile, Unterzeile im Bild kaschieren, oder bewusste Ausnahme?
+- [ ] Sichtbare KI-Kennzeichnung (Punkt 6) bleibt offen — betrifft
+  weiterhin alle drei Videos der Seite (Hero, dieses Video), unabhängig
+  davon, ob eine Person zu sehen ist: Art. 50 KI-VO knüpft an die
+  Herkunft des Materials an, nicht an den Bildinhalt.
+- [ ] Lizenznachweis/Generierungsbeleg fehlt weiterhin, siehe
+  `LIZENZEN.md` — neues Video braucht einen eigenen Eintrag, altes
+  Hand-Video-Material kann aus `LIZENZEN.md` entfernt werden.
 
 ---
 
