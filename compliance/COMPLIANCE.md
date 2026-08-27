@@ -217,6 +217,104 @@ Code-Probleme.
   FAQ-/Preisbeispiel-Passagen — nicht mechanisch dieselbe Vorlage mit
   ausgetauschtem Namen.
 
+## Änderungen im 7. Durchgang (2026-08-27) — Audit auf Wirkung und Zugänglichkeit
+
+Schwerpunkt diesmal nicht Rechtstext, sondern: funktioniert die Seite
+eigentlich als das, was sie sein soll — und ist sie lesbar?
+
+**Barrierefreiheit (BFSG-relevant, gemessen statt geschätzt)**
+
+- `kontakt.html`, Schrittüberschrift im Formular: stand **weiß auf weiß,
+  Kontrast 1,0:1 — vollständig unsichtbar**. Ursache: `.tiefsee-bg h3
+  {color:#fff}` färbt für dunklen Grund und ist spezifischer als die
+  Farbangabe auf `.form` selbst; die weiße Formularkarte steht aber in
+  einer `.tiefsee-bg`-Sektion. Der Nutzer konnte auf der wichtigsten
+  Seite der Website nicht sehen, in welchem von drei Schritten er steht.
+  Jetzt 16,5:1.
+- Dieselbe Ursache, zweite Stelle: der Hinweistext unter dem Formular
+  („… öffnet Ihr E-Mail-Programm, nichts wird automatisch verschickt")
+  stand hellblau auf weiß, **1,5:1**. Ausgerechnet die Passage, die die
+  Datenverarbeitung transparent macht, war praktisch unlesbar. Jetzt
+  6,0:1.
+- `leistungen.html`, Fließtext über dem Vollbild-Hintergrundvideo:
+  **3,80:1 im ungünstigsten Videobild, 4,13:1 im Median — AA verlangt
+  4,5:1**. Gemessen, nicht geschätzt: 36 Frames aus
+  `assets/leistungen-bg.mp4` abgetastet (ffmpeg), linke 60 % der Fläche,
+  5.-Perzentil der Helligkeit, nachdem Multiply-Blend, `.lg-tint` und
+  `.lg-scrim` rechnerisch nachgebildet wurden. Behoben durch eine
+  dunklere Fließtextfarbe **nur auf dieser Seite** (`#31426A`, gleicher
+  Farbton) → 4,61:1 bzw. 5,01:1. Die Deckkraft von `.lg-scrim` wurde
+  bewusst **nicht** erhöht: das hätte denselben Effekt gehabt, aber das
+  Video verdeckt — dass es deutlich sichtbar bleibt, war ausdrückliche
+  Kundenvorgabe (siehe `OFFENE-PUNKTE.md` Punkt 12). Überschriften lagen
+  mit 7,7:1 nie im kritischen Bereich.
+
+**Wirksamkeit des Alleinstellungsmerkmals**
+
+- Der Preisrechner führte in eine Sackgasse: sein Knopf verwies nackt auf
+  `kontakt.html`, sämtliche Eingaben (Fläche, Objektart, Turnus) gingen
+  verloren und mussten im Formular neu eingegeben werden — und in der
+  Anfrage-Mail stand am Ende **keine Zahl**. Die zugesagte
+  24-Stunden-Bestätigung hätte also mit einer Nachrechnung beginnen
+  müssen, im Zweifel mit einem anderen Ergebnis als dem, das der Kunde
+  gesehen hat. Der Knopf trägt den Zustand jetzt als Parameter weiter
+  (`?qm=…&obj=…&frq=…`), das Formular übernimmt ihn und rechnet live mit,
+  die Zahl steht in Betreff und Text der Mail.
+- **Der Preis wird bewusst nicht im Link mitgeschickt**, sondern auf
+  `kontakt.html` aus Fläche/Objektart/Turnus neu berechnet. Ein Preis als
+  Parameter wäre von jedem, der den Link weiterleitet oder bearbeitet,
+  frei manipulierbar — die Seite würde dann eine Zahl anzeigen, die nie
+  aus unserer Staffel stammt (§ 5 UWG). Alle drei Parameter werden gegen
+  Positivliste bzw. zulässigen Bereich (40–1.200 m²) geprüft, Ausgabe
+  ausschließlich über `textContent`.
+- Für **Bauendreinigung und „Sonstiges" bleibt der Kasten leer**: dort
+  gilt kein monatlicher Staffelpreis, eine Monatszahl wäre schlicht
+  falsch.
+
+**Datenverkehr**
+
+- Beide Startseiten-Videos standen auf `preload="auto"` und wurden auch
+  dann vollständig geladen (**5,0 MB**), wenn sie nie laufen konnten:
+  bei `prefers-reduced-motion: reduce` steigt der GSAP-Block aus, bevor
+  die Videos gebunden werden, und ohne JavaScript passiert ohnehin
+  nichts — beides ergab 5 MB Download für ein Standbild. Markup jetzt
+  `preload="none"`; freigegeben wird dort, wo das Video auch angesteuert
+  wird. Gemessen: reduzierte Bewegung **5,0 MB → 0 MB**, Normalfall
+  unverändert. Zusätzlich respektiert wird jetzt der Datensparmodus
+  (`navigator.connection.saveData` / `prefers-reduced-data`) — geprüft,
+  greift.
+- Verworfen nach Messung: zusätzliches Aufschieben per
+  IntersectionObserver. Der Zusagen-Abschnitt beginnt rund 130 px unter
+  der Falz, jeder brauchbare Vorlauf löst sofort beim Laden aus — der
+  Datenverkehr blieb exakt gleich, der Code wäre nur länger geworden.
+  (Ein erster Anlauf mit `preload='auto'` **und** `load()` lud die Datei
+  sogar zweimal: 4,45 MB statt 2,22 MB.)
+
+**Link-Vorschau und Favicon (vorher auf allen 12 Seiten nicht vorhanden)**
+
+- `assets/favicon.svg` + PNG-Rasterfassungen, `apple-touch-icon`.
+  Motiv ist die Seifenblase aus dem bestehenden Designsystem (`.bub`,
+  Regler-Knopf des Rechners) — der Wortmarken-Schriftzug ist bei 16 px
+  nicht lesbar.
+- Open-Graph- und Twitter-Card-Auszeichnung auf allen 12 Seiten, je
+  Seite mit deren eigenem Titel/Beschreibung, plus `assets/og-card.jpg`
+  (1200×630, in den echten Markenschriften gesetzt). Bis dahin erschien
+  jeder weitergeleitete Link als nackte URL ohne Vorschau — für einen
+  B2B-Verteiler (Hausverwaltung leitet an Entscheider weiter) der
+  Normalfall, nicht der Sonderfall. Enthält ausschließlich bereits
+  veröffentlichte Aussagen (Festpreis, 24 Std., Foto-Protokoll), keine
+  neuen Behauptungen.
+- `og:url` zeigt auf die GitHub-Pages-Adresse und muss beim Wechsel auf
+  die echte Domain zusammen mit `sitemap.xml` angepasst werden.
+  `rel="canonical"` bewusst weiterhin nicht gesetzt, siehe
+  `OFFENE-PUNKTE.md` Punkt 9.
+
+**Nicht angefasst:** Preise, Leistungstexte, Rechtstexte, die drei
+Videodateien selbst, `hero.mp4`-Kodierung, Fonts, GSAP/Lenis. Die offenen
+Punkte 1–4, 6, 7, 10 und 12 in `OFFENE-PUNKTE.md` bleiben unverändert
+offen — sie brauchen Kunden- bzw. Rechtsauskunft, keinen weiteren
+Technik-Durchgang.
+
 ## Frühere Durchgänge
 
 Siehe Git-Historie von `compliance/COMPLIANCE.md` für die Änderungen aus
